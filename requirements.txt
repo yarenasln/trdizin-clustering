@@ -3,7 +3,6 @@ pandas
 numpy
 scikit-learn
 sentence-transformers
-torch
 psycopg2-binary
 sqlalchemy
 hdbscan

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment / gizli bilgiler
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Büyük model dosyaları
+*.joblib
+*.pkl
+
+# Büyük embedding dosyaları
+*.npy
+*.npz
+
+# Ortak kullanılacak seçilmiş embedding
+!embeddings/mpnet_multilingual_embeddings.npy
+
+# Sistem
+.DS_Store
+Thumbs.db

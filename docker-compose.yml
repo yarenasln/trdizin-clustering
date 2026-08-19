@@ -2,7 +2,6 @@ services:
 
   postgres:
     image: postgres:16
-
     container_name: trdizin_clustering_postgres
 
     environment:
@@ -29,9 +28,7 @@ services:
 
   app:
     build: .
-
     container_name: trdizin_clustering_app
-
     working_dir: /app
 
     depends_on:
@@ -45,11 +42,16 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
 
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+
     ports:
       - "5001:5001"
 
     volumes:
       - .:/app
+
+    gpus: all
 
     command: python dashboard/app.py
 
