@@ -2,12 +2,9 @@ import os
 import numpy as np
 import pandas as pd
 
+from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import (
-    precision_score,
-    recall_score,
-    f1_score
-)
+from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.preprocessing import MultiLabelBinarizer
 
 
@@ -25,22 +22,10 @@ OUTPUT_DIR = "results/kmeans/holdout"
 
 SEEDS_PER_SUBJECT = 10
 RANDOM_STATE = 42
-
 VALIDATION_RATIO = 0.50
 
-# Her konu için ayrı ayrı denenecek thresholdlar
-THRESHOLDS = np.arange(
-    0.35,
-    0.801,
-    0.01
-)
-
-# Validation'da çok az pozitif örneği olan konularda
-# threshold aşırı ezberlenmesin diye fallback kullanacağız.
-MIN_POSITIVE_SAMPLES = 5
-
-# Önceki deneyde bulunan global threshold
-GLOBAL_FALLBACK_THRESHOLD = 0.64
+# Validation setinde denenecek cosine threshold değerleri
+THRESHOLDS = np.arange(0.35, 0.801, 0.01)
 
 
 # ============================================================
@@ -48,7 +33,7 @@ GLOBAL_FALLBACK_THRESHOLD = 0.64
 # ============================================================
 
 print("=" * 110)
-print("MULTI-LABEL + SUBJECT-SPECIFIC THRESHOLD")
+print("MULTI-LABEL SEEDED K-MEANS + COSINE")
 print("=" * 110)
 
 embeddings = np.load(
@@ -70,17 +55,9 @@ subjects = pd.read_csv(
     encoding="utf-8-sig"
 )
 
-reference["external_id"] = (
-    reference["external_id"].astype(str)
-)
-
-test["external_id"] = (
-    test["external_id"].astype(str)
-)
-
-subjects["external_id"] = (
-    subjects["external_id"].astype(str)
-)
+reference["external_id"] = reference["external_id"].astype(str)
+test["external_id"] = test["external_id"].astype(str)
+subjects["external_id"] = subjects["external_id"].astype(str)
 
 print("Referans makale:", len(reference))
 print("Test havuzu:", len(test))
@@ -88,7 +65,7 @@ print("Embedding shape:", embeddings.shape)
 
 
 # ============================================================
-# KONU VE ETİKET BİLGİLERİ
+# KONU BİLGİLERİNİ HAZIRLA
 # ============================================================
 
 reference_ids = set(
@@ -101,13 +78,6 @@ reference_row_map = (
     .to_dict()
 )
 
-leaf_subjects = sorted(
-    subjects["subject_fullname"]
-    .dropna()
-    .astype(str)
-    .unique()
-)
-
 label_counts = (
     subjects
     .groupby("external_id")["subject_fullname"]
@@ -115,16 +85,24 @@ label_counts = (
     .to_dict()
 )
 
+leaf_subjects = sorted(
+    subjects["subject_fullname"]
+    .dropna()
+    .astype(str)
+    .unique()
+)
+
 true_subjects = (
     subjects
     .groupby("external_id")["subject_fullname"]
     .apply(
-        lambda x:
-            sorted(
-                set(
-                    x.dropna().astype(str)
-                )
+        lambda values: sorted(
+            set(
+                values
+                .dropna()
+                .astype(str)
             )
+        )
     )
     .to_dict()
 )
@@ -150,13 +128,10 @@ def normalize_vectors(vectors):
 
 
 # ============================================================
-# TEMSİL EDİCİ SEED SEÇİMİ
+# TEMSİL EDİCİ SEED SEÇ
 # ============================================================
 
-def select_representative(
-    candidate_ids,
-    count
-):
+def select_representative(candidate_ids, count):
 
     valid_ids = [
         article_id
@@ -168,31 +143,18 @@ def select_representative(
         return []
 
     rows = [
-        int(
-            reference_row_map[
-                article_id
-            ]
-        )
+        int(reference_row_map[article_id])
         for article_id in valid_ids
     ]
 
-    vectors = embeddings[
-        rows
-    ]
+    vectors = embeddings[rows]
 
-    center = vectors.mean(
-        axis=0
-    )
+    center = vectors.mean(axis=0)
 
-    center_norm = np.linalg.norm(
-        center
-    )
+    center_norm = np.linalg.norm(center)
 
     if center_norm > 0:
-        center = (
-            center /
-            center_norm
-        )
+        center = center / center_norm
 
     normalized_vectors = normalize_vectors(
         vectors
@@ -200,8 +162,7 @@ def select_representative(
 
     similarities = (
         normalized_vectors
-        @
-        center
+        @ center
     )
 
     order = np.argsort(
@@ -215,23 +176,21 @@ def select_representative(
 
     return [
         valid_ids[i]
-        for i in order[
-            :selected_count
-        ]
+        for i in order[:selected_count]
     ]
 
 
 # ============================================================
-# 195 KONU CENTROIDI
+# 1. BAŞLANGIÇ CENTROIDLERİNİ OLUŞTUR
 # ============================================================
 
-print("\n" + "=" * 110)
-print("KONU CENTROIDLERİ OLUŞTURULUYOR")
+print()
+print("=" * 110)
+print("BAŞLANGIÇ CENTROIDLERİ OLUŞTURULUYOR")
 print("=" * 110)
 
-centroids = []
+initial_centroids = []
 centroid_subjects = []
-
 unique_seed_ids = set()
 
 
@@ -254,23 +213,16 @@ for subject_name in leaf_subjects:
         .tolist()
     )
 
+    # Öncelikle yalnızca tek etiketi olan temiz örnekleri seç
     single_label_candidates = [
         article_id
         for article_id in candidates
-        if label_counts.get(
-            article_id,
-            0
-        ) == 1
+        if label_counts.get(article_id, 0) == 1
     ]
 
     selected_ids = []
 
-    # Önce mümkün olduğunca single-label
-    if (
-        len(single_label_candidates)
-        >=
-        SEEDS_PER_SUBJECT
-    ):
+    if len(single_label_candidates) >= SEEDS_PER_SUBJECT:
 
         selected_ids = select_representative(
             single_label_candidates,
@@ -292,7 +244,7 @@ for subject_name in leaf_subjects:
             len(selected_ids)
         )
 
-        remaining_candidates = [
+        remaining = [
             article_id
             for article_id in candidates
             if article_id not in selected_ids
@@ -300,12 +252,13 @@ for subject_name in leaf_subjects:
 
         selected_ids.extend(
             select_representative(
-                remaining_candidates,
+                remaining,
                 needed
             )
         )
 
     if not selected_ids:
+
         raise ValueError(
             f"Seed bulunamadı: {subject_name}"
         )
@@ -315,49 +268,38 @@ for subject_name in leaf_subjects:
     )
 
     rows = [
-        int(
-            reference_row_map[
-                article_id
-            ]
-        )
+        int(reference_row_map[article_id])
         for article_id in selected_ids
     ]
 
-    vectors = embeddings[
-        rows
-    ]
+    vectors = embeddings[rows]
 
-    centroid = vectors.mean(
-        axis=0
-    )
+    centroid = vectors.mean(axis=0)
 
     norm = np.linalg.norm(
         centroid
     )
 
     if norm > 0:
-        centroid = (
-            centroid /
-            norm
-        )
+        centroid = centroid / norm
 
-    centroids.append(
+    initial_centroids.append(
         centroid
     )
 
+    # Cluster sırası ile konu sırası birlikte tutuluyor.
     centroid_subjects.append(
         subject_name
     )
 
 
-centroid_matrix = np.vstack(
-    centroids
+initial_centroids = np.vstack(
+    initial_centroids
 ).astype(np.float32)
 
-
 print(
-    "Centroid matrix:",
-    centroid_matrix.shape
+    "Initial centroid matrix:",
+    initial_centroids.shape
 )
 
 print(
@@ -367,7 +309,120 @@ print(
 
 
 # ============================================================
-# VALIDATION / FINAL TEST
+# 2. SEEDED K-MEANS
+#
+# ÖNEMLİ:
+# K-Means yalnızca %20 reference verisini görüyor.
+# Test havuzu K-Means eğitimine girmiyor.
+# ============================================================
+
+print()
+print("=" * 110)
+print("SEEDED K-MEANS REFERENCE ÜZERİNDE ÇALIŞIYOR")
+print("=" * 110)
+
+reference_rows = (
+    reference["embedding_row"]
+    .astype(int)
+    .to_numpy()
+)
+
+X_reference = embeddings[
+    reference_rows
+]
+
+kmeans = KMeans(
+    n_clusters=len(leaf_subjects),
+    init=initial_centroids,
+    n_init=1,
+    random_state=RANDOM_STATE,
+    max_iter=300,
+    tol=1e-4
+)
+
+reference_cluster_labels = (
+    kmeans.fit_predict(
+        X_reference
+    )
+)
+
+final_centroids = (
+    kmeans.cluster_centers_
+    .astype(np.float32)
+)
+
+print(
+    "Final centroid matrix:",
+    final_centroids.shape
+)
+
+print(
+    "Reference'ta kullanılan cluster:",
+    len(
+        np.unique(
+            reference_cluster_labels
+        )
+    )
+)
+
+
+# ============================================================
+# 3. CENTROID HAREKETİ
+# ============================================================
+
+centroid_shift = np.linalg.norm(
+    final_centroids
+    -
+    initial_centroids,
+    axis=1
+)
+
+print(
+    "Ortalama centroid hareketi:",
+    round(
+        float(
+            centroid_shift.mean()
+        ),
+        4
+    )
+)
+
+print(
+    "Medyan centroid hareketi:",
+    round(
+        float(
+            np.median(
+                centroid_shift
+            )
+        ),
+        4
+    )
+)
+
+print(
+    "En fazla centroid hareketi:",
+    round(
+        float(
+            centroid_shift.max()
+        ),
+        4
+    )
+)
+
+
+# ============================================================
+# 4. FINAL K-MEANS CENTROIDLERİNİ NORMALIZE ET
+# ============================================================
+
+final_centroids_normalized = (
+    normalize_vectors(
+        final_centroids
+    )
+)
+
+
+# ============================================================
+# 5. TEST HAVUZUNU VALIDATION / FINAL TEST AYIR
 # ============================================================
 
 validation_df, final_test_df = train_test_split(
@@ -389,8 +444,8 @@ final_test_df = (
     .reset_index(drop=True)
 )
 
-
-print("\n" + "=" * 110)
+print()
+print("=" * 110)
 print("VALIDATION / FINAL TEST")
 print("=" * 110)
 
@@ -406,7 +461,7 @@ print(
 
 
 # ============================================================
-# COSINE SCORE MATRIX
+# 6. FINAL K-MEANS CENTROIDLERİNE COSINE SIMILARITY
 # ============================================================
 
 def create_similarity_matrix(df):
@@ -421,15 +476,19 @@ def create_similarity_matrix(df):
         rows
     ]
 
-    normalized_vectors = normalize_vectors(
-        vectors
+    normalized_vectors = (
+        normalize_vectors(
+            vectors
+        )
     )
 
-    return (
+    similarity_matrix = (
         normalized_vectors
         @
-        centroid_matrix.T
+        final_centroids_normalized.T
     )
+
+    return similarity_matrix
 
 
 validation_scores = (
@@ -444,20 +503,19 @@ final_scores = (
     )
 )
 
-
 print(
-    "Validation score matrix:",
+    "Validation similarity matrix:",
     validation_scores.shape
 )
 
 print(
-    "Final score matrix:",
+    "Final test similarity matrix:",
     final_scores.shape
 )
 
 
 # ============================================================
-# GERÇEK MULTI-LABEL MATRİSLER
+# 7. GERÇEK MULTI-LABEL MATRİSLERİ
 # ============================================================
 
 mlb = MultiLabelBinarizer(
@@ -485,246 +543,46 @@ def get_true_binary(df):
     )
 
 
-y_validation_true = get_true_binary(
-    validation_df
-)
-
-y_final_true = get_true_binary(
-    final_test_df
-)
-
-
-# ============================================================
-# HER KONU İÇİN AYRI THRESHOLD BUL
-# ============================================================
-
-print("\n" + "=" * 110)
-print("KONUYA ÖZEL THRESHOLD ARAMASI")
-print("=" * 110)
-
-
-subject_thresholds = []
-
-threshold_rows = []
-
-
-for subject_index, subject_name in enumerate(
-    leaf_subjects
-):
-
-    y_true_subject = (
-        y_validation_true[
-            :,
-            subject_index
-        ]
-    )
-
-    subject_scores = (
-        validation_scores[
-            :,
-            subject_index
-        ]
-    )
-
-    positive_count = int(
-        y_true_subject.sum()
-    )
-
-
-    # --------------------------------------------------------
-    # Çok az örnek varsa global threshold kullan.
-    # --------------------------------------------------------
-
-    if positive_count < MIN_POSITIVE_SAMPLES:
-
-        best_threshold = (
-            GLOBAL_FALLBACK_THRESHOLD
-        )
-
-        y_pred_subject = (
-            subject_scores
-            >=
-            best_threshold
-        ).astype(int)
-
-        best_f1 = f1_score(
-            y_true_subject,
-            y_pred_subject,
-            zero_division=0
-        )
-
-        threshold_source = "GLOBAL_FALLBACK"
-
-
-    # --------------------------------------------------------
-    # Yeterli örnek varsa bu konuya özel threshold ara.
-    # --------------------------------------------------------
-
-    else:
-
-        best_threshold = (
-            GLOBAL_FALLBACK_THRESHOLD
-        )
-
-        best_f1 = -1
-
-
-        for threshold in THRESHOLDS:
-
-            y_pred_subject = (
-                subject_scores
-                >=
-                threshold
-            ).astype(int)
-
-            current_f1 = f1_score(
-                y_true_subject,
-                y_pred_subject,
-                zero_division=0
-            )
-
-
-            if current_f1 > best_f1:
-
-                best_f1 = current_f1
-
-                best_threshold = float(
-                    threshold
-                )
-
-
-        threshold_source = (
-            "SUBJECT_SPECIFIC"
-        )
-
-
-    subject_thresholds.append(
-        best_threshold
-    )
-
-
-    threshold_rows.append(
-        {
-            "subject_fullname":
-                subject_name,
-
-            "positive_validation_samples":
-                positive_count,
-
-            "threshold":
-                best_threshold,
-
-            "validation_subject_f1":
-                best_f1,
-
-            "threshold_source":
-                threshold_source
-        }
-    )
-
-
-subject_thresholds = np.array(
-    subject_thresholds,
-    dtype=np.float32
-)
-
-
-threshold_df = pd.DataFrame(
-    threshold_rows
-)
-
-
-print(
-    "Konuya özel threshold:",
-    int(
-        (
-            threshold_df[
-                "threshold_source"
-            ]
-            ==
-            "SUBJECT_SPECIFIC"
-        ).sum()
+y_validation_true = (
+    get_true_binary(
+        validation_df
     )
 )
 
-print(
-    "Global fallback kullanan:",
-    int(
-        (
-            threshold_df[
-                "threshold_source"
-            ]
-            ==
-            "GLOBAL_FALLBACK"
-        ).sum()
-    )
-)
-
-print(
-    "Ortalama threshold:",
-    round(
-        float(
-            subject_thresholds.mean()
-        ),
-        4
-    )
-)
-
-print(
-    "Minimum threshold:",
-    round(
-        float(
-            subject_thresholds.min()
-        ),
-        4
-    )
-)
-
-print(
-    "Maximum threshold:",
-    round(
-        float(
-            subject_thresholds.max()
-        ),
-        4
+y_final_true = (
+    get_true_binary(
+        final_test_df
     )
 )
 
 
 # ============================================================
-# SUBJECT-SPECIFIC TAHMİN
+# 8. THRESHOLD İLE MULTI-LABEL TAHMİN
 # ============================================================
 
-def predict_with_subject_thresholds(
-    scores
+def predictions_from_threshold(
+    scores,
+    threshold
 ):
 
     predictions = (
-        scores
-        >=
-        subject_thresholds[
-            np.newaxis,
-            :
-        ]
+        scores >= threshold
     ).astype(int)
 
-
-    # Hiçbir etiketi geçemeyen makale varsa
-    # en yakın bir konuyu yine ver.
+    # Hiçbir centroid threshold'u geçmezse
+    # makaleyi tamamen etiketsiz bırakmıyoruz.
+    # En yakın K-Means centroidini veriyoruz.
     empty_rows = np.where(
-        predictions.sum(
-            axis=1
-        ) == 0
+        predictions.sum(axis=1)
+        ==
+        0
     )[0]
-
 
     for row_index in empty_rows:
 
         best_index = int(
             np.argmax(
-                scores[
-                    row_index
-                ]
+                scores[row_index]
             )
         )
 
@@ -733,12 +591,11 @@ def predict_with_subject_thresholds(
             best_index
         ] = 1
 
-
     return predictions
 
 
 # ============================================================
-# METRİKLER
+# 9. METRİKLER
 # ============================================================
 
 def calculate_metrics(
@@ -806,90 +663,141 @@ def calculate_metrics(
 
         "Average_Predicted_Labels":
             float(
-                y_pred.sum(
-                    axis=1
-                ).mean()
+                y_pred
+                .sum(axis=1)
+                .mean()
             )
     }
 
 
 # ============================================================
-# VALIDATION SONUCU
+# 10. VALIDATION'DA THRESHOLD BUL
 # ============================================================
 
-y_validation_pred = (
-    predict_with_subject_thresholds(
-        validation_scores
-    )
-)
-
-
-validation_metrics = (
-    calculate_metrics(
-        y_validation_true,
-        y_validation_pred
-    )
-)
-
-
-print("\n" + "=" * 110)
-print("VALIDATION SONUCU")
+print()
+print("=" * 110)
+print("VALIDATION - THRESHOLD ARAMASI")
 print("=" * 110)
 
-print(
-    "Micro Precision:",
-    f"{validation_metrics['Micro_Precision'] * 100:.2f}%"
+threshold_results = []
+
+
+for threshold in THRESHOLDS:
+
+    y_pred = (
+        predictions_from_threshold(
+            validation_scores,
+            threshold
+        )
+    )
+
+    metrics = calculate_metrics(
+        y_validation_true,
+        y_pred
+    )
+
+    threshold_results.append(
+        {
+            "Threshold":
+                float(threshold),
+
+            **metrics
+        }
+    )
+
+
+threshold_df = pd.DataFrame(
+    threshold_results
+)
+
+best_row = (
+    threshold_df
+    .sort_values(
+        [
+            "Micro_F1",
+            "Macro_F1"
+        ],
+        ascending=[
+            False,
+            False
+        ]
+    )
+    .iloc[0]
+)
+
+best_threshold = float(
+    best_row["Threshold"]
 )
 
 print(
-    "Micro Recall:",
-    f"{validation_metrics['Micro_Recall'] * 100:.2f}%"
+    "En iyi threshold:",
+    round(
+        best_threshold,
+        4
+    )
 )
 
 print(
-    "Micro F1:",
-    f"{validation_metrics['Micro_F1'] * 100:.2f}%"
+    "Validation Micro Precision:",
+    f"{best_row['Micro_Precision'] * 100:.2f}%"
 )
 
 print(
-    "Macro F1:",
-    f"{validation_metrics['Macro_F1'] * 100:.2f}%"
+    "Validation Micro Recall:",
+    f"{best_row['Micro_Recall'] * 100:.2f}%"
+)
+
+print(
+    "Validation Micro F1:",
+    f"{best_row['Micro_F1'] * 100:.2f}%"
+)
+
+print(
+    "Validation Macro F1:",
+    f"{best_row['Macro_F1'] * 100:.2f}%"
 )
 
 print(
     "Ortalama tahmin edilen etiket:",
     round(
-        validation_metrics[
-            "Average_Predicted_Labels"
-        ],
+        float(
+            best_row[
+                "Average_Predicted_Labels"
+            ]
+        ),
         2
     )
 )
 
 
 # ============================================================
-# FINAL TEST
+# 11. FINAL TEST
 # ============================================================
 
+print()
+print("=" * 110)
+print("FINAL MULTI-LABEL SEEDED K-MEANS TEST")
+print("=" * 110)
+
 y_final_pred = (
-    predict_with_subject_thresholds(
-        final_scores
+    predictions_from_threshold(
+        final_scores,
+        best_threshold
     )
 )
 
-
-final_metrics = calculate_metrics(
-    y_final_true,
-    y_final_pred
+final_metrics = (
+    calculate_metrics(
+        y_final_true,
+        y_final_pred
+    )
 )
-
 
 real_average_labels = float(
-    y_final_true.sum(
-        axis=1
-    ).mean()
+    y_final_true
+    .sum(axis=1)
+    .mean()
 )
-
 
 exact_matches = np.all(
     y_final_true
@@ -897,7 +805,6 @@ exact_matches = np.all(
     y_final_pred,
     axis=1
 )
-
 
 intersection_counts = (
     (
@@ -908,15 +815,9 @@ intersection_counts = (
     .sum(axis=1)
 )
 
-
 at_least_one = (
     intersection_counts > 0
 )
-
-
-print("\n" + "=" * 110)
-print("FINAL SUBJECT-SPECIFIC MULTI-LABEL TEST")
-print("=" * 110)
 
 print(
     "Final test makale:",
@@ -994,79 +895,93 @@ print(
 
 
 # ============================================================
-# GLOBAL BASELINE İLE AYNI FINAL SETTE KARŞILAŞTIR
+# 12. TAHMİNLERİ OKUNABİLİR HALE GETİR
 # ============================================================
 
-global_pred = (
-    final_scores
-    >=
-    GLOBAL_FALLBACK_THRESHOLD
-).astype(int)
+prediction_rows = []
 
 
-empty_rows = np.where(
-    global_pred.sum(
-        axis=1
-    ) == 0
-)[0]
+for i, row in final_test_df.iterrows():
 
+    predicted_indices = np.where(
+        y_final_pred[i] == 1
+    )[0]
 
-for row_index in empty_rows:
-
-    best_index = int(
-        np.argmax(
-            final_scores[
-                row_index
-            ]
-        )
+    ordered = sorted(
+        [
+            (
+                centroid_subjects[index],
+                float(
+                    final_scores[
+                        i,
+                        index
+                    ]
+                )
+            )
+            for index in predicted_indices
+        ],
+        key=lambda item: item[1],
+        reverse=True
     )
 
-    global_pred[
-        row_index,
-        best_index
-    ] = 1
+    external_id = str(
+        row["external_id"]
+    )
+
+    prediction_rows.append(
+        {
+            "external_id":
+                external_id,
+
+            "predicted_label_count":
+                len(ordered),
+
+            "predicted_subjects":
+                " || ".join(
+                    [
+                        subject
+                        for subject, score
+                        in ordered
+                    ]
+                ),
+
+            "predicted_scores":
+                " || ".join(
+                    [
+                        f"{score:.4f}"
+                        for subject, score
+                        in ordered
+                    ]
+                ),
+
+            "true_subjects":
+                " || ".join(
+                    true_subjects.get(
+                        external_id,
+                        []
+                    )
+                ),
+
+            "exact_match":
+                bool(
+                    exact_matches[i]
+                ),
+
+            "at_least_one_match":
+                bool(
+                    at_least_one[i]
+                )
+        }
+    )
 
 
-global_metrics = calculate_metrics(
-    y_final_true,
-    global_pred
-)
-
-
-print("\n" + "=" * 110)
-print("GLOBAL 0.64 vs SUBJECT-SPECIFIC")
-print("=" * 110)
-
-print(
-    "Global Micro F1:",
-    f"{global_metrics['Micro_F1'] * 100:.2f}%"
-)
-
-print(
-    "Subject-specific Micro F1:",
-    f"{final_metrics['Micro_F1'] * 100:.2f}%"
-)
-
-print(
-    "Fark:",
-    f"{(final_metrics['Micro_F1'] - global_metrics['Micro_F1']) * 100:+.2f} puan"
-)
-
-print()
-
-print(
-    "Global Macro F1:",
-    f"{global_metrics['Macro_F1'] * 100:.2f}%"
-)
-
-print(
-    "Subject-specific Macro F1:",
-    f"{final_metrics['Macro_F1'] * 100:.2f}%"
+prediction_df = pd.DataFrame(
+    prediction_rows
 )
 
 
 # ============================================================
-# KAYDET
+# 13. SONUÇLARI KAYDET
 # ============================================================
 
 os.makedirs(
@@ -1074,62 +989,94 @@ os.makedirs(
     exist_ok=True
 )
 
+np.save(
+    os.path.join(
+        OUTPUT_DIR,
+        "multilabel_seeded_final_centroids.npy"
+    ),
+    final_centroids
+)
 
 threshold_df.to_csv(
     os.path.join(
         OUTPUT_DIR,
-        "subject_specific_thresholds.csv"
+        "multilabel_seeded_threshold_search.csv"
     ),
     index=False,
     encoding="utf-8-sig"
 )
 
+prediction_df.to_csv(
+    os.path.join(
+        OUTPUT_DIR,
+        "multilabel_seeded_predictions.csv"
+    ),
+    index=False,
+    encoding="utf-8-sig"
+)
 
-summary_df = pd.DataFrame(
+summary = pd.DataFrame(
     [
         {
             "Method":
-                "Global Threshold",
+                "Multi-label Seeded K-Means + Cosine",
 
-            "Threshold":
-                GLOBAL_FALLBACK_THRESHOLD,
+            "Seeds_Per_Subject":
+                SEEDS_PER_SUBJECT,
 
-            **global_metrics
-        },
+            "Reference_Articles":
+                len(reference),
 
-        {
-            "Method":
-                "Subject-Specific Threshold",
+            "Final_Test_Articles":
+                len(final_test_df),
 
-            "Threshold":
-                "195 separate thresholds",
+            "Best_Threshold":
+                best_threshold,
 
-            **final_metrics
+            "Mean_Centroid_Shift":
+                float(
+                    centroid_shift.mean()
+                ),
+
+            **final_metrics,
+
+            "Average_True_Labels":
+                real_average_labels,
+
+            "Exact_Match_Rate":
+                float(
+                    exact_matches.mean()
+                ),
+
+            "At_Least_One_Match_Rate":
+                float(
+                    at_least_one.mean()
+                )
         }
     ]
 )
 
-
-summary_df.to_csv(
+summary.to_csv(
     os.path.join(
         OUTPUT_DIR,
-        "subject_threshold_comparison.csv"
+        "multilabel_seeded_summary.csv"
     ),
     index=False,
     encoding="utf-8-sig"
 )
 
 
-print("\n" + "=" * 110)
+print()
+print("=" * 110)
 print("TAMAMLANDI")
 print("=" * 110)
 
 print(
     "results/kmeans/holdout/"
-    "subject_specific_thresholds.csv"
+    "multilabel_seeded_summary.csv"
 )
 
 print(
     "results/kmeans/holdout/"
-    "subject_threshold_comparison.csv"
+    "multilabel_seeded_predictions.csv"
 )

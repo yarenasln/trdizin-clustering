@@ -1,0 +1,2 @@
+﻿Method,Articles,Clusters,Silhouette,Davies_Bouldin,Calinski_Harabasz,Topic_Match_Rate,Matched_Articles
+Seeded K-Means,6037,195,0.03410261869430542,3.1959390853284764,18.085443700384246,0.47440781845287394,2864

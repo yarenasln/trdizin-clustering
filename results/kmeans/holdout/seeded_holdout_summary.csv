@@ -1,0 +1,2 @@
+﻿Method,Reference_Articles,Test_Articles,K,Topic_Match_Rate,Silhouette,Davies_Bouldin,Calinski_Harabasz,Singleton_Clusters,Clusters_LE_5,Clusters_LE_10,Mean_Centroid_Shift
+Seeded K-Means,1393,5571,195,0.4991922455573506,0.03335827589035034,3.193973088757599,17.15684559749441,1,1,4,0.4953161

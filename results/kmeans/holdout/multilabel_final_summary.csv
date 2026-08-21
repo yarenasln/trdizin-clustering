@@ -1,0 +1,2 @@
+﻿Method,Seeds_Per_Subject,Best_Threshold,Final_Test_Articles,Micro_Precision,Micro_Recall,Micro_F1,Macro_Precision,Macro_Recall,Macro_F1,Sample_F1,Average_Predicted_Labels,Average_True_Labels,Exact_Match_Rate,At_Least_One_Match_Rate
+Multi-label Fixed Centroid + Cosine,10,0.6400000000000002,2786,0.3563508064516129,0.3321848081440877,0.3438437221366621,0.39210071703194016,0.3328585591465937,0.334597093868303,0.3589568889503991,2.1363962670495336,2.291816223977028,0.06389088298636038,0.6267049533381192

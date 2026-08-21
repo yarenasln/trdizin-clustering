@@ -1,0 +1,2 @@
+﻿Method,Seeds_Per_Subject,Best_Distance_Ratio,Reference_Articles,Final_Test_Articles,Mean_Centroid_Shift,Micro_Precision,Micro_Recall,Micro_F1,Macro_Precision,Macro_Recall,Macro_F1,Sample_F1,Average_Predicted_Labels,Average_True_Labels,Exact_Match_Rate,At_Least_One_Match_Rate
+Multi-label Seeded K-Means Distance,10,1.1,1393,2786,0.2718588411808014,0.2968120612268385,0.4039154267815192,0.3421785856441555,0.315070167362674,0.40408236329845393,0.32850268751170053,0.3690152991301591,3.118808327351041,2.291816223977028,0.04594400574300072,0.7376166547020818

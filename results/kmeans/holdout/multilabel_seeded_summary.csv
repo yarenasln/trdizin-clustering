@@ -1,0 +1,2 @@
+﻿Method,Seeds_Per_Subject,Reference_Articles,Final_Test_Articles,Best_Threshold,Mean_Centroid_Shift,Micro_Precision,Micro_Recall,Micro_F1,Macro_Precision,Macro_Recall,Macro_F1,Sample_F1,Average_Predicted_Labels,Average_True_Labels,Exact_Match_Rate,At_Least_One_Match_Rate
+Multi-label Seeded K-Means + Cosine,10,1393,2786,0.6000000000000002,0.4260093569755554,0.33814466428803114,0.3265465935787001,0.3322444426738905,0.37374916804348995,0.3214837613640905,0.31147965448766135,0.341758263383539,2.2132089016511127,2.291816223977028,0.05814788226848528,0.6145010768126346
