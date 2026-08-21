@@ -1,0 +1,2 @@
+﻿Method,Reference_Articles,Test_Articles,K,Named_Clusters,Topic_Match_Rate,Silhouette,Davies_Bouldin,Calinski_Harabasz,Singleton_Clusters,Clusters_LE_5,Clusters_LE_10
+K-Means++,1393,5571,195,195,0.4168012924071082,0.03374609351158142,3.218641572210863,17.37270253200974,0,0,5

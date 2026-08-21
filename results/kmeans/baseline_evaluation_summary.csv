@@ -1,0 +1,2 @@
+﻿Method,Articles,Clusters,Silhouette,Davies_Bouldin,Calinski_Harabasz,Singleton_Clusters,Clusters_LE_5,Clusters_LE_10
+K-Means++,6037,195,0.03710323944687843,3.1673501356838796,18.293538525539596,0,1,3
