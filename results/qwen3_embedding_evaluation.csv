@@ -1,0 +1,2 @@
+﻿Model,Embedding_Dim,Articles,K,Silhouette,Davies_Bouldin,Calinski_Harabasz,Singleton_Clusters,Clusters_LE_5,Clusters_LE_10,Smallest_Cluster,Largest_Cluster,Average_Cluster_Size,Median_Cluster_Size,Embedding_Time_Seconds,Clustering_Time_Seconds
+Qwen3,1024,6964,195,-0.026863783597946167,3.089572415369204,11.944089959249592,29,59,71,1,159,35.712820512820514,28.0,465.00931668281555,19.419211387634277
