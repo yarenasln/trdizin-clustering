@@ -1,0 +1,972 @@
+﻿subject_fullname,external_id,embedding_row,article_label_count,selection_type
+Fen > Diş Hekimliği > Diş Hekimliği,1403985,5890,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Diş Hekimliği > Diş Hekimliği,1422936,6178,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Diş Hekimliği > Diş Hekimliği,1396206,4353,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Diş Hekimliği > Diş Hekimliği,1397070,4587,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Diş Hekimliği > Diş Hekimliği,1402710,5857,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Eczacılık > Farmakoloji ve Eczacılık,1403925,5873,1,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Farmakoloji ve Eczacılık,1383298,2061,2,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Farmakoloji ve Eczacılık,1398241,5002,4,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Farmakoloji ve Eczacılık,1395031,4027,2,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Farmakoloji ve Eczacılık,1336911,589,3,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Toksikoloji,1441993,6616,1,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Toksikoloji,1385400,2306,1,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Toksikoloji,1388487,2693,3,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Toksikoloji,1398227,4993,4,REPRESENTATIVE_MIXED
+Fen > Eczacılık > Toksikoloji,1434421,6413,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",1380436,1801,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",1315912,423,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",1352584,763,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",1398866,5206,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",1374680,1429,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",1332300,534,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",1295597,269,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",1381135,1868,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",1262023,121,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",1258659,86,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",1373978,1387,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",1295597,269,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",1377830,1614,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",1373373,1368,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",1371618,1283,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",1389634,2796,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",1381748,1909,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",1391474,3087,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",1381746,1908,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",1389465,2770,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",1399061,5293,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",1389465,2770,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",1443938,6675,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",1399727,5540,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",1406976,5980,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1393661,3677,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1393663,3678,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1391862,3190,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1426372,6264,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1366501,1047,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Denizcilik,1399958,5607,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Denizcilik,1389202,2746,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Denizcilik,1378125,1641,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Denizcilik,1428970,6325,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Denizcilik,1367324,1097,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Endüstri Mühendisliği,1399770,5547,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Endüstri Mühendisliği,1399711,5528,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Endüstri Mühendisliği,1399796,5561,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Endüstri Mühendisliği,1398659,5136,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Endüstri Mühendisliği,1396298,4381,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Enerji ve Yakıtlar,1398667,5141,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Enerji ve Yakıtlar,1401614,5739,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Enerji ve Yakıtlar,1379262,1727,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Enerji ve Yakıtlar,1380429,1797,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Enerji ve Yakıtlar,1391500,3096,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,1380354,1774,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,1427726,6294,4,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,1380347,1772,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,1385217,2283,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,1391482,3091,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,1400656,5647,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,1396376,4402,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,1396368,4395,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,1439783,6583,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,1395646,4215,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Hücre ve Doku Mühendisliği,1387758,2585,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Hücre ve Doku Mühendisliği,1345108,671,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Hücre ve Doku Mühendisliği,1315073,412,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Hücre ve Doku Mühendisliği,1339487,615,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Hücre ve Doku Mühendisliği,1351654,744,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeokimya ve Jeofizik,1379313,1730,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeokimya ve Jeofizik,1389692,2805,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeokimya ve Jeofizik,1370405,1228,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeokimya ve Jeofizik,1372976,1348,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeokimya ve Jeofizik,1392059,3238,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Jeoloji,1360739,889,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Jeoloji,1360732,886,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Jeoloji,1399870,5575,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Jeoloji,1360740,890,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Jeoloji,1399904,5579,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1304064,334,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1353263,773,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1340687,624,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1386448,2406,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1336053,579,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",1315073,412,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",1390448,2907,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",1387758,2585,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",1382582,2004,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",1398058,4944,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",1311517,381,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",1376446,1545,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",1336048,578,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",1315653,420,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",1349306,711,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",1387321,2519,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",1385205,2279,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",1390450,2909,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",1392980,3469,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",1392979,3468,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",1439223,6563,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",1367072,1088,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",1401272,5679,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",1366376,1038,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",1381863,1941,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Malzeme Bilimleri, Seramik",1381796,1921,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Seramik",1340222,620,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Seramik",1342506,648,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Seramik",1377861,1618,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Seramik",1356326,826,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",1380719,1817,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",1391855,3185,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",1392995,3483,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",1377917,1626,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",1379259,1726,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",1351790,748,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",1387765,2589,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",1386329,2389,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",1385300,2292,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",1398060,4946,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Metalürji Mühendisliği,1381148,1874,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Metalürji Mühendisliği,1380377,1784,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Metalürji Mühendisliği,1385300,2292,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Metalürji Mühendisliği,1384314,2171,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Metalürji Mühendisliği,1386981,2471,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,1392982,3471,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,1393938,3795,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,1384945,2243,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,1380479,1808,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,1368064,1125,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Mimarlık,1428712,6315,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Mimarlık,1428611,6304,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Mimarlık,1425376,6237,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Mimarlık,1406189,5931,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Mimarlık,1425378,6238,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Biyotıp",1339487,615,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Mühendislik, Biyotıp",1374078,1397,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Mühendislik, Biyotıp",1390448,2907,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Mühendislik, Biyotıp",1364942,985,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Mühendislik, Biyotıp",1387743,2578,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Mühendislik, Deniz",1365361,996,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Deniz",1378491,1674,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Deniz",1365366,1001,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Deniz",1392331,3327,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Deniz",1378487,1672,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",1398050,4938,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",1421857,6142,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",1398059,4945,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",1400951,5665,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",1398472,5056,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Hava ve Uzay",1392978,3467,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Hava ve Uzay",1392001,3224,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Hava ve Uzay",1396575,4448,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Hava ve Uzay",1392013,3228,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Hava ve Uzay",1391999,3222,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Jeoloji",1393668,3681,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Jeoloji",1388477,2687,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Jeoloji",1400686,5656,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Jeoloji",1401093,5670,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Jeoloji",1382754,2022,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Kimya",1381146,1873,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Kimya",1381195,1876,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Kimya",1378744,1704,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Kimya",1372633,1335,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Kimya",1398036,4929,3,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Makine",1398070,4953,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Makine",1394284,3889,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Makine",1397654,4781,1,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Makine",1397237,4671,4,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Makine",1384314,2171,2,REPRESENTATIVE_MIXED
+"Fen > Mühendislik > Mühendislik, Petrol",1351533,738,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Petrol",1287249,230,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Petrol",1366011,1017,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Petrol",1303254,322,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Mühendislik, Petrol",1380092,1760,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Nanobilim ve Nanoteknoloji,1391775,3170,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Nanobilim ve Nanoteknoloji,1401291,5686,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Nanobilim ve Nanoteknoloji,1434477,6417,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Nanobilim ve Nanoteknoloji,1380410,1792,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Nanobilim ve Nanoteknoloji,1394292,3894,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,1387207,2502,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,1339448,611,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,1357372,848,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,1331515,527,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,1391477,3089,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Orman Mühendisliği,1401290,5685,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Orman Mühendisliği,1429251,6351,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Orman Mühendisliği,1387821,2598,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Orman Mühendisliği,1402068,5783,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Orman Mühendisliği,1431288,6360,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Polimer Bilimi,1366527,1050,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Polimer Bilimi,1367898,1117,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Polimer Bilimi,1371529,1271,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Polimer Bilimi,1365950,1015,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Polimer Bilimi,1377884,1620,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Robotik,1379263,1728,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Robotik,1392981,3470,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Robotik,1375304,1458,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Robotik,1394278,3885,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Robotik,1399702,5521,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Savunma Bilimleri,1377496,1603,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Savunma Bilimleri,1371555,1279,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Savunma Bilimleri,1377483,1597,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Savunma Bilimleri,1377484,1598,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Savunma Bilimleri,1371530,1272,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,1449842,6851,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,1425642,6258,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,1425633,6249,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,1402178,5797,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,1399761,5546,3,REPRESENTATIVE_MIXED
+Fen > Mühendislik > Telekomünikasyon,1375237,1445,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Telekomünikasyon,1373970,1385,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Telekomünikasyon,1370118,1207,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Telekomünikasyon,1380364,1776,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Telekomünikasyon,1440145,6607,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",1397660,4786,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",1366307,1031,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",1379262,1727,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",1401270,5677,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",1406193,5935,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > Çevre Mühendisliği,1390553,2943,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Çevre Mühendisliği,1390556,2946,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Çevre Mühendisliği,1390557,2947,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Çevre Mühendisliği,1390555,2945,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > Çevre Mühendisliği,1390549,2939,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Mühendislik > İmalat Mühendisliği,1397667,4793,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İmalat Mühendisliği,1380376,1783,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İmalat Mühendisliği,1380431,1799,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İmalat Mühendisliği,1398068,4952,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İmalat Mühendisliği,1398473,5057,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İnşaat Mühendisliği,1393966,3804,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > İnşaat Mühendisliği,1446796,6746,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > İnşaat Mühendisliği,1393148,3540,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > İnşaat Mühendisliği,1399321,5391,1,REPRESENTATIVE_MIXED
+Fen > Mühendislik > İnşaat Mühendisliği,1394283,3888,2,REPRESENTATIVE_MIXED
+Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,1394283,3888,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,1397886,4879,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,1398094,4965,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,1398664,5139,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,1397887,4880,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Akustik,1320175,460,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Akustik,1356254,825,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Akustik,1376756,1551,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Akustik,1390919,3020,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Akustik,1356993,839,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Astronomi ve Astrofizik,1372650,1336,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Astronomi ve Astrofizik,1344507,663,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Astronomi ve Astrofizik,1387228,2507,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Astronomi ve Astrofizik,1387324,2521,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Astronomi ve Astrofizik,1387254,2513,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Balıkçılık,1389154,2740,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Balıkçılık,1380784,1838,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Balıkçılık,1389159,2741,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Balıkçılık,1389105,2729,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Balıkçılık,1389148,2739,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Biyoloji,1391384,3081,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji,1393042,3509,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji,1263179,127,7,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji,1390705,2987,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji,1233237,23,7,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,1390711,2990,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,1368472,1141,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,1377244,1586,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,1369075,1163,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,1383852,2138,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,1380783,1837,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,1390709,2989,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,1390134,2854,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,1286190,226,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,1385890,2357,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Ekoloji,1389808,2832,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Ekoloji,1323741,482,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Ekoloji,1433878,6402,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Ekoloji,1376259,1533,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Ekoloji,1438672,6526,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Entomoloji,1401293,5688,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Entomoloji,1398106,4975,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Entomoloji,1390167,2866,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Entomoloji,1394496,3930,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Entomoloji,1384409,2188,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",1351674,745,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",1302322,306,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",1356049,818,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",1240824,35,7,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",1276128,188,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",1386441,2401,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",1265690,157,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",1264127,134,4,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",1335911,575,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",1312984,391,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Katı Hal",1313427,396,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Katı Hal",1361532,910,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Katı Hal",1303278,324,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Katı Hal",1297168,273,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Katı Hal",1387176,2488,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Matematik",1377836,1615,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Matematik",1389784,2827,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Matematik",1400158,5616,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Matematik",1393277,3558,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Matematik",1400156,5615,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Nükleer",1435666,6440,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Nükleer",1316506,428,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Nükleer",1348414,700,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Nükleer",1373974,1386,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Nükleer",1320897,464,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",1317398,437,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",1285284,219,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",1363276,941,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",1304061,333,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",1393276,3557,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Temel Bilimler > Fizik, Uygulamalı",1393299,3576,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Uygulamalı",1381604,1896,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Uygulamalı",1380735,1824,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Uygulamalı",1389870,2838,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Fizik, Uygulamalı",1240824,35,7,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Fizikokimya,1391872,3195,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Fizikokimya,1264194,135,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Fizikokimya,1257582,75,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Fizikokimya,1264034,129,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Fizikokimya,1307450,357,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Genetik ve Kalıtım,1399638,5500,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Genetik ve Kalıtım,1424394,6204,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Genetik ve Kalıtım,1394471,3917,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Genetik ve Kalıtım,1423612,6184,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Genetik ve Kalıtım,1398230,4995,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Analitik",1451717,6943,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Analitik",1452112,6953,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Analitik",1452197,6955,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Analitik",1398177,4982,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Analitik",1361904,918,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Organik",1394326,3900,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Organik",1393058,3521,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Organik",1451715,6942,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Organik",1398052,4939,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Organik",1371608,1281,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Tıbbi",1451620,6940,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Tıbbi",1382174,1977,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Tıbbi",1395210,4069,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Tıbbi",1398654,5133,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Tıbbi",1396068,4291,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Uygulamalı",1391359,3072,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Uygulamalı",1394329,3901,2,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Uygulamalı",1391872,3195,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Uygulamalı",1259025,90,5,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, Uygulamalı",1381570,1893,3,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1451387,6939,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1452257,6956,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1374445,1423,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1451637,6941,1,REPRESENTATIVE_MIXED
+"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1394329,3901,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Kuş Bilimi,1226701,12,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Kuş Bilimi,1243654,42,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Kuş Bilimi,1278753,197,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Kuş Bilimi,1263179,127,7,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Kuş Bilimi,1323741,482,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Limnoloji,1201616,2,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Limnoloji,1254090,65,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Limnoloji,1288093,235,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Limnoloji,1382707,2018,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Limnoloji,1313173,394,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mantar Bilimi,1402071,5784,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Mantar Bilimi,1395217,4074,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Mantar Bilimi,1392232,3312,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Mantar Bilimi,1390706,2988,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Mantar Bilimi,1396375,4401,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Matematik,1398207,4984,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Matematik,1398208,4985,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Matematik,1398869,5209,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Matematik,1400160,5618,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Matematik,1399175,5345,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Mikroskopi,1378610,1696,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mikroskopi,1336048,578,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mikroskopi,1304067,335,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mikroskopi,1385638,2328,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mikroskopi,1378463,1667,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mineraloji,1366779,1072,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mineraloji,1392999,3485,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mineraloji,1226476,10,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mineraloji,1394289,3892,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Mineraloji,1336974,591,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Optik,1366396,1041,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Optik,1368172,1130,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Optik,1380303,1765,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Optik,1393301,3578,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Optik,1393296,3573,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Oşinografi,1343565,655,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Oşinografi,1270538,182,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Oşinografi,1378153,1642,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Oşinografi,1294371,260,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Oşinografi,1382714,2019,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Paleontoloji,1401612,5737,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Paleontoloji,1333765,550,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Paleontoloji,1333640,549,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Paleontoloji,1388476,2686,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Paleontoloji,1392107,3273,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Parazitoloji,1397758,4825,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Parazitoloji,1394708,4002,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Parazitoloji,1384059,2147,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Parazitoloji,1396154,4331,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Parazitoloji,1375704,1491,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Spektroskopi,1356857,836,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Spektroskopi,1356858,837,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Spektroskopi,1343892,659,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Spektroskopi,1351862,750,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Spektroskopi,1335936,576,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Su Kaynakları,1397575,4748,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Su Kaynakları,1385204,2278,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Su Kaynakları,1384953,2244,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Su Kaynakları,1449106,6827,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Su Kaynakları,1384457,2193,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Termodinamik,1393298,3575,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Termodinamik,1395125,4046,3,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Termodinamik,1381604,1896,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Termodinamik,1389870,2838,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Termodinamik,1397664,4790,2,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > Viroloji,1397115,4600,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Viroloji,1394487,3923,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Viroloji,1393715,3704,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Viroloji,1386609,2413,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Viroloji,1374112,1401,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Zooloji,1393419,3607,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Zooloji,1397767,4834,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Zooloji,1400192,5636,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Zooloji,1393420,3608,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Zooloji,1393421,3609,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Temel Bilimler > Çevre Bilimleri,1390134,2854,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Çevre Bilimleri,1368472,1141,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Çevre Bilimleri,1401295,5690,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Çevre Bilimleri,1384945,2243,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > Çevre Bilimleri,1302649,308,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Temel Bilimler > İstatistik ve Olasılık,1390667,2978,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > İstatistik ve Olasılık,1398653,5132,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > İstatistik ve Olasılık,1390666,2977,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > İstatistik ve Olasılık,1391346,3064,1,REPRESENTATIVE_MIXED
+Fen > Temel Bilimler > İstatistik ve Olasılık,1387773,2592,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Acil Tıp,1406540,5955,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Acil Tıp,1432786,6377,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Acil Tıp,1398425,5039,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Acil Tıp,1403911,5871,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Acil Tıp,1403933,5874,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Adli Tıp,1391530,3108,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Adli Tıp,1375996,1515,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Adli Tıp,1369829,1189,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Adli Tıp,1375998,1517,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Adli Tıp,1375992,1511,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Alerji,1369836,1190,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Alerji,1383617,2109,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Alerji,1424398,6205,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Alerji,1393307,3580,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Alerji,1392439,3356,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Anatomi ve Morfoloji,1424758,6217,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Anatomi ve Morfoloji,1390295,2881,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Anatomi ve Morfoloji,1390844,3002,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Anatomi ve Morfoloji,1417050,6114,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Anatomi ve Morfoloji,1390084,2848,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Androloji,1393723,3709,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Androloji,1380829,1844,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Androloji,1366851,1081,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Androloji,1358502,859,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Androloji,1355527,804,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Anestezi,1386890,2463,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Anestezi,1386204,2372,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Anestezi,1391678,3142,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Anestezi,1392386,3339,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Anestezi,1386212,2377,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Biyofizik,1366749,1066,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyofizik,1341217,631,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyofizik,1387210,2503,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyofizik,1369283,1172,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyofizik,1321137,471,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1441999,6619,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1451377,6938,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1393769,3724,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1424394,6204,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1394711,4005,4,REPRESENTATIVE_MIXED
+Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,1393841,3751,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,1393044,3511,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,1389886,2839,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,1387757,2584,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,1383479,2091,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Cerrahi,1398805,5186,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Cerrahi,1398082,4957,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Cerrahi,1439973,6602,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Cerrahi,1424807,6223,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Cerrahi,1399635,5497,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Dermatoloji,1398967,5228,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Dermatoloji,1397383,4706,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Dermatoloji,1393752,3722,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Dermatoloji,1397089,4595,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Dermatoloji,1391584,3128,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Endokrinoloji ve Metabolizma,1397165,4635,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Endokrinoloji ve Metabolizma,1424811,6225,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Endokrinoloji ve Metabolizma,1424295,6194,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Endokrinoloji ve Metabolizma,1444121,6703,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Endokrinoloji ve Metabolizma,1397163,4633,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Enfeksiyon Hastalıkları,1394254,3873,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Enfeksiyon Hastalıkları,1396208,4354,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Enfeksiyon Hastalıkları,1394245,3867,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Enfeksiyon Hastalıkları,1398846,5196,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Enfeksiyon Hastalıkları,1374350,1409,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Fizyoloji,1382299,1986,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Fizyoloji,1388143,2654,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Fizyoloji,1381046,1853,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Fizyoloji,1343265,653,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Fizyoloji,1397016,4578,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Gastroenteroloji ve Hepatoloji,1397512,4735,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Gastroenteroloji ve Hepatoloji,1401009,5668,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Gastroenteroloji ve Hepatoloji,1395178,4065,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Gastroenteroloji ve Hepatoloji,1426427,6269,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Gastroenteroloji ve Hepatoloji,1394556,3960,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Genel ve Dahili Tıp,1384114,2154,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Genel ve Dahili Tıp,1397126,4609,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Genel ve Dahili Tıp,1397123,4606,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Genel ve Dahili Tıp,1397122,4605,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Genel ve Dahili Tıp,1397125,4608,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Geriatri ve Gerontoloji,1393750,3721,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Geriatri ve Gerontoloji,1391939,3216,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Geriatri ve Gerontoloji,1398512,5076,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Geriatri ve Gerontoloji,1439886,6593,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Geriatri ve Gerontoloji,1389273,2752,4,REPRESENTATIVE_MIXED
+Fen > Tıp > Göz Hastalıkları,1426924,6276,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Göz Hastalıkları,1394013,3819,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Göz Hastalıkları,1393626,3658,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Göz Hastalıkları,1393630,3662,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Göz Hastalıkları,1393629,3661,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Halk ve Çevre Sağlığı,1399206,5362,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Halk ve Çevre Sağlığı,1396158,4335,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Halk ve Çevre Sağlığı,1392706,3395,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Halk ve Çevre Sağlığı,1394254,3873,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Halk ve Çevre Sağlığı,1396773,4497,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Hematoloji,1388330,2672,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Hematoloji,1388329,2671,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Hematoloji,1418354,6132,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Hematoloji,1399636,5498,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Hematoloji,1390877,3010,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Hücre Biyolojisi,1364815,980,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Hücre Biyolojisi,1370502,1234,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Hücre Biyolojisi,1380817,1842,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Hücre Biyolojisi,1387687,2567,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Hücre Biyolojisi,1398970,5231,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Kadın Hastalıkları ve Doğum,1403901,5869,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kadın Hastalıkları ve Doğum,1397159,4631,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kadın Hastalıkları ve Doğum,1425508,6247,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kadın Hastalıkları ve Doğum,1426919,6273,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kadın Hastalıkları ve Doğum,1441986,6611,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kalp ve Kalp Damar Sistemi,1399637,5499,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kalp ve Kalp Damar Sistemi,1397252,4673,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kalp ve Kalp Damar Sistemi,1424805,6222,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kalp ve Kalp Damar Sistemi,1396775,4499,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Kalp ve Kalp Damar Sistemi,1398795,5178,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Klinik Nöroloji,1407494,6034,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Klinik Nöroloji,1396345,4390,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Klinik Nöroloji,1397186,4647,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Klinik Nöroloji,1396344,4389,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Klinik Nöroloji,1397118,4603,2,REPRESENTATIVE_MIXED
+"Fen > Tıp > Kulak, Burun, Boğaz",1381096,1860,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Tıp > Kulak, Burun, Boğaz",1393289,3569,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Tıp > Kulak, Burun, Boğaz",1382322,1990,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Tıp > Kulak, Burun, Boğaz",1396340,4385,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Tıp > Kulak, Burun, Boğaz",1391557,3115,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Mikrobiyoloji,1417103,6119,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Mikrobiyoloji,1399498,5447,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Mikrobiyoloji,1393841,3751,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Mikrobiyoloji,1391344,3062,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Mikrobiyoloji,1399493,5442,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Nörolojik Bilimler,1396774,4498,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Nörolojik Bilimler,1396209,4355,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Nörolojik Bilimler,1393110,3539,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Nörolojik Bilimler,1397118,4603,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Nörolojik Bilimler,1397116,4601,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,1389125,2734,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,1415815,6091,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,1401661,5742,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,1415816,6092,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,1389124,2733,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Onkoloji,1399468,5428,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Onkoloji,1399487,5440,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Onkoloji,1424336,6196,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Onkoloji,1399479,5436,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Onkoloji,1364148,964,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Ortopedi,1393683,3688,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Ortopedi,1396210,4356,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Ortopedi,1394222,3859,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Ortopedi,1393710,3699,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Ortopedi,1397509,4734,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Patoloji,1396454,4412,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Patoloji,1426898,6272,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Patoloji,1388607,2702,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Patoloji,1393717,3705,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Patoloji,1388139,2653,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Pediatri,1439876,6591,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Pediatri,1399392,5399,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Pediatri,1399406,5413,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Pediatri,1397185,4646,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Pediatri,1397530,4737,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Periferik Damar Hastalıkları,1392172,3289,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Periferik Damar Hastalıkları,1392180,3295,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Periferik Damar Hastalıkları,1392178,3293,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Periferik Damar Hastalıkları,1392173,3290,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Periferik Damar Hastalıkları,1391566,3119,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Psikiyatri,1402017,5777,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Psikiyatri,1402011,5771,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Psikiyatri,1402015,5775,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Psikiyatri,1402013,5773,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Psikiyatri,1402007,5767,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",1398936,5214,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",1354972,795,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",1369283,1172,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",1398794,5177,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",1443481,6661,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Rehabilitasyon,1394678,3990,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Rehabilitasyon,1439792,6584,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Rehabilitasyon,1394681,3991,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Rehabilitasyon,1396942,4555,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Rehabilitasyon,1396153,4330,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Romatoloji,1443525,6664,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Romatoloji,1396165,4339,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Romatoloji,1396157,4334,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Romatoloji,1398313,5013,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Romatoloji,1396169,4342,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1439212,6557,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1399662,5518,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1395157,4061,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1436448,6486,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1392657,3382,4,REPRESENTATIVE_MIXED
+Fen > Tıp > Solunum Sistemi,1399643,5505,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Solunum Sistemi,1395253,4093,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Solunum Sistemi,1424772,6218,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Solunum Sistemi,1424783,6219,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Solunum Sistemi,1394010,3817,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Spor Bilimleri,1446843,6763,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Spor Bilimleri,1432953,6387,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Spor Bilimleri,1446868,6775,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Spor Bilimleri,1434974,6422,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Spor Bilimleri,1446840,6761,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Tamamlayıcı ve Entegre Tıp,1391662,3138,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tamamlayıcı ve Entegre Tıp,1396780,4504,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tamamlayıcı ve Entegre Tıp,1386711,2439,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tamamlayıcı ve Entegre Tıp,1383289,2059,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tamamlayıcı ve Entegre Tıp,1386723,2447,4,REPRESENTATIVE_MIXED
+Fen > Tıp > Temel Sağlık Hizmetleri,1394675,3988,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Temel Sağlık Hizmetleri,1393758,3723,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Temel Sağlık Hizmetleri,1392317,3321,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Temel Sağlık Hizmetleri,1386718,2444,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Temel Sağlık Hizmetleri,1386691,2431,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Transplantasyon,1396781,4505,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Transplantasyon,1389647,2800,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Transplantasyon,1364847,983,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Transplantasyon,1372459,1325,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Transplantasyon,1388183,2656,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tropik Tıp,1336680,586,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tropik Tıp,1279825,199,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Tropik Tıp,1375704,1491,5,REPRESENTATIVE_MIXED
+Fen > Tıp > Tropik Tıp,1354249,787,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Tropik Tıp,1353201,770,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Araştırmalar Deneysel,1396300,4382,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Araştırmalar Deneysel,1417101,6117,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Araştırmalar Deneysel,1364815,980,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Araştırmalar Deneysel,1395849,4237,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Araştırmalar Deneysel,1434421,6413,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Etik,1397475,4719,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Tıbbi Etik,1392879,3425,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Tıbbi Etik,1386718,2444,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Tıbbi Etik,1393456,3623,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Tıbbi Etik,1387986,2643,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Fen > Tıp > Tıbbi Laboratuar Teknolojisi,1359629,875,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Laboratuar Teknolojisi,1392499,3369,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Laboratuar Teknolojisi,1383383,2074,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Laboratuar Teknolojisi,1383388,2078,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi Laboratuar Teknolojisi,1383384,2075,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi İnformatik,1392311,3320,1,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi İnformatik,1392974,3463,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi İnformatik,1393456,3623,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi İnformatik,1393678,3685,3,REPRESENTATIVE_MIXED
+Fen > Tıp > Tıbbi İnformatik,1398986,5238,2,REPRESENTATIVE_MIXED
+"Fen > Tıp > Yoğun Bakım, Tıp",1397642,4774,1,REPRESENTATIVE_MIXED
+"Fen > Tıp > Yoğun Bakım, Tıp",1394556,3960,2,REPRESENTATIVE_MIXED
+"Fen > Tıp > Yoğun Bakım, Tıp",1386612,2414,3,REPRESENTATIVE_MIXED
+"Fen > Tıp > Yoğun Bakım, Tıp",1398358,5021,2,REPRESENTATIVE_MIXED
+"Fen > Tıp > Yoğun Bakım, Tıp",1388189,2657,2,REPRESENTATIVE_MIXED
+Fen > Tıp > Üroloji ve Nefroloji,1396214,4360,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Üroloji ve Nefroloji,1424438,6211,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Üroloji ve Nefroloji,1396128,4311,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Üroloji ve Nefroloji,1394590,3976,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > Üroloji ve Nefroloji,1418351,6129,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Tıp > İmmünoloji,1400315,5640,1,REPRESENTATIVE_MIXED
+Fen > Tıp > İmmünoloji,1392673,3388,1,REPRESENTATIVE_MIXED
+Fen > Tıp > İmmünoloji,1394010,3817,2,REPRESENTATIVE_MIXED
+Fen > Tıp > İmmünoloji,1362165,926,4,REPRESENTATIVE_MIXED
+Fen > Tıp > İmmünoloji,1388322,2667,3,REPRESENTATIVE_MIXED
+Fen > Veterinerlik > Veterinerlik,1398239,5001,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Veterinerlik > Veterinerlik,1397389,4709,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Veterinerlik > Veterinerlik,1398237,5000,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Veterinerlik > Veterinerlik,1398708,5167,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Veterinerlik > Veterinerlik,1402701,5852,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Bahçe Bitkileri,1450044,6869,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Bahçe Bitkileri,1394542,3958,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Bahçe Bitkileri,1395644,4214,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Bahçe Bitkileri,1434149,6408,3,REPRESENTATIVE_MIXED
+Fen > Ziraat > Bahçe Bitkileri,1394491,3927,2,REPRESENTATIVE_MIXED
+Fen > Ziraat > Bitki Bilimleri,1451272,6926,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Bitki Bilimleri,1451275,6927,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Bitki Bilimleri,1441982,6608,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Bitki Bilimleri,1429031,6334,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Bitki Bilimleri,1451295,6936,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Tarımsal Ekonomi ve Politika,1394503,3936,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Tarımsal Ekonomi ve Politika,1395223,4078,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Tarımsal Ekonomi ve Politika,1394484,3922,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Tarımsal Ekonomi ve Politika,1395389,4146,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Tarımsal Ekonomi ve Politika,1394533,3952,1,REPRESENTATIVE_SINGLE_LABEL
+Fen > Ziraat > Ziraat Mühendisliği,1393871,3766,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Ziraat Mühendisliği,1395232,4084,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Ziraat Mühendisliği,1394499,3933,1,REPRESENTATIVE_MIXED
+Fen > Ziraat > Ziraat Mühendisliği,1449106,6827,3,REPRESENTATIVE_MIXED
+Fen > Ziraat > Ziraat Mühendisliği,1394491,3927,2,REPRESENTATIVE_MIXED
+"Fen > Ziraat > Ziraat, Toprak Bilimi",1395619,4196,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Ziraat > Ziraat, Toprak Bilimi",1386902,2465,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Ziraat > Ziraat, Toprak Bilimi",1390394,2895,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Ziraat > Ziraat, Toprak Bilimi",1387840,2604,1,REPRESENTATIVE_SINGLE_LABEL
+"Fen > Ziraat > Ziraat, Toprak Bilimi",1449921,6866,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Aile Çalışmaları,1399008,5254,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Aile Çalışmaları,1406535,5951,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Aile Çalışmaları,1391316,3051,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Aile Çalışmaları,1399079,5302,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Aile Çalışmaları,1397307,4685,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Antropoloji,1392702,3392,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Antropoloji,1393781,3727,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Antropoloji,1350822,727,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Antropoloji,1393825,3741,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Antropoloji,1393818,3740,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Arkeoloji,1396886,4525,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Arkeoloji,1392445,3358,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Arkeoloji,1387357,2525,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Arkeoloji,1392346,3334,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Arkeoloji,1379918,1754,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Asya Çalışmaları,1338032,600,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Asya Çalışmaları,1311927,383,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Asya Çalışmaları,1311734,382,5,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Asya Çalışmaları,1307042,351,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Asya Çalışmaları,1293291,251,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Beslenme ve Diyetetik,1451287,6930,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Beslenme ve Diyetetik,1397975,4904,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Beslenme ve Diyetetik,1427799,6298,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Beslenme ve Diyetetik,1451290,6933,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Beslenme ve Diyetetik,1432725,6370,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Beşeri Bilimler,1369196,1170,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Beşeri Bilimler,1375810,1498,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Beşeri Bilimler,1375813,1500,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Beşeri Bilimler,1380606,1816,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Beşeri Bilimler,1375808,1497,3,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Bilgi, Belge Yönetimi",1374383,1417,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Bilgi, Belge Yönetimi",1374382,1416,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Bilgi, Belge Yönetimi",1374385,1418,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Bilgi, Belge Yönetimi",1374386,1419,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Bilgi, Belge Yönetimi",1374379,1413,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,1392354,3337,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,1395802,4222,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,1402380,5815,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,1385003,2247,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,1325327,490,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Coğrafya,1390507,2933,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Coğrafya,1394020,3824,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Coğrafya,1390685,2983,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Coğrafya,1293499,254,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Coğrafya,1368315,1135,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Davranış Bilimleri,1407151,6026,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Davranış Bilimleri,1407913,6044,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Davranış Bilimleri,1384888,2229,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Davranış Bilimleri,1390139,2856,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Davranış Bilimleri,1396088,4297,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Dil ve Dil Bilim,1399042,5280,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Dil ve Dil Bilim,1406346,5941,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Dil ve Dil Bilim,1398509,5074,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Dil ve Dil Bilim,1407153,6028,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Dil ve Dil Bilim,1407129,6008,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Din Bilimi,1399547,5468,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Din Bilimi,1399125,5326,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Din Bilimi,1399126,5327,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Din Bilimi,1399554,5472,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Din Bilimi,1399127,5328,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Edebi Teori ve Eleştiri,1396888,4527,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Edebi Teori ve Eleştiri,1406953,5971,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Edebi Teori ve Eleştiri,1379668,1743,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Edebi Teori ve Eleştiri,1394381,3903,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Edebi Teori ve Eleştiri,1396891,4530,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Edebiyat,1402382,5817,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Edebiyat,1399033,5274,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Edebiyat,1402393,5824,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Edebiyat,1402378,5814,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Edebiyat,1399029,5270,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Etik,1393994,3813,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etik,1407141,6020,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etik,1395551,4176,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etik,1399902,5577,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etik,1392087,3258,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etnik Çalışmalar,1375637,1482,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etnik Çalışmalar,1374566,1427,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etnik Çalışmalar,1393790,3734,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etnik Çalışmalar,1390487,2926,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Etnik Çalışmalar,1374932,1438,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",1450480,6886,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",1442501,6658,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",1447825,6784,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",1451181,6922,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",1447665,6781,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Eğitim, Özel",1390519,2936,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Eğitim, Özel",1391979,3219,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Eğitim, Özel",1422509,6156,2,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Eğitim, Özel",1396177,4345,3,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Eğitim, Özel",1390196,2871,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Felsefe,1370518,1235,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Felsefe,1395825,4227,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Felsefe,1385003,2247,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Felsefe,1395802,4222,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Felsefe,1375813,1500,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Sosyal > Sosyal > Film, Radyo, Televizyon",1443943,6680,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Film, Radyo, Televizyon",1398949,5219,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Film, Radyo, Televizyon",1397638,4771,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Film, Radyo, Televizyon",1384696,2212,1,REPRESENTATIVE_MIXED
+"Sosyal > Sosyal > Film, Radyo, Televizyon",1398616,5110,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Folklor,1438843,6543,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Folklor,1407130,6009,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Folklor,1438840,6542,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Folklor,1438839,6541,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Folklor,1438677,6528,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Halkla İlişkiler,1374173,1406,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Halkla İlişkiler,1397564,4742,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Halkla İlişkiler,1347588,684,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Halkla İlişkiler,1346907,681,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Halkla İlişkiler,1385160,2269,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hemşirelik,1398375,5029,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hemşirelik,1394206,3847,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hemşirelik,1394230,3863,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hemşirelik,1398367,5025,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hemşirelik,1392878,3424,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Hukuk,1436219,6470,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Hukuk,1414271,6071,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Hukuk,1407016,5998,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Hukuk,1407009,5991,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Hukuk,1425380,6239,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kadın Araştırmaları,1363576,952,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kadın Araştırmaları,1399020,5262,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kadın Araştırmaları,1374023,1391,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kadın Araştırmaları,1375681,1486,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kadın Araştırmaları,1450824,6900,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kamu Yönetimi,1452341,6959,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kamu Yönetimi,1402174,5795,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kamu Yönetimi,1396690,4481,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kamu Yönetimi,1396679,4474,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kamu Yönetimi,1399951,5602,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Kentsel Çalışmalar,1395083,4036,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kentsel Çalışmalar,1399939,5591,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kentsel Çalışmalar,1407149,6024,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kentsel Çalışmalar,1401303,5698,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kentsel Çalışmalar,1399709,5527,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,1407133,6012,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,1405695,5909,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,1399525,5449,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,1383131,2043,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,1397391,4711,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Kültürel Çalışmalar,1438735,6531,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kültürel Çalışmalar,1392702,3392,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kültürel Çalışmalar,1397572,4745,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kültürel Çalışmalar,1394370,3902,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Kültürel Çalışmalar,1399025,5267,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Madde Bağımlılığı,1401330,5705,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Madde Bağımlılığı,1396640,4471,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Madde Bağımlılığı,1381282,1885,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Madde Bağımlılığı,1439970,6601,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Madde Bağımlılığı,1381278,1884,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Mantık,1356180,823,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Mantık,1381900,1944,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Mantık,1366345,1036,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Mantık,1325597,492,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Mantık,1305331,341,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Müzik,1394842,4018,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Müzik,1394841,4017,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Müzik,1392461,3361,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Müzik,1394837,4016,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Müzik,1396912,4537,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,1383267,2057,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,1393326,3585,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,1396670,4473,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,1398988,5240,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,1383574,2101,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,1311734,382,5,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,1385411,2308,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,1379103,1718,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,1375886,1505,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,1373314,1360,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",1398540,5093,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",1436440,6483,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",1398538,5091,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",1397628,4762,1,REPRESENTATIVE_SINGLE_LABEL
+"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",1397619,4756,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Psikoloji,1435667,6441,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Psikoloji,1435577,6434,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Psikoloji,1443964,6694,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Psikoloji,1407151,6026,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Psikoloji,1402184,5800,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sanat,1443959,6689,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sanat,1398601,5103,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sanat,1398608,5106,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sanat,1399090,5309,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sanat,1443967,6696,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,1395410,4156,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,1394206,3847,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,1396725,4491,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,1386718,2444,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,1399197,5358,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Siyasi Bilimler,1436722,6498,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Siyasi Bilimler,1406993,5990,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Siyasi Bilimler,1389226,2747,4,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Siyasi Bilimler,1396735,4496,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Siyasi Bilimler,1448393,6804,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sosyal Çalışma,1405697,5911,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sosyal Çalışma,1450822,6899,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sosyal Çalışma,1450828,6904,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sosyal Çalışma,1405694,5908,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sosyal Çalışma,1403788,5867,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Sosyoloji,1407194,6029,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sosyoloji,1402048,5782,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sosyoloji,1406569,5959,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sosyoloji,1398616,5110,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Sosyoloji,1436786,6505,3,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Tarih,1402640,5850,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Tarih,1406537,5953,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Tarih,1409731,6061,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Tarih,1402602,5835,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Tarih,1402610,5840,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Tiyatro,1402386,5819,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Tiyatro,1366058,1018,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Tiyatro,1384697,2213,1,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Tiyatro,1399046,5284,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Tiyatro,1379100,1717,2,REPRESENTATIVE_MIXED
+Sosyal > Sosyal > Uluslararası İlişkiler,1405893,5919,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Uluslararası İlişkiler,1405888,5915,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Uluslararası İlişkiler,1405891,5917,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Uluslararası İlişkiler,1405892,5918,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Uluslararası İlişkiler,1399091,5310,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > Çevre Çalışmaları,1397870,4869,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Çevre Çalışmaları,1397875,4872,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Çevre Çalışmaları,1399050,5286,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Çevre Çalışmaları,1402158,5788,3,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > Çevre Çalışmaları,1399936,5588,2,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > İktisat,1407896,6043,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İktisat,1407921,6045,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İktisat,1407876,6041,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İktisat,1436766,6501,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İktisat,1436488,6489,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İletişim,1406973,5978,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İletişim,1443935,6672,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İletişim,1436146,6461,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İletişim,1443940,6677,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İletişim,1443950,6684,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İş,169862,6963,4,REPRESENTATIVE_MULTI_LABEL_ONLY
+Sosyal > Sosyal > İşletme,1407128,6007,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme,1436746,6499,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme,1436439,6482,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme,1407150,6025,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme,1436784,6504,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme Finans,1401292,5687,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme Finans,1399185,5351,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme Finans,1399187,5352,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme Finans,1397699,4812,1,REPRESENTATIVE_SINGLE_LABEL
+Sosyal > Sosyal > İşletme Finans,1448397,6808,1,REPRESENTATIVE_SINGLE_LABEL

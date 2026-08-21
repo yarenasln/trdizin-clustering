@@ -1,0 +1,196 @@
+﻿cluster_id,subject_fullname,centroid_shift
+0,Fen > Diş Hekimliği > Diş Hekimliği,0.49528733
+1,Fen > Eczacılık > Farmakoloji ve Eczacılık,0.53500885
+2,Fen > Eczacılık > Toksikoloji,0.4873655
+3,"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",0.58780986
+4,"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",0.5535467
+5,"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",0.60573363
+6,"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",0.5322178
+7,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",0.46784037
+8,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",0.5487285
+9,Fen > Mühendislik > Denizcilik,0.4505612
+10,Fen > Mühendislik > Endüstri Mühendisliği,0.536467
+11,Fen > Mühendislik > Enerji ve Yakıtlar,0.4162835
+12,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,0.65965974
+13,Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,0.536686
+14,Fen > Mühendislik > Hücre ve Doku Mühendisliği,0.49169788
+15,Fen > Mühendislik > Jeokimya ve Jeofizik,0.6770867
+16,Fen > Mühendislik > Jeoloji,0.6115472
+17,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,0.6199216
+18,"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",0.49871922
+19,"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",0.6112859
+20,"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",0.44891068
+21,"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",0.5202421
+22,"Fen > Mühendislik > Malzeme Bilimleri, Seramik",0.67654365
+23,"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",0.42025438
+24,"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",0.46176493
+25,Fen > Mühendislik > Metalürji Mühendisliği,0.4157627
+26,Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,0.4402555
+27,Fen > Mühendislik > Mimarlık,0.49594614
+28,"Fen > Mühendislik > Mühendislik, Biyotıp",0.5036457
+29,"Fen > Mühendislik > Mühendislik, Deniz",0.5239186
+30,"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",0.5265306
+31,"Fen > Mühendislik > Mühendislik, Hava ve Uzay",0.50611085
+32,"Fen > Mühendislik > Mühendislik, Jeoloji",0.3895862
+33,"Fen > Mühendislik > Mühendislik, Kimya",0.5164929
+34,"Fen > Mühendislik > Mühendislik, Makine",0.52928025
+35,"Fen > Mühendislik > Mühendislik, Petrol",0.5213159
+36,Fen > Mühendislik > Nanobilim ve Nanoteknoloji,0.47116318
+37,Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,0.61623484
+38,Fen > Mühendislik > Orman Mühendisliği,0.52612877
+39,Fen > Mühendislik > Polimer Bilimi,0.43464106
+40,Fen > Mühendislik > Robotik,0.48843312
+41,Fen > Mühendislik > Savunma Bilimleri,0.5528941
+42,Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,0.48677668
+43,Fen > Mühendislik > Telekomünikasyon,0.4889452
+44,"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",0.4303347
+45,Fen > Mühendislik > Çevre Mühendisliği,0.5157632
+46,Fen > Mühendislik > İmalat Mühendisliği,0.44439402
+47,Fen > Mühendislik > İnşaat Mühendisliği,0.5908041
+48,Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,0.52321357
+49,Fen > Temel Bilimler > Akustik,0.51046443
+50,Fen > Temel Bilimler > Astronomi ve Astrofizik,0.50748014
+51,Fen > Temel Bilimler > Balıkçılık,0.5879171
+52,Fen > Temel Bilimler > Biyoloji,0.4638609
+53,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,0.43302086
+54,Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,0.42712775
+55,Fen > Temel Bilimler > Ekoloji,0.6766336
+56,Fen > Temel Bilimler > Entomoloji,0.44722775
+57,"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",0.48029664
+58,"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",0.49045023
+59,"Fen > Temel Bilimler > Fizik, Katı Hal",0.5866345
+60,"Fen > Temel Bilimler > Fizik, Matematik",0.57472193
+61,"Fen > Temel Bilimler > Fizik, Nükleer",0.5795223
+62,"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",0.5914556
+63,"Fen > Temel Bilimler > Fizik, Uygulamalı",0.46764645
+64,Fen > Temel Bilimler > Fizikokimya,0.5528985
+65,Fen > Temel Bilimler > Genetik ve Kalıtım,0.5420096
+66,"Fen > Temel Bilimler > Kimya, Analitik",0.51992995
+67,"Fen > Temel Bilimler > Kimya, Organik",0.43300778
+68,"Fen > Temel Bilimler > Kimya, Tıbbi",0.49005255
+69,"Fen > Temel Bilimler > Kimya, Uygulamalı",0.56419575
+70,"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",0.45166177
+71,Fen > Temel Bilimler > Kuş Bilimi,0.5283419
+72,Fen > Temel Bilimler > Limnoloji,0.44121563
+73,Fen > Temel Bilimler > Mantar Bilimi,0.49813226
+74,Fen > Temel Bilimler > Matematik,0.572501
+75,Fen > Temel Bilimler > Mikroskopi,0.52177125
+76,Fen > Temel Bilimler > Mineraloji,0.43642512
+77,Fen > Temel Bilimler > Optik,0.6204149
+78,Fen > Temel Bilimler > Oşinografi,0.5025536
+79,Fen > Temel Bilimler > Paleontoloji,0.47016922
+80,Fen > Temel Bilimler > Parazitoloji,0.519387
+81,Fen > Temel Bilimler > Spektroskopi,0.6459064
+82,Fen > Temel Bilimler > Su Kaynakları,0.41698876
+83,Fen > Temel Bilimler > Termodinamik,0.5050432
+84,Fen > Temel Bilimler > Viroloji,0.5406001
+85,Fen > Temel Bilimler > Zooloji,0.5033722
+86,Fen > Temel Bilimler > Çevre Bilimleri,0.49841172
+87,Fen > Temel Bilimler > İstatistik ve Olasılık,0.5710296
+88,Fen > Tıp > Acil Tıp,0.5625973
+89,Fen > Tıp > Adli Tıp,0.6138006
+90,Fen > Tıp > Alerji,0.59711564
+91,Fen > Tıp > Anatomi ve Morfoloji,0.6310459
+92,Fen > Tıp > Androloji,0.5647942
+93,Fen > Tıp > Anestezi,0.5447862
+94,Fen > Tıp > Biyofizik,0.5417786
+95,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,0.62358737
+96,Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,0.5591356
+97,Fen > Tıp > Cerrahi,0.5229242
+98,Fen > Tıp > Dermatoloji,0.5261926
+99,Fen > Tıp > Endokrinoloji ve Metabolizma,0.5513938
+100,Fen > Tıp > Enfeksiyon Hastalıkları,0.49076495
+101,Fen > Tıp > Fizyoloji,0.58969027
+102,Fen > Tıp > Gastroenteroloji ve Hepatoloji,0.5486119
+103,Fen > Tıp > Genel ve Dahili Tıp,0.7375855
+104,Fen > Tıp > Geriatri ve Gerontoloji,0.4407926
+105,Fen > Tıp > Göz Hastalıkları,0.46061572
+106,Fen > Tıp > Halk ve Çevre Sağlığı,0.7797484
+107,Fen > Tıp > Hematoloji,0.6439349
+108,Fen > Tıp > Hücre Biyolojisi,0.5286786
+109,Fen > Tıp > Kadın Hastalıkları ve Doğum,0.5063686
+110,Fen > Tıp > Kalp ve Kalp Damar Sistemi,0.51370597
+111,Fen > Tıp > Klinik Nöroloji,0.5702331
+112,"Fen > Tıp > Kulak, Burun, Boğaz",0.5940233
+113,Fen > Tıp > Mikrobiyoloji,0.44028887
+114,Fen > Tıp > Nörolojik Bilimler,0.5819193
+115,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,0.5042831
+116,Fen > Tıp > Onkoloji,0.50916415
+117,Fen > Tıp > Ortopedi,0.4933175
+118,Fen > Tıp > Patoloji,0.57427895
+119,Fen > Tıp > Pediatri,0.4629193
+120,Fen > Tıp > Periferik Damar Hastalıkları,0.513368
+121,Fen > Tıp > Psikiyatri,0.542107
+122,"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",0.52449673
+123,Fen > Tıp > Rehabilitasyon,0.5702457
+124,Fen > Tıp > Romatoloji,0.5429131
+125,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,0.6536062
+126,Fen > Tıp > Solunum Sistemi,0.50625736
+127,Fen > Tıp > Spor Bilimleri,0.4980464
+128,Fen > Tıp > Tamamlayıcı ve Entegre Tıp,0.5914366
+129,Fen > Tıp > Temel Sağlık Hizmetleri,0.49546927
+130,Fen > Tıp > Transplantasyon,0.53554034
+131,Fen > Tıp > Tropik Tıp,0.50359994
+132,Fen > Tıp > Tıbbi Araştırmalar Deneysel,0.5398189
+133,Fen > Tıp > Tıbbi Etik,0.5968497
+134,Fen > Tıp > Tıbbi Laboratuar Teknolojisi,0.75906223
+135,Fen > Tıp > Tıbbi İnformatik,0.4923285
+136,"Fen > Tıp > Yoğun Bakım, Tıp",0.5530164
+137,Fen > Tıp > Üroloji ve Nefroloji,0.49229702
+138,Fen > Tıp > İmmünoloji,0.5357329
+139,Fen > Veterinerlik > Veterinerlik,0.728026
+140,Fen > Ziraat > Bahçe Bitkileri,0.51121646
+141,Fen > Ziraat > Bitki Bilimleri,0.82498944
+142,Fen > Ziraat > Tarımsal Ekonomi ve Politika,0.4334469
+143,Fen > Ziraat > Ziraat Mühendisliği,0.53719044
+144,"Fen > Ziraat > Ziraat, Toprak Bilimi",0.5335498
+145,Sosyal > Sosyal > Aile Çalışmaları,0.40379056
+146,Sosyal > Sosyal > Antropoloji,0.41941285
+147,Sosyal > Sosyal > Arkeoloji,0.5192012
+148,Sosyal > Sosyal > Asya Çalışmaları,0.5313729
+149,Sosyal > Sosyal > Beslenme ve Diyetetik,0.51262486
+150,Sosyal > Sosyal > Beşeri Bilimler,0.499646
+151,"Sosyal > Sosyal > Bilgi, Belge Yönetimi",0.75156206
+152,Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,0.5841742
+153,Sosyal > Sosyal > Coğrafya,0.45022357
+154,Sosyal > Sosyal > Davranış Bilimleri,0.52783954
+155,Sosyal > Sosyal > Dil ve Dil Bilim,0.48627594
+156,Sosyal > Sosyal > Din Bilimi,0.36306745
+157,Sosyal > Sosyal > Edebi Teori ve Eleştiri,0.54613537
+158,Sosyal > Sosyal > Edebiyat,0.37180665
+159,Sosyal > Sosyal > Etik,0.5259222
+160,Sosyal > Sosyal > Etnik Çalışmalar,0.49225086
+161,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",0.53744435
+162,"Sosyal > Sosyal > Eğitim, Özel",0.51162076
+163,Sosyal > Sosyal > Felsefe,0.49311215
+164,"Sosyal > Sosyal > Film, Radyo, Televizyon",0.4891283
+165,Sosyal > Sosyal > Folklor,0.5089881
+166,Sosyal > Sosyal > Halkla İlişkiler,0.45559558
+167,Sosyal > Sosyal > Hemşirelik,0.40653992
+168,Sosyal > Sosyal > Hukuk,0.49609348
+169,Sosyal > Sosyal > Kadın Araştırmaları,0.3995232
+170,Sosyal > Sosyal > Kamu Yönetimi,0.437368
+171,Sosyal > Sosyal > Kentsel Çalışmalar,0.43851453
+172,Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,0.5353458
+173,Sosyal > Sosyal > Kültürel Çalışmalar,0.40431935
+174,Sosyal > Sosyal > Madde Bağımlılığı,0.46747008
+175,Sosyal > Sosyal > Mantık,0.6084674
+176,Sosyal > Sosyal > Müzik,0.5091415
+177,Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,0.4987395
+178,Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,0.52005893
+179,"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",0.47797698
+180,Sosyal > Sosyal > Psikoloji,0.5059244
+181,Sosyal > Sosyal > Sanat,0.457199
+182,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,0.38547766
+183,Sosyal > Sosyal > Siyasi Bilimler,0.43936095
+184,Sosyal > Sosyal > Sosyal Çalışma,0.5954729
+185,Sosyal > Sosyal > Sosyoloji,0.59951866
+186,Sosyal > Sosyal > Tarih,0.46708688
+187,Sosyal > Sosyal > Tiyatro,0.5105674
+188,Sosyal > Sosyal > Uluslararası İlişkiler,0.4714804
+189,Sosyal > Sosyal > Çevre Çalışmaları,0.46474925
+190,Sosyal > Sosyal > İktisat,0.44132784
+191,Sosyal > Sosyal > İletişim,0.5068019
+192,Sosyal > Sosyal > İş,0.6200852
+193,Sosyal > Sosyal > İşletme,0.49293837
+194,Sosyal > Sosyal > İşletme Finans,0.5147209

@@ -1,0 +1,2 @@
+﻿Method,Seeds_Per_Subject,Reference_Articles,Test_Articles,Unique_Seed_Articles,Top1_Correct,Top1_Rate,Top3_Correct,Top3_Rate,Top5_Correct,Top5_Rate
+Fixed Centroid + Cosine,10,1393,5571,1210,2912,0.5227068748878119,4274,0.7671872195297074,4790,0.8598097289535093
