@@ -6,5 +6,6 @@ sentence-transformers
 psycopg2-binary
 sqlalchemy
 hdbscan
+umap-learn
 joblib
 requests
