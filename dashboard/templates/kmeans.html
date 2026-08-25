@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR Dizin • K-Means Konu Analizi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg px-4 py-2">
+    <a href="/" class="navbar-brand text-decoration-none">🔬 <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</a>
+    <div class="ms-auto d-flex align-items-center gap-3">
+        <span class="text-secondary small fw-medium">Algoritma:</span>
+        <select id="kmeansAlgoSelect" class="form-select form-select-sm" style="width: 140px;">
+            <option value="hdbscan">HDBSCAN</option>
+            <option value="kmeans" selected>K-Means</option>
+        </select>
+        <span class="badge bg-success" style="font-size:.8rem;">K-MEANS</span>
+    </div>
+</nav>
+
+<div class="container-fluid km-page px-3 px-lg-4 py-3">
+    <div class="km-hero card-custom p-4 mb-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="km-kicker">FINAL K-MEANS • ADAPTIVE V2</div>
+                <h3 class="fw-bold mb-1">Makale Konu Tahmin ve Eşleşme Analizi</h3>
+                <p class="mb-0 text-secondary">Makale başlığı, DOI, özet, gerçek TR Dizin konuları ve K-Means tahminlerini birlikte inceleyin.</p>
+            </div>
+            <span class="score-pill score-pill-info">Ortalama tahmin: <strong>{{ '%.2f'|format(summary.average_labels) }} konu</strong></span>
+        </div>
+    </div>
+
+    <div class="row g-2 mb-3">
+        <div class="col-6 col-xl-3"><div class="stat-card km-stat"><small>Micro F1</small><h4>%{{ '%.2f'|format(summary.micro_f1*100) }}</h4><span>Precision–Recall dengesi</span></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card km-stat"><small>Precision</small><h4>%{{ '%.2f'|format(summary.micro_precision*100) }}</h4><span>Tahminlerin doğruluğu</span></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card km-stat"><small>Recall</small><h4>%{{ '%.2f'|format(summary.micro_recall*100) }}</h4><span>Gerçek konuları yakalama</span></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card km-stat"><small>En az 1 doğru konu</small><h4>%{{ '%.2f'|format(summary.at_least_one*100) }}</h4><span>Makale bazında</span></div></div>
+    </div>
+
+    <!-- K-MEANS UMAP -->
+    <div class="card card-custom p-3 mb-3 km-umap-card">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <div>
+                <div class="km-kicker">KÜME GÖRSELLEŞTİRMESİ</div>
+                <h5 class="fw-bold mb-1">K-Means 2D Konu Kümeleme Uzayı (UMAP)</h5>
+                <p class="mb-0 text-secondary small">Final testteki 2786 makalenin gerçek embeddingleri 2 boyuta indirgenmiştir. Her nokta bir makaledir.</p>
+            </div>
+            <span class="badge badge-low">2786 makale</span>
+        </div>
+        <iframe
+            src="/kmeans/umap"
+            class="km-umap-frame"
+            title="K-Means 2D Konu Kümeleme Uzayı">
+        </iframe>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-xl-5">
+            <div class="card card-custom p-3 km-browser">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div><h6 class="fw-bold mb-0">Makale Havuzu</h6><small id="kmCountText" class="text-secondary">Yükleniyor...</small></div>
+                    <span class="badge badge-low">Maks. 500 gösterim</span>
+                </div>
+
+                <div class="input-group input-group-sm mb-2">
+                    <input id="kmSearch" class="form-control" placeholder="Başlık, ID, DOI veya konu ara...">
+                    <button id="kmSearchBtn" class="btn btn-dark">Ara</button>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-12">
+                        <label class="form-label small text-secondary fw-semibold mb-1">Eşleşme Filtresi</label>
+                        <select id="kmMatchFilter" class="form-select form-select-sm">
+                            <option value="ALL">Tüm makaleler</option>
+                            <option value="ZERO">0 konu eşleşti</option>
+                            <option value="ONE">1 konu eşleşti</option>
+                            <option value="TWO">2 konu eşleşti</option>
+                            <option value="THREE_PLUS">3+ konu eşleşti</option>
+                            <option value="WRONG_ANY">En az 1 eşleşmeyen tahmin var</option>
+                            <option value="WRONG_NONE">Eşleşmeyen tahmin yok</option>
+                            <option value="RATE_50_99">%50–99 gerçek konu yakalandı</option>
+                            <option value="RATE_100">%100 gerçek konu yakalandı</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small text-secondary fw-semibold mb-1">Tahmin Sayısı</label>
+                        <select id="kmPredCount" class="form-select form-select-sm">
+                            <option value="ALL">Tümü</option>
+                            <option value="1">1 konu</option>
+                            <option value="2">2 konu</option>
+                            <option value="3">3 konu</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small text-secondary fw-semibold mb-1">Sıralama</label>
+                        <select id="kmSort" class="form-select form-select-sm">
+                            <option value="match_desc">Eşleşme yüksek → düşük</option>
+                            <option value="match_asc">Eşleşme düşük → yüksek</option>
+                            <option value="f1_desc">F1 yüksek → düşük</option>
+                            <option value="f1_asc">F1 düşük → yüksek</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="kmArticleList" class="km-article-list"></div>
+            </div>
+        </div>
+
+        <div class="col-xl-7">
+            <div id="kmDetail" class="card card-custom p-4 km-detail">
+                <div class="km-empty text-center text-secondary">
+                    <div class="km-empty-icon">📄</div>
+                    <h5 class="fw-bold text-dark">Bir makale seçin</h5>
+                    <p>Soldaki listeden makaleye tıkladığınızda tüm bilgiler burada açılır.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/kmeans.js') }}"></script>
+</body>
+</html>
