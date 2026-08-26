@@ -1,196 +1,196 @@
 ﻿Cluster_ID,Cluster_Size,Old_Subject,New_Subject,Changed,Dominant_Count
-0,3,Fen > Diş Hekimliği > Diş Hekimliği,Fen > Diş Hekimliği > Diş Hekimliği,False,2
-1,7,Fen > Eczacılık > Farmakoloji ve Eczacılık,Fen > Eczacılık > Farmakoloji ve Eczacılık,False,4
-2,1,Fen > Eczacılık > Toksikoloji,Fen > Tıp > Genel ve Dahili Tıp,True,1
-3,1,"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri","Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",False,1
-4,10,"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari","Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari",False,2
-5,2,"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik","Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik",False,2
-6,6,"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar",Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,True,1
-7,14,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",Fen > Tıp > Onkoloji,True,2
-8,1,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği","Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",True,1
-9,3,Fen > Mühendislik > Denizcilik,Fen > Mühendislik > Denizcilik,False,3
-10,3,Fen > Mühendislik > Endüstri Mühendisliği,Fen > Mühendislik > Endüstri Mühendisliği,False,3
-11,9,Fen > Mühendislik > Enerji ve Yakıtlar,"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",True,1
-12,5,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,False,3
-13,1,Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,False,1
-14,9,Fen > Mühendislik > Hücre ve Doku Mühendisliği,Fen > Mühendislik > Hücre ve Doku Mühendisliği,False,2
-15,15,Fen > Mühendislik > Jeokimya ve Jeofizik,Fen > Mühendislik > Jeokimya ve Jeofizik,False,3
-16,11,Fen > Mühendislik > Jeoloji,Fen > Mühendislik > Jeoloji,False,2
-17,7,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,Fen > Tıp > Pediatri,True,3
-18,3,"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler","Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",False,2
-19,14,"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",Fen > Mühendislik > İnşaat Mühendisliği,True,2
-20,12,"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler","Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",False,2
-21,19,"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap","Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",False,4
-22,4,"Fen > Mühendislik > Malzeme Bilimleri, Seramik","Fen > Mühendislik > Malzeme Bilimleri, Seramik",False,3
-23,8,"Fen > Mühendislik > Malzeme Bilimleri, Tekstil",Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,True,3
-24,5,"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test","Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",False,3
-25,2,Fen > Mühendislik > Metalürji Mühendisliği,"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",True,2
-26,3,Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,False,3
-27,5,Fen > Mühendislik > Mimarlık,Fen > Mühendislik > Mimarlık,False,3
-28,8,"Fen > Mühendislik > Mühendislik, Biyotıp",Fen > Diş Hekimliği > Diş Hekimliği,True,2
-29,2,"Fen > Mühendislik > Mühendislik, Deniz","Fen > Mühendislik > Mühendislik, Deniz",False,2
-30,3,"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik","Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",False,2
-31,10,"Fen > Mühendislik > Mühendislik, Hava ve Uzay","Fen > Mühendislik > Mühendislik, Hava ve Uzay",False,4
-32,4,"Fen > Mühendislik > Mühendislik, Jeoloji","Fen > Mühendislik > Mühendislik, Jeoloji",False,2
-33,10,"Fen > Mühendislik > Mühendislik, Kimya","Fen > Mühendislik > Mühendislik, Kimya",False,3
-34,4,"Fen > Mühendislik > Mühendislik, Makine","Fen > Mühendislik > Mühendislik, Makine",False,3
-35,3,"Fen > Mühendislik > Mühendislik, Petrol","Fen > Mühendislik > Mühendislik, Kimya",True,2
-36,9,Fen > Mühendislik > Nanobilim ve Nanoteknoloji,Fen > Mühendislik > Nanobilim ve Nanoteknoloji,False,3
-37,2,Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,False,1
-38,4,Fen > Mühendislik > Orman Mühendisliği,Fen > Mühendislik > Orman Mühendisliği,False,2
-39,1,Fen > Mühendislik > Polimer Bilimi,Fen > Mühendislik > Metalürji Mühendisliği,True,1
-40,6,Fen > Mühendislik > Robotik,Fen > Mühendislik > Robotik,False,2
-41,7,Fen > Mühendislik > Savunma Bilimleri,Fen > Mühendislik > Savunma Bilimleri,False,2
-42,3,Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,2
-43,3,Fen > Mühendislik > Telekomünikasyon,Fen > Mühendislik > Telekomünikasyon,False,2
-44,2,"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji","Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",False,2
-45,5,Fen > Mühendislik > Çevre Mühendisliği,Fen > Mühendislik > Çevre Mühendisliği,False,4
-46,3,Fen > Mühendislik > İmalat Mühendisliği,"Fen > Mühendislik > Mühendislik, Makine",True,3
-47,10,Fen > Mühendislik > İnşaat Mühendisliği,Fen > Tıp > Androloji,True,2
-48,15,Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,Fen > Tıp > Acil Tıp,True,2
-49,3,Fen > Temel Bilimler > Akustik,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,True,2
-50,8,Fen > Temel Bilimler > Astronomi ve Astrofizik,Fen > Temel Bilimler > Astronomi ve Astrofizik,False,3
-51,6,Fen > Temel Bilimler > Balıkçılık,Fen > Eczacılık > Toksikoloji,True,1
-52,6,Fen > Temel Bilimler > Biyoloji,Fen > Temel Bilimler > Biyoloji,False,3
-53,2,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,False,2
-54,3,Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,1
-55,10,Fen > Temel Bilimler > Ekoloji,Fen > Temel Bilimler > Ekoloji,False,3
-56,2,Fen > Temel Bilimler > Entomoloji,Fen > Temel Bilimler > Entomoloji,False,2
-57,8,"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma","Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",True,1
-58,11,"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya","Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",False,2
-59,18,"Fen > Temel Bilimler > Fizik, Katı Hal","Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",True,4
-60,9,"Fen > Temel Bilimler > Fizik, Matematik","Fen > Temel Bilimler > Fizik, Matematik",False,4
-61,4,"Fen > Temel Bilimler > Fizik, Nükleer","Fen > Temel Bilimler > Fizik, Nükleer",False,2
-62,7,"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar","Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",False,2
-63,1,"Fen > Temel Bilimler > Fizik, Uygulamalı","Fen > Temel Bilimler > Fizik, Uygulamalı",False,1
-64,27,Fen > Temel Bilimler > Fizikokimya,Fen > Temel Bilimler > Çevre Bilimleri,True,3
-65,17,Fen > Temel Bilimler > Genetik ve Kalıtım,Fen > Mühendislik > İnşaat Mühendisliği,True,2
-66,4,"Fen > Temel Bilimler > Kimya, Analitik","Fen > Temel Bilimler > Kimya, Analitik",False,2
-67,3,"Fen > Temel Bilimler > Kimya, Organik","Fen > Temel Bilimler > Kimya, Organik",False,2
-68,4,"Fen > Temel Bilimler > Kimya, Tıbbi","Fen > Temel Bilimler > Kimya, Tıbbi",False,3
-69,8,"Fen > Temel Bilimler > Kimya, Uygulamalı","Fen > Temel Bilimler > Kimya, Uygulamalı",False,2
-70,14,"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",Fen > Temel Bilimler > İstatistik ve Olasılık,True,2
-71,3,Fen > Temel Bilimler > Kuş Bilimi,Fen > Temel Bilimler > Kuş Bilimi,False,3
-72,2,Fen > Temel Bilimler > Limnoloji,Fen > Temel Bilimler > Çevre Bilimleri,True,2
-73,7,Fen > Temel Bilimler > Mantar Bilimi,Fen > Temel Bilimler > Mantar Bilimi,False,3
-74,3,Fen > Temel Bilimler > Matematik,Fen > Temel Bilimler > Matematik,False,3
-75,6,Fen > Temel Bilimler > Mikroskopi,Fen > Temel Bilimler > Mikroskopi,False,3
-76,5,Fen > Temel Bilimler > Mineraloji,Fen > Temel Bilimler > Mineraloji,False,4
-77,3,Fen > Temel Bilimler > Optik,Fen > Temel Bilimler > Optik,False,2
-78,22,Fen > Temel Bilimler > Oşinografi,Fen > Temel Bilimler > Çevre Bilimleri,True,3
-79,5,Fen > Temel Bilimler > Paleontoloji,Fen > Eczacılık > Farmakoloji ve Eczacılık,True,2
-80,13,Fen > Temel Bilimler > Parazitoloji,Fen > Temel Bilimler > Parazitoloji,False,2
-81,13,Fen > Temel Bilimler > Spektroskopi,Fen > Temel Bilimler > Spektroskopi,False,5
-82,1,Fen > Temel Bilimler > Su Kaynakları,Fen > Temel Bilimler > Entomoloji,True,1
-83,7,Fen > Temel Bilimler > Termodinamik,Fen > Temel Bilimler > Termodinamik,False,2
-84,2,Fen > Temel Bilimler > Viroloji,Fen > Temel Bilimler > Viroloji,False,2
-85,14,Fen > Temel Bilimler > Zooloji,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,4
-86,14,Fen > Temel Bilimler > Çevre Bilimleri,Fen > Temel Bilimler > Çevre Bilimleri,False,3
-87,13,Fen > Temel Bilimler > İstatistik ve Olasılık,Fen > Temel Bilimler > İstatistik ve Olasılık,False,3
-88,4,Fen > Tıp > Acil Tıp,Fen > Tıp > Acil Tıp,False,3
-89,4,Fen > Tıp > Adli Tıp,Fen > Tıp > Adli Tıp,False,4
-90,1,Fen > Tıp > Alerji,Fen > Tıp > Alerji,False,0
-91,20,Fen > Tıp > Anatomi ve Morfoloji,Fen > Tıp > Anatomi ve Morfoloji,False,3
-92,8,Fen > Tıp > Androloji,Fen > Tıp > Androloji,False,3
-93,5,Fen > Tıp > Anestezi,"Fen > Temel Bilimler > Fizik, Katı Hal",True,1
-94,11,Fen > Tıp > Biyofizik,Fen > Tıp > Biyofizik,False,3
-95,12,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,False,3
-96,4,Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,False,4
-97,7,Fen > Tıp > Cerrahi,Fen > Tıp > Cerrahi,False,2
-98,7,Fen > Tıp > Dermatoloji,Fen > Tıp > Dermatoloji,False,2
-99,30,Fen > Tıp > Endokrinoloji ve Metabolizma,Sosyal > Sosyal > Hukuk,True,3
-100,13,Fen > Tıp > Enfeksiyon Hastalıkları,Fen > Tıp > Enfeksiyon Hastalıkları,False,3
-101,2,Fen > Tıp > Fizyoloji,Fen > Tıp > Fizyoloji,False,2
-102,1,Fen > Tıp > Gastroenteroloji ve Hepatoloji,Fen > Tıp > Cerrahi,True,1
-103,3,Fen > Tıp > Genel ve Dahili Tıp,Fen > Tıp > Genel ve Dahili Tıp,False,2
-104,4,Fen > Tıp > Geriatri ve Gerontoloji,Fen > Tıp > Geriatri ve Gerontoloji,False,3
-105,7,Fen > Tıp > Göz Hastalıkları,Fen > Tıp > Göz Hastalıkları,False,2
-106,5,Fen > Tıp > Halk ve Çevre Sağlığı,Fen > Tıp > Halk ve Çevre Sağlığı,False,2
-107,5,Fen > Tıp > Hematoloji,Fen > Tıp > Onkoloji,True,2
-108,2,Fen > Tıp > Hücre Biyolojisi,Fen > Tıp > Hücre Biyolojisi,False,2
-109,20,Fen > Tıp > Kadın Hastalıkları ve Doğum,Fen > Tıp > Kadın Hastalıkları ve Doğum,False,3
-110,11,Fen > Tıp > Kalp ve Kalp Damar Sistemi,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,2
-111,9,Fen > Tıp > Klinik Nöroloji,Fen > Temel Bilimler > Çevre Bilimleri,True,2
-112,2,"Fen > Tıp > Kulak, Burun, Boğaz","Fen > Tıp > Kulak, Burun, Boğaz",False,2
-113,10,Fen > Tıp > Mikrobiyoloji,Fen > Tıp > Mikrobiyoloji,False,3
-114,12,Fen > Tıp > Nörolojik Bilimler,Fen > Veterinerlik > Veterinerlik,True,3
-115,6,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,False,2
-116,4,Fen > Tıp > Onkoloji,Fen > Tıp > Onkoloji,False,2
-117,5,Fen > Tıp > Ortopedi,Fen > Tıp > Ortopedi,False,3
-118,8,Fen > Tıp > Patoloji,Fen > Tıp > Patoloji,False,2
-119,16,Fen > Tıp > Pediatri,Fen > Tıp > Pediatri,False,4
-120,9,Fen > Tıp > Periferik Damar Hastalıkları,Fen > Tıp > Periferik Damar Hastalıkları,False,3
-121,9,Fen > Tıp > Psikiyatri,Fen > Tıp > Psikiyatri,False,2
-122,5,"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme","Sosyal > Sosyal > Eğitim, Özel",True,1
-123,3,Fen > Tıp > Rehabilitasyon,Fen > Tıp > Rehabilitasyon,False,2
-124,2,Fen > Tıp > Romatoloji,Fen > Tıp > Romatoloji,False,2
-125,1,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,False,1
-126,4,Fen > Tıp > Solunum Sistemi,Fen > Tıp > Acil Tıp,True,2
-127,11,Fen > Tıp > Spor Bilimleri,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,True,2
-128,4,Fen > Tıp > Tamamlayıcı ve Entegre Tıp,Fen > Tıp > Temel Sağlık Hizmetleri,True,1
-129,3,Fen > Tıp > Temel Sağlık Hizmetleri,Fen > Tıp > Temel Sağlık Hizmetleri,False,1
-130,2,Fen > Tıp > Transplantasyon,Fen > Tıp > Transplantasyon,False,2
-131,4,Fen > Tıp > Tropik Tıp,Fen > Tıp > Tropik Tıp,False,3
-132,15,Fen > Tıp > Tıbbi Araştırmalar Deneysel,Fen > Tıp > Tıbbi Araştırmalar Deneysel,False,5
-133,20,Fen > Tıp > Tıbbi Etik,Fen > Tıp > Tıbbi Etik,False,3
-134,7,Fen > Tıp > Tıbbi Laboratuar Teknolojisi,Fen > Tıp > Tıbbi Laboratuar Teknolojisi,False,2
-135,8,Fen > Tıp > Tıbbi İnformatik,Fen > Tıp > Tıbbi Etik,True,1
-136,3,"Fen > Tıp > Yoğun Bakım, Tıp","Fen > Tıp > Yoğun Bakım, Tıp",False,3
-137,19,Fen > Tıp > Üroloji ve Nefroloji,Fen > Tıp > Üroloji ve Nefroloji,False,3
-138,1,Fen > Tıp > İmmünoloji,Fen > Tıp > Endokrinoloji ve Metabolizma,True,1
-139,2,Fen > Veterinerlik > Veterinerlik,Fen > Mühendislik > Enerji ve Yakıtlar,True,1
-140,9,Fen > Ziraat > Bahçe Bitkileri,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,2
-141,5,Fen > Ziraat > Bitki Bilimleri,Fen > Ziraat > Bitki Bilimleri,False,2
-142,21,Fen > Ziraat > Tarımsal Ekonomi ve Politika,Fen > Ziraat > Tarımsal Ekonomi ve Politika,False,4
-143,6,Fen > Ziraat > Ziraat Mühendisliği,Fen > Ziraat > Ziraat Mühendisliği,False,2
-144,7,"Fen > Ziraat > Ziraat, Toprak Bilimi","Fen > Ziraat > Ziraat, Toprak Bilimi",False,4
-145,5,Sosyal > Sosyal > Aile Çalışmaları,Sosyal > Sosyal > Aile Çalışmaları,False,3
-146,2,Sosyal > Sosyal > Antropoloji,Sosyal > Sosyal > Antropoloji,False,2
-147,15,Sosyal > Sosyal > Arkeoloji,"Fen > Temel Bilimler > Fizik, Matematik",True,2
-148,7,Sosyal > Sosyal > Asya Çalışmaları,Sosyal > Sosyal > Asya Çalışmaları,False,3
-149,27,Sosyal > Sosyal > Beslenme ve Diyetetik,Fen > Tıp > Pediatri,True,3
-150,1,Sosyal > Sosyal > Beşeri Bilimler,Sosyal > Sosyal > Arkeoloji,True,1
-151,4,"Sosyal > Sosyal > Bilgi, Belge Yönetimi","Sosyal > Sosyal > Bilgi, Belge Yönetimi",False,4
-152,15,Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,Sosyal > Sosyal > Tarih,True,3
-153,14,Sosyal > Sosyal > Coğrafya,Sosyal > Sosyal > Coğrafya,False,3
-154,26,Sosyal > Sosyal > Davranış Bilimleri,Fen > Mühendislik > İnşaat Mühendisliği,True,3
-155,7,Sosyal > Sosyal > Dil ve Dil Bilim,Sosyal > Sosyal > Felsefe,True,2
-156,5,Sosyal > Sosyal > Din Bilimi,Sosyal > Sosyal > Din Bilimi,False,4
-157,10,Sosyal > Sosyal > Edebi Teori ve Eleştiri,Fen > Temel Bilimler > Çevre Bilimleri,True,3
-158,15,Sosyal > Sosyal > Edebiyat,Sosyal > Sosyal > Edebiyat,False,4
-159,12,Sosyal > Sosyal > Etik,Sosyal > Sosyal > Hemşirelik,True,2
-160,4,Sosyal > Sosyal > Etnik Çalışmalar,Sosyal > Sosyal > Etnik Çalışmalar,False,2
-161,1,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları","Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",False,1
-162,2,"Sosyal > Sosyal > Eğitim, Özel","Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",True,1
-163,13,Sosyal > Sosyal > Felsefe,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,3
-164,5,"Sosyal > Sosyal > Film, Radyo, Televizyon",Fen > Mühendislik > Mimarlık,True,2
-165,3,Sosyal > Sosyal > Folklor,Sosyal > Sosyal > Folklor,False,1
-166,4,Sosyal > Sosyal > Halkla İlişkiler,Sosyal > Sosyal > Halkla İlişkiler,False,3
-167,7,Sosyal > Sosyal > Hemşirelik,Sosyal > Sosyal > Hemşirelik,False,2
-168,3,Sosyal > Sosyal > Hukuk,Sosyal > Sosyal > Etik,True,1
-169,3,Sosyal > Sosyal > Kadın Araştırmaları,Sosyal > Sosyal > Kadın Araştırmaları,False,2
-170,4,Sosyal > Sosyal > Kamu Yönetimi,Sosyal > Sosyal > Kamu Yönetimi,False,2
-171,4,Sosyal > Sosyal > Kentsel Çalışmalar,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,2
-172,2,Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,False,2
-173,3,Sosyal > Sosyal > Kültürel Çalışmalar,Sosyal > Sosyal > Kültürel Çalışmalar,False,2
-174,3,Sosyal > Sosyal > Madde Bağımlılığı,Fen > Temel Bilimler > Zooloji,True,2
-175,1,Sosyal > Sosyal > Mantık,Sosyal > Sosyal > Din Bilimi,True,1
-176,4,Sosyal > Sosyal > Müzik,Sosyal > Sosyal > Müzik,False,2
-177,10,Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,Fen > Tıp > Pediatri,True,2
-178,8,Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,False,2
-179,2,"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm","Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",False,2
-180,2,Sosyal > Sosyal > Psikoloji,Sosyal > Sosyal > Psikoloji,False,2
-181,4,Sosyal > Sosyal > Sanat,Sosyal > Sosyal > Sanat,False,2
-182,11,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,False,2
-183,12,Sosyal > Sosyal > Siyasi Bilimler,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,True,3
-184,4,Sosyal > Sosyal > Sosyal Çalışma,Sosyal > Sosyal > Sosyal Çalışma,False,3
-185,7,Sosyal > Sosyal > Sosyoloji,Sosyal > Sosyal > Sosyoloji,False,4
-186,5,Sosyal > Sosyal > Tarih,Sosyal > Sosyal > Tarih,False,3
-187,9,Sosyal > Sosyal > Tiyatro,Fen > Tıp > Endokrinoloji ve Metabolizma,True,2
-188,2,Sosyal > Sosyal > Uluslararası İlişkiler,Sosyal > Sosyal > Uluslararası İlişkiler,False,2
-189,16,Sosyal > Sosyal > Çevre Çalışmaları,Sosyal > Sosyal > Çevre Çalışmaları,False,4
-190,13,Sosyal > Sosyal > İktisat,Sosyal > Sosyal > Tarih,True,2
-191,3,Sosyal > Sosyal > İletişim,Sosyal > Sosyal > İletişim,False,2
+0,29,Fen > Diş Hekimliği > Diş Hekimliği,Fen > Diş Hekimliği > Diş Hekimliği,False,25
+1,10,Fen > Eczacılık > Farmakoloji ve Eczacılık,Fen > Eczacılık > Farmakoloji ve Eczacılık,False,7
+2,34,Fen > Eczacılık > Toksikoloji,Fen > Eczacılık > Toksikoloji,False,16
+3,21,"Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri","Fen > Mühendislik > Bilgisayar Bilimleri, Bilgi Sistemleri",False,6
+4,25,"Fen > Mühendislik > Bilgisayar Bilimleri, Donanım ve Mimari","Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",True,9
+5,25,"Fen > Mühendislik > Bilgisayar Bilimleri, Sibernitik","Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,12
+6,21,"Fen > Mühendislik > Bilgisayar Bilimleri, Teori ve Metotlar","Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",True,11
+7,30,"Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka","Fen > Mühendislik > Bilgisayar Bilimleri, Yapay Zeka",False,24
+8,12,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği","Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",False,5
+9,18,Fen > Mühendislik > Denizcilik,Fen > Mühendislik > Denizcilik,False,13
+10,26,Fen > Mühendislik > Endüstri Mühendisliği,Fen > Mühendislik > Endüstri Mühendisliği,False,13
+11,23,Fen > Mühendislik > Enerji ve Yakıtlar,Fen > Mühendislik > Enerji ve Yakıtlar,False,18
+12,24,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,False,13
+13,35,Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,Fen > Mühendislik > Gıda Bilimi ve Teknolojisi,False,24
+14,22,Fen > Mühendislik > Hücre ve Doku Mühendisliği,Fen > Mühendislik > Hücre ve Doku Mühendisliği,False,11
+15,32,Fen > Mühendislik > Jeokimya ve Jeofizik,Fen > Mühendislik > İnşaat Mühendisliği,True,7
+16,21,Fen > Mühendislik > Jeoloji,"Fen > Mühendislik > Mühendislik, Jeoloji",True,10
+17,15,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,False,6
+18,9,"Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler","Fen > Mühendislik > Malzeme Bilimleri, Biyomalzemeler",False,7
+19,16,"Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler","Fen > Mühendislik > Malzeme Bilimleri, Kaplamalar ve Filmler",False,4
+20,29,"Fen > Mühendislik > Malzeme Bilimleri, Kompozitler","Fen > Mühendislik > Malzeme Bilimleri, Kompozitler",False,13
+21,16,"Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap","Fen > Mühendislik > Malzeme Bilimleri, Kâğıt ve Ahşap",False,12
+22,8,"Fen > Mühendislik > Malzeme Bilimleri, Seramik","Fen > Mühendislik > Malzeme Bilimleri, Seramik",False,6
+23,9,"Fen > Mühendislik > Malzeme Bilimleri, Tekstil","Fen > Mühendislik > Malzeme Bilimleri, Tekstil",False,8
+24,15,"Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test","Fen > Mühendislik > Malzeme Bilimleri, Özellik ve Test",False,8
+25,20,Fen > Mühendislik > Metalürji Mühendisliği,Fen > Mühendislik > Metalürji Mühendisliği,False,9
+26,21,Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,Fen > Mühendislik > Meteoroloji ve Atmosferik Bilimler,False,12
+27,24,Fen > Mühendislik > Mimarlık,Fen > Mühendislik > Mimarlık,False,22
+28,13,"Fen > Mühendislik > Mühendislik, Biyotıp","Fen > Mühendislik > Mühendislik, Biyotıp",False,7
+29,17,"Fen > Mühendislik > Mühendislik, Deniz","Fen > Mühendislik > Mühendislik, Deniz",False,10
+30,26,"Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik","Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",False,18
+31,30,"Fen > Mühendislik > Mühendislik, Hava ve Uzay","Fen > Mühendislik > Mühendislik, Hava ve Uzay",False,13
+32,12,"Fen > Mühendislik > Mühendislik, Jeoloji","Fen > Mühendislik > Mühendislik, Jeoloji",False,6
+33,24,"Fen > Mühendislik > Mühendislik, Kimya","Fen > Mühendislik > Mühendislik, Kimya",False,6
+34,10,"Fen > Mühendislik > Mühendislik, Makine","Fen > Mühendislik > Mühendislik, Makine",False,6
+35,13,"Fen > Mühendislik > Mühendislik, Petrol","Fen > Mühendislik > Mühendislik, Petrol",False,12
+36,23,Fen > Mühendislik > Nanobilim ve Nanoteknoloji,Fen > Mühendislik > Nanobilim ve Nanoteknoloji,False,17
+37,15,Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,Fen > Mühendislik > Nükleer Bilim ve Teknolojisi,False,7
+38,23,Fen > Mühendislik > Orman Mühendisliği,Fen > Mühendislik > Orman Mühendisliği,False,18
+39,21,Fen > Mühendislik > Polimer Bilimi,"Fen > Mühendislik > Mühendislik, Makine",True,9
+40,21,Fen > Mühendislik > Robotik,Fen > Mühendislik > Robotik,False,18
+41,14,Fen > Mühendislik > Savunma Bilimleri,Fen > Mühendislik > Savunma Bilimleri,False,13
+42,22,Fen > Mühendislik > Taşınım Bilimi ve Teknolojisi,Sosyal > Sosyal > İktisat,True,8
+43,23,Fen > Mühendislik > Telekomünikasyon,Fen > Mühendislik > Telekomünikasyon,False,17
+44,25,"Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji","Fen > Mühendislik > Yeşil, Sürdürülebilir Bilim ve Teknoloji",False,15
+45,26,Fen > Mühendislik > Çevre Mühendisliği,Fen > Mühendislik > Çevre Mühendisliği,False,12
+46,12,Fen > Mühendislik > İmalat Mühendisliği,Fen > Mühendislik > İmalat Mühendisliği,False,6
+47,22,Fen > Mühendislik > İnşaat Mühendisliği,Fen > Mühendislik > İnşaat Mühendisliği,False,18
+48,18,Fen > Mühendislik > İnşaat ve Yapı Teknolojisi,Fen > Mühendislik > İnşaat Mühendisliği,True,8
+49,20,Fen > Temel Bilimler > Akustik,Fen > Temel Bilimler > Akustik,False,15
+50,12,Fen > Temel Bilimler > Astronomi ve Astrofizik,Fen > Temel Bilimler > Astronomi ve Astrofizik,False,9
+51,21,Fen > Temel Bilimler > Balıkçılık,Fen > Temel Bilimler > Balıkçılık,False,19
+52,38,Fen > Temel Bilimler > Biyoloji,Fen > Temel Bilimler > Biyoloji,False,21
+53,18,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,False,10
+54,15,Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,False,10
+55,18,Fen > Temel Bilimler > Ekoloji,Fen > Temel Bilimler > Ekoloji,False,11
+56,24,Fen > Temel Bilimler > Entomoloji,Fen > Temel Bilimler > Entomoloji,False,16
+57,15,"Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma","Fen > Temel Bilimler > Fizik, Akışkanlar ve Plazma",False,9
+58,22,"Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya","Fen > Temel Bilimler > Fizik, Atomik ve Moleküler Kimya",False,7
+59,16,"Fen > Temel Bilimler > Fizik, Katı Hal","Fen > Temel Bilimler > Fizik, Katı Hal",False,5
+60,24,"Fen > Temel Bilimler > Fizik, Matematik","Fen > Temel Bilimler > Fizik, Matematik",False,11
+61,25,"Fen > Temel Bilimler > Fizik, Nükleer","Fen > Temel Bilimler > Fizik, Nükleer",False,15
+62,15,"Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar","Fen > Temel Bilimler > Fizik, Partiküller ve Alanlar",False,9
+63,10,"Fen > Temel Bilimler > Fizik, Uygulamalı","Fen > Mühendislik > Mühendislik, Elektrik ve Elektronik",True,5
+64,26,Fen > Temel Bilimler > Fizikokimya,Fen > Temel Bilimler > Termodinamik,True,11
+65,10,Fen > Temel Bilimler > Genetik ve Kalıtım,Fen > Temel Bilimler > Genetik ve Kalıtım,False,6
+66,20,"Fen > Temel Bilimler > Kimya, Analitik","Fen > Temel Bilimler > Kimya, Analitik",False,8
+67,20,"Fen > Temel Bilimler > Kimya, Organik","Fen > Temel Bilimler > Kimya, Organik",False,17
+68,23,"Fen > Temel Bilimler > Kimya, Tıbbi","Fen > Temel Bilimler > Kimya, Tıbbi",False,10
+69,18,"Fen > Temel Bilimler > Kimya, Uygulamalı","Fen > Temel Bilimler > Kimya, Uygulamalı",False,8
+70,29,"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",Fen > Mühendislik > Nanobilim ve Nanoteknoloji,True,10
+71,30,Fen > Temel Bilimler > Kuş Bilimi,Fen > Temel Bilimler > Biyoloji,True,13
+72,19,Fen > Temel Bilimler > Limnoloji,Fen > Temel Bilimler > Deniz ve Tatlı Su Biyolojisi,True,13
+73,25,Fen > Temel Bilimler > Mantar Bilimi,Fen > Ziraat > Bitki Bilimleri,True,16
+74,25,Fen > Temel Bilimler > Matematik,Fen > Temel Bilimler > Matematik,False,21
+75,12,Fen > Temel Bilimler > Mikroskopi,Fen > Temel Bilimler > Çevre Bilimleri,True,8
+76,14,Fen > Temel Bilimler > Mineraloji,Fen > Temel Bilimler > Mineraloji,False,8
+77,17,Fen > Temel Bilimler > Optik,Fen > Temel Bilimler > Optik,False,9
+78,16,Fen > Temel Bilimler > Oşinografi,Fen > Temel Bilimler > Çevre Bilimleri,True,11
+79,26,Fen > Temel Bilimler > Paleontoloji,Fen > Temel Bilimler > Paleontoloji,False,15
+80,19,Fen > Temel Bilimler > Parazitoloji,Fen > Temel Bilimler > Parazitoloji,False,9
+81,9,Fen > Temel Bilimler > Spektroskopi,Fen > Temel Bilimler > Spektroskopi,False,3
+82,31,Fen > Temel Bilimler > Su Kaynakları,Fen > Temel Bilimler > Su Kaynakları,False,15
+83,22,Fen > Temel Bilimler > Termodinamik,Fen > Temel Bilimler > Termodinamik,False,18
+84,28,Fen > Temel Bilimler > Viroloji,Fen > Temel Bilimler > Viroloji,False,18
+85,9,Fen > Temel Bilimler > Zooloji,Fen > Temel Bilimler > Zooloji,False,7
+86,15,Fen > Temel Bilimler > Çevre Bilimleri,Fen > Temel Bilimler > Çevre Bilimleri,False,12
+87,23,Fen > Temel Bilimler > İstatistik ve Olasılık,Fen > Temel Bilimler > İstatistik ve Olasılık,False,7
+88,13,Fen > Tıp > Acil Tıp,Fen > Tıp > Acil Tıp,False,9
+89,27,Fen > Tıp > Adli Tıp,Fen > Tıp > Adli Tıp,False,12
+90,10,Fen > Tıp > Alerji,Fen > Tıp > Alerji,False,9
+91,22,Fen > Tıp > Anatomi ve Morfoloji,Fen > Tıp > Anatomi ve Morfoloji,False,11
+92,20,Fen > Tıp > Androloji,Fen > Tıp > Androloji,False,10
+93,23,Fen > Tıp > Anestezi,Fen > Tıp > Anestezi,False,16
+94,5,Fen > Tıp > Biyofizik,"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",True,3
+95,14,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,False,5
+96,25,Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,Fen > Tıp > Biyoteknoloji ve Uygulamalı Mikrobiyoloji,False,9
+97,26,Fen > Tıp > Cerrahi,Fen > Tıp > Cerrahi,False,15
+98,35,Fen > Tıp > Dermatoloji,Fen > Tıp > Mikrobiyoloji,True,7
+99,24,Fen > Tıp > Endokrinoloji ve Metabolizma,Fen > Tıp > Endokrinoloji ve Metabolizma,False,18
+100,26,Fen > Tıp > Enfeksiyon Hastalıkları,Fen > Tıp > Enfeksiyon Hastalıkları,False,16
+101,12,Fen > Tıp > Fizyoloji,Fen > Tıp > Spor Bilimleri,True,8
+102,20,Fen > Tıp > Gastroenteroloji ve Hepatoloji,Fen > Tıp > Gastroenteroloji ve Hepatoloji,False,13
+103,17,Fen > Tıp > Genel ve Dahili Tıp,Fen > Tıp > Genel ve Dahili Tıp,False,4
+104,24,Fen > Tıp > Geriatri ve Gerontoloji,Fen > Tıp > Geriatri ve Gerontoloji,False,14
+105,32,Fen > Tıp > Göz Hastalıkları,Fen > Tıp > Göz Hastalıkları,False,26
+106,17,Fen > Tıp > Halk ve Çevre Sağlığı,Fen > Tıp > Halk ve Çevre Sağlığı,False,8
+107,15,Fen > Tıp > Hematoloji,Fen > Tıp > Hematoloji,False,10
+108,24,Fen > Tıp > Hücre Biyolojisi,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,True,11
+109,38,Fen > Tıp > Kadın Hastalıkları ve Doğum,Fen > Tıp > Kadın Hastalıkları ve Doğum,False,27
+110,24,Fen > Tıp > Kalp ve Kalp Damar Sistemi,Fen > Tıp > Kalp ve Kalp Damar Sistemi,False,23
+111,19,Fen > Tıp > Klinik Nöroloji,Fen > Tıp > Klinik Nöroloji,False,10
+112,13,"Fen > Tıp > Kulak, Burun, Boğaz","Fen > Tıp > Kulak, Burun, Boğaz",False,10
+113,31,Fen > Tıp > Mikrobiyoloji,Fen > Tıp > Mikrobiyoloji,False,21
+114,24,Fen > Tıp > Nörolojik Bilimler,Fen > Tıp > Nörolojik Bilimler,False,12
+115,26,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,False,14
+116,42,Fen > Tıp > Onkoloji,Fen > Tıp > Onkoloji,False,42
+117,23,Fen > Tıp > Ortopedi,Fen > Tıp > Ortopedi,False,10
+118,21,Fen > Tıp > Patoloji,Fen > Tıp > Onkoloji,True,18
+119,28,Fen > Tıp > Pediatri,Fen > Tıp > Pediatri,False,22
+120,19,Fen > Tıp > Periferik Damar Hastalıkları,Fen > Tıp > Periferik Damar Hastalıkları,False,9
+121,27,Fen > Tıp > Psikiyatri,Fen > Tıp > Psikiyatri,False,18
+122,18,"Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme","Fen > Tıp > Radyoloji, Nükleer Tıp, Tıbbi Görüntüleme",False,12
+123,27,Fen > Tıp > Rehabilitasyon,Fen > Tıp > Rehabilitasyon,False,15
+124,23,Fen > Tıp > Romatoloji,Fen > Tıp > Romatoloji,False,10
+125,20,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",True,5
+126,23,Fen > Tıp > Solunum Sistemi,Fen > Tıp > Solunum Sistemi,False,18
+127,28,Fen > Tıp > Spor Bilimleri,Fen > Tıp > Spor Bilimleri,False,27
+128,12,Fen > Tıp > Tamamlayıcı ve Entegre Tıp,Fen > Tıp > Tamamlayıcı ve Entegre Tıp,False,6
+129,8,Fen > Tıp > Temel Sağlık Hizmetleri,Fen > Tıp > Temel Sağlık Hizmetleri,False,5
+130,13,Fen > Tıp > Transplantasyon,Fen > Tıp > Transplantasyon,False,10
+131,20,Fen > Tıp > Tropik Tıp,Fen > Tıp > Halk ve Çevre Sağlığı,True,6
+132,33,Fen > Tıp > Tıbbi Araştırmalar Deneysel,Fen > Tıp > Tıbbi Araştırmalar Deneysel,False,13
+133,14,Fen > Tıp > Tıbbi Etik,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,True,6
+134,21,Fen > Tıp > Tıbbi Laboratuar Teknolojisi,Fen > Tıp > Tıbbi Laboratuar Teknolojisi,False,11
+135,24,Fen > Tıp > Tıbbi İnformatik,Fen > Tıp > Tıbbi İnformatik,False,14
+136,13,"Fen > Tıp > Yoğun Bakım, Tıp","Fen > Tıp > Yoğun Bakım, Tıp",False,9
+137,16,Fen > Tıp > Üroloji ve Nefroloji,Fen > Tıp > Üroloji ve Nefroloji,False,10
+138,18,Fen > Tıp > İmmünoloji,Fen > Tıp > İmmünoloji,False,8
+139,18,Fen > Veterinerlik > Veterinerlik,Fen > Veterinerlik > Veterinerlik,False,12
+140,26,Fen > Ziraat > Bahçe Bitkileri,Fen > Ziraat > Bitki Bilimleri,True,15
+141,19,Fen > Ziraat > Bitki Bilimleri,Fen > Ziraat > Bitki Bilimleri,False,17
+142,34,Fen > Ziraat > Tarımsal Ekonomi ve Politika,Fen > Ziraat > Tarımsal Ekonomi ve Politika,False,19
+143,26,Fen > Ziraat > Ziraat Mühendisliği,Fen > Ziraat > Bitki Bilimleri,True,11
+144,21,"Fen > Ziraat > Ziraat, Toprak Bilimi","Fen > Ziraat > Ziraat, Toprak Bilimi",False,15
+145,34,Sosyal > Sosyal > Aile Çalışmaları,Sosyal > Sosyal > Aile Çalışmaları,False,22
+146,33,Sosyal > Sosyal > Antropoloji,Sosyal > Sosyal > Antropoloji,False,12
+147,29,Sosyal > Sosyal > Arkeoloji,Sosyal > Sosyal > Arkeoloji,False,17
+148,18,Sosyal > Sosyal > Asya Çalışmaları,Sosyal > Sosyal > Tarih,True,12
+149,24,Sosyal > Sosyal > Beslenme ve Diyetetik,Sosyal > Sosyal > Beslenme ve Diyetetik,False,17
+150,12,Sosyal > Sosyal > Beşeri Bilimler,Sosyal > Sosyal > Tarih,True,4
+151,24,"Sosyal > Sosyal > Bilgi, Belge Yönetimi","Sosyal > Sosyal > Bilgi, Belge Yönetimi",False,12
+152,19,Sosyal > Sosyal > Bilim Felsefesi ve Tarihi,Sosyal > Sosyal > Din Bilimi,True,13
+153,28,Sosyal > Sosyal > Coğrafya,Sosyal > Sosyal > Tarih,True,10
+154,23,Sosyal > Sosyal > Davranış Bilimleri,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",True,8
+155,30,Sosyal > Sosyal > Dil ve Dil Bilim,Sosyal > Sosyal > Dil ve Dil Bilim,False,26
+156,35,Sosyal > Sosyal > Din Bilimi,Sosyal > Sosyal > Din Bilimi,False,20
+157,25,Sosyal > Sosyal > Edebi Teori ve Eleştiri,Sosyal > Sosyal > Edebiyat,True,24
+158,19,Sosyal > Sosyal > Edebiyat,Sosyal > Sosyal > Edebiyat,False,15
+159,19,Sosyal > Sosyal > Etik,Sosyal > Sosyal > Etik,False,10
+160,19,Sosyal > Sosyal > Etnik Çalışmalar,Sosyal > Sosyal > Edebiyat,True,11
+161,49,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları","Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",False,44
+162,26,"Sosyal > Sosyal > Eğitim, Özel","Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",True,16
+163,39,Sosyal > Sosyal > Felsefe,Sosyal > Sosyal > Felsefe,False,18
+164,22,"Sosyal > Sosyal > Film, Radyo, Televizyon","Sosyal > Sosyal > Film, Radyo, Televizyon",False,17
+165,13,Sosyal > Sosyal > Folklor,Sosyal > Sosyal > Folklor,False,8
+166,18,Sosyal > Sosyal > Halkla İlişkiler,Sosyal > Sosyal > İletişim,True,9
+167,16,Sosyal > Sosyal > Hemşirelik,Sosyal > Sosyal > Hemşirelik,False,15
+168,21,Sosyal > Sosyal > Hukuk,Sosyal > Sosyal > Hukuk,False,19
+169,42,Sosyal > Sosyal > Kadın Araştırmaları,Sosyal > Sosyal > Kadın Araştırmaları,False,33
+170,18,Sosyal > Sosyal > Kamu Yönetimi,Sosyal > Sosyal > Kamu Yönetimi,False,12
+171,16,Sosyal > Sosyal > Kentsel Çalışmalar,Sosyal > Sosyal > Kentsel Çalışmalar,False,13
+172,18,Sosyal > Sosyal > Kriminoloji ve Ceza Bilimi,Sosyal > Sosyal > Hukuk,True,13
+173,22,Sosyal > Sosyal > Kültürel Çalışmalar,"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",True,15
+174,30,Sosyal > Sosyal > Madde Bağımlılığı,Sosyal > Sosyal > Madde Bağımlılığı,False,13
+175,6,Sosyal > Sosyal > Mantık,Sosyal > Sosyal > Mantık,False,4
+176,29,Sosyal > Sosyal > Müzik,Sosyal > Sosyal > Müzik,False,26
+177,14,Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,Sosyal > Sosyal > Nüfus İstatistikleri Bilimi,False,9
+178,26,Sosyal > Sosyal > Ortaçağ ve Rönesans Çalışmaları,Sosyal > Sosyal > Dil ve Dil Bilim,True,7
+179,24,"Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm","Sosyal > Sosyal > Otelcilik, Konaklama, Spor ve Turizm",False,19
+180,25,Sosyal > Sosyal > Psikoloji,Sosyal > Sosyal > Psikoloji,False,13
+181,38,Sosyal > Sosyal > Sanat,Sosyal > Sosyal > Sanat,False,27
+182,25,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,Sosyal > Sosyal > Sağlık Politikaları ve Hizmetleri,False,13
+183,13,Sosyal > Sosyal > Siyasi Bilimler,Sosyal > Sosyal > Siyasi Bilimler,False,11
+184,12,Sosyal > Sosyal > Sosyal Çalışma,"Sosyal > Sosyal > Eğitim, Özel",True,7
+185,29,Sosyal > Sosyal > Sosyoloji,Sosyal > Sosyal > Sosyoloji,False,14
+186,21,Sosyal > Sosyal > Tarih,Sosyal > Sosyal > Tarih,False,18
+187,18,Sosyal > Sosyal > Tiyatro,Sosyal > Sosyal > Tiyatro,False,12
+188,15,Sosyal > Sosyal > Uluslararası İlişkiler,Sosyal > Sosyal > Uluslararası İlişkiler,False,10
+189,23,Sosyal > Sosyal > Çevre Çalışmaları,Sosyal > Sosyal > Çevre Çalışmaları,False,16
+190,24,Sosyal > Sosyal > İktisat,Sosyal > Sosyal > İktisat,False,14
+191,29,Sosyal > Sosyal > İletişim,Sosyal > Sosyal > İletişim,False,21
 192,1,Sosyal > Sosyal > İş,"Sosyal > Sosyal > Eğitim, Eğitim Araştırmaları",True,1
-193,6,Sosyal > Sosyal > İşletme,Sosyal > Sosyal > İşletme,False,2
-194,4,Sosyal > Sosyal > İşletme Finans,Sosyal > Sosyal > İşletme Finans,False,3
+193,18,Sosyal > Sosyal > İşletme,Sosyal > Sosyal > İşletme,False,13
+194,29,Sosyal > Sosyal > İşletme Finans,Sosyal > Sosyal > İşletme Finans,False,17
