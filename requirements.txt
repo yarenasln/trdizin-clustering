@@ -8,4 +8,5 @@ sqlalchemy
 hdbscan
 umap-learn
 joblib
-requestsplotly
+requests
+plotly

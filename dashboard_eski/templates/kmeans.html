@@ -1,0 +1,25 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-Means Konu Analizi</title><link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"></head>
+<body><main class="shell wide">
+<a class="back" href="/">← Ana panel</a>
+<header class="top compact"><div><span class="kicker">FINAL K-MEANS MODELİ</span><h1>K-Means Konu Analizi</h1><p>Makale bazında tahminleri, gerçek TR Dizin konularını ve başarı oranlarını inceleyin.</p></div></header>
+<section class="metrics">
+<div><span>Micro F1</span><strong>%{{"%.2f"|format(summary.micro_f1*100)}}</strong><small>Genel denge skoru</small></div>
+<div><span>Precision</span><strong>%{{"%.2f"|format(summary.micro_precision*100)}}</strong><small>Tahminlerin doğruluğu</small></div>
+<div><span>Recall</span><strong>%{{"%.2f"|format(summary.micro_recall*100)}}</strong><small>Gerçek konuları yakalama</small></div>
+<div><span>En az 1 konu</span><strong>%{{"%.2f"|format(summary.at_least_one*100)}}</strong><small>En az bir doğru eşleşme</small></div>
+</section>
+<section class="workspace">
+<aside class="browser">
+<div class="browser-head"><div><h2>Makaleler</h2><p id="countText">Yükleniyor...</p></div></div>
+<div class="searchbox"><input id="q" placeholder="Başlık, ID, DOI veya konu ara..."><button id="searchBtn">Ara</button></div>
+<div class="filters">
+<select id="match"><option value="all">Tüm eşleşmeler</option><option value="0">0 konu eşleşti</option><option value="1">1 konu eşleşti</option><option value="2">2 konu eşleşti</option><option value="3plus">3+ konu eşleşti</option><option value="50plus">%50–99 eşleşme</option><option value="100">%100 eşleşme</option></select>
+<select id="predCount"><option value="all">Tüm tahmin sayıları</option><option value="1">1 konu tahmini</option><option value="2">2 konu tahmini</option><option value="3">3 konu tahmini</option></select>
+<select id="sort"><option value="match_desc">Eşleşme yüksek → düşük</option><option value="match_asc">Eşleşme düşük → yüksek</option><option value="f1_desc">F1 yüksek → düşük</option><option value="f1_asc">F1 düşük → yüksek</option></select>
+</div>
+<div id="articleList" class="article-list"></div>
+</aside>
+<section id="detail" class="detail empty"><div class="empty-state"><div class="empty-icon">↗</div><h2>Bir makale seç</h2><p>Soldaki listeden bir makaleye tıkladığında detaylar burada açılacak.</p></div></section>
+</section>
+</main><script src="{{ url_for('static',filename='js/main.js') }}"></script></body></html>
