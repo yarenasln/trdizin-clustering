@@ -9,14 +9,17 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg px-4 py-2">
-    <a href="/" class="navbar-brand text-decoration-none">🔬 <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</a>
+    <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items: center">
+    <img src="{{ url_for('static', filename='images/ULAKBIM-Yatay.png') }}" alt="TÜBİTAK ULAKBİM" style="height: 42px; width: auto; max-width: 100%;">
+</a>
+    <a href="/" class="navbar-brand text-decoration-none"> <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</a>
     <div class="ms-auto d-flex align-items-center gap-3">
         <span class="text-secondary small fw-medium">Algoritma:</span>
         <select id="kmeansAlgoSelect" class="form-select form-select-sm" style="width: 140px;">
             <option value="hdbscan">HDBSCAN</option>
             <option value="kmeans" selected>K-Means</option>
         </select>
-        <span class="badge bg-success" style="font-size:.8rem;">K-MEANS</span>
+        <span class="badge" style="font-size:.8rem; background-color: #dc2626 !important; color: #ffffff;">K-MEANS</span>
     </div>
 </nav>
 

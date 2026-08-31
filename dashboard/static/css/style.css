@@ -1,17 +1,22 @@
 :root {
-    --bg-main: #ae73ca3f;
-    --bg-surface: #ae73ca3f;
-    --bg-card: #ae73cab4;
-    --bg-card-hover: #af73ca;
-    --border-color: #af73ca;
-    --border-subtle: #af73ca;
+    /* TÜBİTAK ULAKBİM Kurumsal & Nötr Renk Paleti (Mor Tonlarından Arındırılmış) */
+    --bg-main: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border-color: #e2e8f0;
+    --border-subtle: #cbd5e1;
 
-    --text-primary: #180025;
-    --text-secondary: #180025;
-    --text-muted: #180025;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    /* TÜBİTAK Logosu Uyumlu Kırmızı Vurgu */
+    --tubitak-red: #dc2626; 
+    --tubitak-dark: #1e293b;
 
     --pastel-rose-bg: #ffe4e6;
-    --pastel-rose-text: #e11d48;
+    --pastel-rose-text: #dc2626;
     --pastel-rose-border: #fecdd3;
 
     --pastel-amber-bg: #fef3c7;
@@ -22,13 +27,9 @@
     --pastel-sage-text: #15803d;
     --pastel-sage-border: #bbf7d0;
 
-    --pastel-sky-bg: #e0f2fe;
-    --pastel-sky-text: #0d3c72;
-    --pastel-sky-border: #bae6fd;
-
-    --pastel-lavender-bg: #f3e8ff;
-    --pastel-lavender-text: #7e22ce;
-    --pastel-lavender-border: #e9d5ff;
+    --pastel-sky-bg: #f1f5f9;
+    --pastel-sky-text: #334155;
+    --pastel-sky-border: #cbd5e1;
 }
 
 body {
@@ -37,15 +38,22 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* TÜBİTAK ULAKBİM Resmi Sabit Header & Navbar (#FFFFFFCC Arka Plan) */
 .navbar {
-    background-color: var(--bg-surface);
+    background-color: #FFFFFFCC !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 6px rgba(0, 0, 0, 0.04)!important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    padding: 8px 120px !important;
 }
 
 .navbar-brand {
     color: var(--text-primary) !important;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .sidebar {
@@ -57,20 +65,20 @@ body {
 .card-custom {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.15);
-    border-color: var(--pastel-lavender-border);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-color: var(--border-subtle);
 }
 
 .stat-card {
-    background-color: #f8fafc;
-    border-radius: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
     padding: 14px 10px;
     border: 1px solid var(--border-color);
 }
@@ -95,9 +103,9 @@ body {
 }
 
 .badge-low {
-    background-color: var(--pastel-sky-bg);
-    color: var(--pastel-sky-text);
-    border: 1px solid var(--pastel-sky-border);
+    background-color: var(--pastel-sage-bg);
+    color: var(--pastel-sage-text);
+    border: 1px solid var(--pastel-sage-border);
 }
 
 .score-pill {
@@ -116,9 +124,9 @@ body {
 }
 
 .score-pill-info {
-    color: var(--pastel-sky-text);
-    background-color: var(--pastel-sky-bg);
-    border-color: var(--pastel-sky-border);
+    color: var(--text-primary);
+    background-color: #f1f5f9;
+    border-color: var(--border-color);
 }
 
 .form-select, .form-control {
@@ -129,8 +137,8 @@ body {
 }
 
 .form-select:focus, .form-control:focus {
-    border-color: var(--pastel-sky-border) !important;
-    box-shadow: 0 0 0 0.2rem rgba(186, 230, 253, 0.4) !important;
+    border-color: var(--text-muted) !important;
+    box-shadow: 0 0 0 0.2rem rgba(100, 116, 139, 0.15) !important;
 }
 
 ::-webkit-scrollbar { width: 6px; }
@@ -139,45 +147,47 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
 .km-page { color: var(--text-primary); }
-.km-hero { background: var(--bg-card); }
-.km-kicker { font-size:.72rem; letter-spacing:.12rem; font-weight:800; color:var(--pastel-lavender-text); }
-.km-stat { height:100%; background:#f8fafc; }
+.km-hero { background: var(--bg-card); border-top: 3px solid var(--tubitak-dark); }
+.km-kicker { font-size:.72rem; letter-spacing:.12rem; font-weight:800; color:var(--tubitak-red); }
+.km-stat { height:100%; background:#ffffff; }
 .km-stat small,.km-stat span { display:block; color:var(--text-secondary); font-size:.75rem; }
-.km-stat h4 { margin:.25rem 0; color:var(--pastel-sky-text); font-weight:800; }
+.km-stat h4 { margin:.25rem 0; color:var(--text-primary); font-weight:800; }
 .km-browser { height:calc(100vh - 230px); min-height:650px; background:var(--bg-card); }
 .km-article-list { overflow-y:auto; flex:1; max-height:calc(100vh - 500px); min-height:430px; padding-right:3px; }
-.km-article-item { background:#ffffff; border:1px solid var(--border-color); border-radius:10px; padding:12px; margin-bottom:9px; cursor:pointer; transition:.18s ease; }
-.km-article-item:hover,.km-article-item.active { background:var(--bg-card-hover); transform:translateY(-1px); }
-.km-article-id { color:var(--text-secondary); font-size:.72rem; font-family:monospace; font-weight:700; }
-.km-article-title { font-weight:700; font-size:.9rem; margin-top:5px; line-height:1.35; }
-.km-progress { height:6px; background:#ede7f1; border-radius:999px; overflow:hidden; }
-.km-progress span { display:block; height:100%; background:#7e22ce; border-radius:999px; }
+.km-article-item { background:#ffffff; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-bottom:9px; cursor:pointer; transition:.18s ease; }
+.km-article-item:hover,.km-article-item.active { background:var(--bg-card-hover); border-color:var(--border-subtle); transform:translateY(-1px); }
+.km-article-id { color: var(--text-muted); font-size:.72rem; font-family:monospace; font-weight:700; }
+.km-article-title { font-weight:700; font-size:.9rem; margin-top:5px; line-height:1.35; color: var(--text-primary); }
+.km-progress { height:6px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
+.km-progress span { display:block; height:100%; background:var(--tubitak-red); border-radius:999px; }
 .km-detail { min-height:calc(100vh - 230px); background:var(--bg-card); }
 .km-empty { min-height:560px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
-.km-empty-icon { width:62px; height:62px; display:grid; place-items:center; border-radius:16px; background:var(--pastel-lavender-bg); font-size:1.6rem; margin-bottom:12px; }
+.km-empty-icon { width:62px; height:62px; display:grid; place-items:center; border-radius:16px; background:#f1f5f9; color: var(--text-secondary); font-size:1.6rem; margin-bottom:12px; }
 .km-section-title { margin:18px 0 8px; font-size:.75rem; font-weight:800; letter-spacing:.06rem; color:var(--text-secondary); }
-.km-abstract { background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:15px; line-height:1.65; color:var(--text-secondary); text-align:justify; max-height:230px; overflow:auto; }
-.km-topic-box { background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:14px; }
+.km-abstract { background:#ffffff; border:1px solid var(--border-color); border-radius:10px; padding:15px; line-height:1.65; color:var(--text-secondary); text-align:justify; max-height:230px; overflow:auto; }
+.km-topic-box { background:#ffffff; border:1px solid var(--border-color); border-radius:10px; padding:14px; }
 .km-tags { display:flex; flex-wrap:wrap; gap:7px; }
-.km-tag { background:var(--pastel-lavender-bg); color:var(--pastel-lavender-text); border:1px solid var(--pastel-lavender-border); border-radius:7px; padding:6px 9px; font-size:.76rem; font-weight:600; }
-.km-tag.main { background:var(--pastel-sky-bg); color:var(--pastel-sky-text); border-color:var(--pastel-sky-border); }
+.km-tag { background:#f1f5f9; color:var(--text-primary); border:1px solid var(--border-color); border-radius:6px; padding:6px 9px; font-size:.76rem; font-weight:600; }
+.km-tag.main { background:#e2e8f0; color:#1e293b; border-color:#cbd5e1; }
 .km-tag.good { background:var(--pastel-sage-bg); color:var(--pastel-sage-text); border-color:var(--pastel-sage-border); }
 .km-tag.bad { background:var(--pastel-rose-bg); color:var(--pastel-rose-text); border-color:var(--pastel-rose-border); }
 .km-tag.missed { background:var(--pastel-amber-bg); color:var(--pastel-amber-text); border-color:var(--pastel-amber-border); }
-.km-result-box { height:100%; background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:13px; }
+.km-result-box { height:100%; background:#ffffff; border:1px solid var(--border-color); border-radius:10px; padding:13px; }
 .km-result-box small { display:block; color:var(--text-secondary); font-weight:700; }
 .km-result-box strong { display:block; font-size:1.35rem; margin-top:3px; }
 .km-result-box.good { border-left:4px solid var(--pastel-sage-text); }
 .km-result-box.bad { border-left:4px solid var(--pastel-rose-text); }
 .km-result-box.missed { border-left:4px solid var(--pastel-amber-text); }
-.km-match-panel { background:#180025; color:#ffffff; border-radius:14px; padding:17px; }
-.km-match-panel small { color:#d7c6df; font-size:.7rem; }
+
+/* Kurumsal Nötr Koyu Panel */
+.km-match-panel { background: #0f172a; color:#ffffff; border-radius:12px; padding:17px; border-top: 3px solid #334155; }
+.km-match-panel small { color:#94a3b8; font-size:.7rem; }
 .km-match-big { font-size:2rem; font-weight:900; }
-.km-progress.light { background:#5b4167; }
-.km-progress.light span { background:#e9d5ff; }
-.km-mini-metric { background:rgba(255,255,255,.09); border-radius:9px; padding:9px; }
-.km-mini-metric small { display:block; }
-.km-mini-metric strong { font-size:1.05rem; }
+.km-progress.light { background:#334155; }
+.km-progress.light span { background:#e2e8f0; }
+.km-mini-metric { background:rgba(255,255,255,.07); border-radius:8px; padding:9px; }
+.km-mini-metric small { display:block; color: #94a3b8; }
+.km-mini-metric strong { font-size:1.05rem; color: #f8fafc; }
 
 /* K-MEANS UMAP */
 .km-umap-card {
@@ -188,7 +198,7 @@ body {
     width: 100%;
     height: 650px;
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     background: #ffffff;
     margin-top: 10px;
 }

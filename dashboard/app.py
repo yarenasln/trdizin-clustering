@@ -110,7 +110,7 @@ def get_plot():
         marker=dict(
             size=12,
             color=df['risk_skoru'].fillna(0.5).tolist(),
-            colorscale='Sunset',
+            colorscale=[[0, "#474747"], [0.5, "#BB5B5B"], [1, "#e60404"]], # Açık griden canlı TÜBİTAK kırmızısına geçiş
             showscale=True,
             colorbar=dict(title='Risk', thickness=10, len=0.8),
             line=dict(width=1, color='#ffffff'),

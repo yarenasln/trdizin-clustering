@@ -31,17 +31,20 @@
 <body>
 
 <nav class="navbar navbar-expand-lg px-4 py-2">
-    <span class="navbar-brand">🔬 <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</span>
+   <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items: center">
+    <img src="{{ url_for('static', filename='images/ULAKBIM-Yatay.png') }}" alt="TÜBİTAK ULAKBİM" style="height: 42px; width: auto; max-width: 100%;">
+</a>
+    <span class="navbar-brand"> <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</span>
     <div class="ms-auto d-flex align-items-center gap-3">
         <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#evalModal" id="btnMetrics" title="Model Karşılaştırma ve Metrikler">
-            📊 Model Metrikleri
+             Model Metrikleri
         </button>
         <span class="text-secondary small fw-medium">Algoritma:</span>
         <select id="algoSelect" class="form-select form-select-sm" style="width: 140px;">
             <option value="hdbscan" selected>HDBSCAN</option>
             <option value="kmeans">K-Means</option>
         </select>
-        <span id="algoBadge" class="badge bg-primary" style="font-size: 0.8rem;">HDBSCAN</span>
+        <span id="algoBadge" class="badge" style="font-size: 0.8rem; background-color: #dc2626 !important; color: #ffffff;">HDBSCAN</span>
     </div>
 </nav>
 
