@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-from clustering.hdbscan.outlier_detector import OutlierDetector
+from outlier_detector import OutlierDetector
 
 # ==========================================
 # DOSYA YOLLARI
@@ -45,9 +45,15 @@ def main():
     # 4. Pipeline Formatına Dönüştür
     makale_listesi = []
     for _, row in df_merged.iterrows():
+        # Özet bilgisini alalım (abstract veya ozet sütunlarına bakalım)
+        ozet_metni = row.get("ozet", row.get("abstract", ""))
+        if pd.isna(ozet_metni):
+            ozet_metni = ""
+
         makale_listesi.append({
             "external_id": str(row["external_id"]),
             "baslik": str(row["title"]),
+            "ozet": str(ozet_metni),
             "mevcut_kategori": str(row["subject_name"]),
             "tam_kategori_yollari": str(row["subject_fullname"])
         })

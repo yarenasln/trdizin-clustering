@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import hdbscan
@@ -86,9 +87,6 @@ class OutlierDetector:
 
         print("[*] Bellek-dostu k-NN komşulukları hesaplanıyor...")
 
-        # Tam 20K x 20K matrisi RAM'de tutulmaz.
-        # Makaleler küçük batch'ler halinde tüm veriyle karşılaştırılır.
-        # Böylece sonuç yine cosine benzerliğine göre exact k-NN olur.
         chunk_size = 256
         n_samples = len(vektorler_np)
 
@@ -108,7 +106,6 @@ class OutlierDetector:
                 copy=False
             )
 
-            # En yüksek (k+1) cosine similarity indekslerini bul.
             part = np.argpartition(
                 chunk_sim,
                 kth=chunk_sim.shape[1] - (self.knn_k + 1),
@@ -265,6 +262,7 @@ class OutlierDetector:
             sonuc_listesi.append({
                 "external_id": ext_id,
                 "baslik": baslik,
+                "ozet": m.get("ozet", ""),  # <-- Özeti buraya ekliyoruz 
                 "mevcut_kategori": mevcut_kat,
                 "tam_kategori_yollari": mevcut_yollar,
                 "glosh_skoru": glosh_val,
@@ -282,6 +280,15 @@ class OutlierDetector:
             })
 
         df = pd.DataFrame(sonuc_listesi)
+
+        # --- TÜM MAKALELERİN SKORLARINI DOĞRU KÖK DİZİNE KAYDETME ---
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        results_dir = os.path.join(base_dir, "results")
+        os.makedirs(results_dir, exist_ok=True)
+        tum_makaleler_path = os.path.join(results_dir, "hdbscan_tum_makaleler.csv")
+        df.to_csv(tum_makaleler_path, index=False, encoding="utf-8-sig")
+        print(f"[*] Tüm makalelerin skorları kaydedildi: {tum_makaleler_path}")
+        # ------------------------------------------------------------
 
         mask_ana_disiplin = (
             (df["ortak_agac_derinligi"] == 0)
@@ -318,4 +325,3 @@ class OutlierDetector:
         print("Final anomali:", len(final_df))
 
         return final_df
-
