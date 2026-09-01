@@ -301,3 +301,64 @@ async function loadEvaluationMetrics() {
         console.error("Metrikler yüklenirken hata:", err);
     }
 }
+let currentView = 'risk';
+
+function switchMapView(viewType) {
+    currentView = viewType;
+    const plotElement = document.getElementById('clusterPlot');
+    if (!plotElement || !plotElement.data || !plotElement.data[0].customdata) return;
+
+    // Buton aktiflik sınıflarını güncelle
+    const btnRisk = document.getElementById('btnRiskView');
+    const btnCluster = document.getElementById('btnClusterView');
+
+    if (viewType === 'risk') {
+        // Risk seçiliyken: Risk butonu kırmızı (aktif), Küme butonu sade gri (pasif)
+        btnRisk.className = 'btn btn-danger btn-sm active';
+        btnCluster.className = 'btn btn-sm text-secondary bg-light border'; 
+    } else {
+        // Küme seçiliyken: Küme butonu koyu (aktif), Risk butonu sade gri (pasif)
+        btnRisk.className = 'btn btn-sm text-secondary bg-light border';
+        btnCluster.className = 'btn btn-dark btn-sm active';
+    }
+
+    const records = plotElement.data[0].customdata;
+    let colorData = [];
+    let colorScale = '';
+    let colorBarTitle = '';
+
+    if (viewType === 'risk') {
+        // Risk skorlarına göre renklendirme
+        colorData = records.map(d => d.risk_skoru !== undefined ? Number(d.risk_skoru) : 0.5);
+        colorScale = [
+            [0, '#474747'],
+            [0.5, '#BB5B5B'],
+            [1, '#e60404']
+        ];
+        colorBarTitle = 'Risk';
+    } else {
+        // Nomic Atlas tarzı Tableau10 benzeri şık kategorik renk paleti
+        const palette = [
+            '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', 
+            '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#bab0ac'
+        ];
+
+        // Her noktanın küme ID'sine göre paletten renk seçiyoruz (mod alarak döndürüyoruz)
+        colorData = records.map(d => {
+            const kid = d.kume !== undefined ? d.kume : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
+            if (kid === -1) return '#d3d3d3'; // Gürültü (noise) noktaları için hafif gri
+            return palette[Math.abs(kid) % palette.length];
+        });
+
+        colorScale = null; // Kategorik renklendirmede colorscale kullanılmaz
+        colorBarTitle = 'Küme (Kategorik)';
+    }
+
+    // Grafiği yeniden çizmeden sadece renk verilerini ve bar görünürlüğünü güncelle
+    Plotly.restyle(plotElement, {
+        'marker.color': [colorData],
+        'marker.colorscale': [colorScale],
+        'marker.showscale': [viewType === 'risk'], // Sadece risk görünümünde renk barı açık olur
+        'marker.colorbar.title': colorBarTitle
+    }, [0]);
+}

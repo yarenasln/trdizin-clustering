@@ -175,8 +175,8 @@ def get_plot():
             color=df['risk_skoru'].fillna(0.5).tolist(),
             colorscale=[
                 [0, '#474747'],
-                [0.5, '#BB5B5B'],
-                [1, '#e60404'],
+                [0.5, "#8F5D5D"],
+                [1, "#bb0000"],
             ],
             showscale=True,
             colorbar=dict(title='Risk', thickness=10, len=0.8),
@@ -206,10 +206,8 @@ def get_plot():
 
     algo_title = 'HDBSCAN' if algorithm == 'hdbscan' else 'K-MEANS'
     fig.update_layout(
-        title=dict(
-            text=f'{algo_title} 2D Küme & Anomali Uzayı (UMAP)',
-            font=dict(size=13, color='#334155'),
-        ),
+        title=dict(text=''),
+        showlegend=False,
         margin=dict(l=25, r=20, t=35, b=25),
         paper_bgcolor='#ffffff',
         plot_bgcolor='#f8fafc',
