@@ -224,6 +224,28 @@ def get_plot():
   graph_json = json.dumps(fig_dict, cls=plotly.utils.PlotlyJSONEncoder)
   return Response(graph_json, mimetype='application/json')
 
+#Küme merkezlerini ve etiketlerini front-end'e sunan route
+@app.route('/api/cluster-summaries', methods=['GET'])
+def get_cluster_summaries():
+    """
+    HDBSCAN küme özetlerini (merkezler, etiketler, boyutlar) front-end'e JSON olarak sunar.
+    """
+    summary_path = 'data/hdbscan_cluster_summary.csv'
+    
+    if not os.path.exists(summary_path):
+        return jsonify({"error": "Küme özet dosyası henüz oluşturulmamış. Lütfen pipeline'ı çalıştırın."}), 404
+        
+    try:
+        df_summary = pd.read_csv(summary_path)
+        # NaN değerleri temizle (JSON serileştirme hatası vermemesi için)
+        df_summary = df_summary.fillna("")
+        
+        # DataFrame'i dictionary listesine çevir
+        summaries = df_summary.to_dict(orient='records')
+        return jsonify(summaries)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/api/evaluation', methods=['GET'])

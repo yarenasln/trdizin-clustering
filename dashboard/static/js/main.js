@@ -61,6 +61,84 @@ async function loadDashboard() {
             scrollZoom: true
         });
 
+        // --- SEVİYELİ ATLAS ETİKETLERİ VE DİNAMİK ZOOM ---
+        fetch('/api/cluster-summaries')
+            .then(response => response.json())
+            .then(clusters => {
+                // Kalabalığı önlemek için boyutu 3 ve üzeri olan kümeleri filtrele
+                const significantClusters = clusters.filter(c => c.size >= 3);
+
+                // Etiketleri oluşturan yardımcı fonksiyon (Zoom seviyesine göre metin seçer)
+                function updateAnnotations(zoomLevel = 'level_1') {
+                    const annotations = significantClusters.map(c => {
+                        let displayText = c.display_name_level_1; // Varsayılan en genel
+
+                        if (zoomLevel === 'level_3') {
+                            displayText = c.display_name_level_3 || c.display_name_level_2 || c.display_name_level_1;
+                        } else if (zoomLevel === 'level_2') {
+                            displayText = c.display_name_level_2 || c.display_name_level_1;
+                        } else {
+                            displayText = c.display_name_level_1;
+                        }
+
+                        return {
+                            x: c.x_center,
+                            y: c.y_center,
+                            text: `<b>${displayText}</b>`,
+                            showarrow: false,
+                            xanchor: 'center',
+                            yanchor: 'middle',
+                            bgcolor: 'rgba(255, 255, 255, 0.75)', 
+                            bordercolor: 'rgba(203, 213, 225, 0.8)', 
+                            borderwidth: 1,
+                            borderpad: 4,                       
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: zoomLevel === 'level_3' ? 10 : 11, // Yaklaştıkça fontu hafif küçültebiliriz
+                                color: '#0f172a'                
+                            }
+                        };
+                    });
+
+                    Plotly.relayout('clusterPlot', { annotations: annotations });
+                }
+
+                // 1. İlk açılışta en genel katmanla (Level 1) başlat
+                updateAnnotations('level_1');
+
+                // 2. Kullanıcı haritada zoom yaptıkça veya kaydırdıkça tetiklenen olay
+                const plotElement = document.getElementById('clusterPlot');
+                if (plotElement && plotElement.on) {
+                    plotElement.on('plotly_relayout', function(eventData) {
+                        // Eğer olay bir zoom veya range (eksen) değişimi ise
+                        if (eventData['xaxis.range[0]'] || eventData['xaxis.autorange']) {
+                            let xRange, yRange;
+
+                            if (eventData['xaxis.autorange']) {
+                                // Tamamen uzaklaşma (Reset zoom)
+                                updateAnnotations('level_1');
+                                return;
+                            }
+
+                            xRange = eventData['xaxis.range[1]'] - eventData['xaxis.range[0]'];
+                            yRange = eventData['yaxis.range[1]'] - eventData['yaxis.range[0]'];
+                            
+                            // Eksen aralığının büyüklüğüne göre zoom derinliğini seç
+                            // (Bu eşik değerlerini haritanın boyutuna göre ufakça revize edebilirsin)
+                            if (xRange < 3.0) {
+                                updateAnnotations('level_3'); // Çok yakın plan -> Spesifik konular
+                            } else if (xRange < 7.0) {
+                                updateAnnotations('level_2'); // Orta zoom -> Alt alanlar
+                            } else {
+                                updateAnnotations('level_1'); // Kuşbakışı -> Ana disiplinler
+                            }
+                        }
+                    });
+                }
+            })
+            .catch(error => console.error('Küme etiketleri yüklenirken hata oluştu:', error));
+        // -------------------------------------------------------------
+
         //Grafikteki noktaya tıklama olayı (Güncellendi)
         const plotElement = document.getElementById('clusterPlot');
         

@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from outlier_detector import OutlierDetector
+from cluster_labeler import generate_cluster_labels
 
 # ==========================================
 # DOSYA YOLLARI
@@ -61,6 +62,38 @@ def main():
     # 5. Modeli Çalıştır
     detector = OutlierDetector(knn_k=10)
     df_anomaliler = detector.run_pipeline(makale_listesi, embeddings, taksonomi_yollari)
+
+    # ---  Küme Etiketleri ve Merkezleri Üretme ---
+    print("[*] Otomatik küme etiketleri ve merkezleri hesaplanıyor...")
+    
+    # UMAP koordinat dosyasını oku
+    umap_df = pd.read_csv("embeddings/umap_2d_coordinates.csv")
+    umap_df["external_id"] = umap_df["external_id"].astype(str)
+    df_anomaliler["external_id"] = df_anomaliler["external_id"].astype(str)
+    
+    # Skorlar/kümeler ile UMAP koordinatlarını birleştir
+    df_full_cluster = pd.merge(df_anomaliler, umap_df, on="external_id", how="inner")
+
+    cluster_summary_df = generate_cluster_labels(
+        df_full_cluster, 
+        cluster_col='hdbscan_kume', # Doğru küme sütun adı
+        x_col='umap_x',             # UMAP X sütun adı
+        y_col='umap_y',             # UMAP Y sütun adı
+        text_col='baslik'
+    )
+    
+    os.makedirs("data", exist_ok=True)
+    summary_path = 'data/hdbscan_cluster_summary.csv'
+    cluster_summary_df.to_csv(summary_path, index=False, encoding="utf-8-sig")
+    print(f"[*] Küme özetleri kaydedildi: {summary_path}")
+
+   # --- CLAUDE'UN DEBUG KODU (DOĞRU DEĞİŞKEN İSMİYLE) ---
+    print(f"1. Toplam benzersiz küme sayısı (noise hariç): {df_full_cluster[df_full_cluster['hdbscan_kume'] != -1]['hdbscan_kume'].nunique()}")
+    print(f"2. Etiket üretilen küme sayısı: {len(cluster_summary_df)}")
+    print(f"3. Saflık dağılımı:")
+    print(cluster_summary_df['category_purity'].describe())
+    print(f"0.3'ün altında saflığa sahip küme sayısı: {sum(1 for p in cluster_summary_df['category_purity'] if p < 0.3)}")
+    # -----------------------------------------------------------
 
     # 6. Sonuçları Kaydet
     os.makedirs("results", exist_ok=True)
