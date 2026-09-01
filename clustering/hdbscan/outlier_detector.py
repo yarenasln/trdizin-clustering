@@ -318,3 +318,4 @@ class OutlierDetector:
         print("Final anomali:", len(final_df))
 
         return final_df
+

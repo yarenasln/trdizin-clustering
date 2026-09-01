@@ -4,7 +4,11 @@ let evalModalInstance = null;
 let currentAlgo = 'hdbscan';
 
 document.addEventListener("DOMContentLoaded", () => {
-    detailModalInstance = new bootstrap.Modal(document.getElementById('detailModal'));
+    const modalEl = document.getElementById('detailModal');
+    if (modalEl) {
+        detailModalInstance = new bootstrap.Modal(modalEl);
+    }
+
     const evalModalEl = document.getElementById('evalModal');
     if (evalModalEl) {
         evalModalInstance = new bootstrap.Modal(evalModalEl);
@@ -53,16 +57,35 @@ async function loadDashboard() {
         Plotly.newPlot('clusterPlot', plotObj.data, plotObj.layout, { 
             responsive: true, 
             displayModeBar: 'hover',
-            displaylogo: false
+            displaylogo: false,
+            scrollZoom: true
         });
 
-        // Grafikteki noktaya tıklama olayı
+        // NOMIC ATLAS TARZI: Grafikteki noktaya tıklama olayı (Güncellendi)
         const plotElement = document.getElementById('clusterPlot');
+        
+        // Eski dinleyicileri temizle
+        plotElement.removeAllListeners?.('plotly_click');
+        plotElement.removeAllListeners?.('plotly_hover');
+        plotElement.removeAllListeners?.('plotly_unhover');
+        
+        // Tıklama olayı hem sol paneli açar hem de haritada noktayı büyütüp parletir
         plotElement.on('plotly_click', function(data){
             if(data.points && data.points.length > 0) {
-                const pointData = data.points[0].customdata;
-                if(pointData) {
-                    openDetailModal(pointData);
+                const point = data.points.find(p => p.curveNumber === 0);
+                if(point && point.customdata) {
+                    // 1. Sol paneli aç
+                    openSidePanel(point.customdata);
+                    
+                    // 2. Haritada tıklanan noktayı sabit renkli büyük katmana taşı
+                    Plotly.restyle(
+                        plotElement,
+                        {
+                            x: [[point.x]],
+                            y: [[point.y]]
+                        },
+                        [1]
+                    );
                 }
             }
         });
@@ -105,7 +128,8 @@ async function loadDashboard() {
             const card = document.createElement("div");
             card.className = "card card-custom p-3";
             card.style.cursor = "pointer";
-            card.onclick = () => openDetailModal(item);
+            // Karta tıklandığında hem yan paneli hem modalı açabilirsin
+            card.onclick = () => openSidePanel(item);
 
             const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
             const riskVal = Number(item.risk_skoru || 0).toFixed(3);
@@ -145,50 +169,70 @@ async function loadDashboard() {
     }
 }
 
-// Detay Modalını Açan Fonksiyon
-function openDetailModal(item) {
+// NOMIC ATLAS: Soldaki Sabit Detay Panelini Dolduran Fonksiyon
+function openSidePanel(item) {
     if (!item) return;
+
+    // Rehber ekranını gizle, aktif içerik alanını aç
+    const welcomeWrapper = document.getElementById('panel-content-wrapper');
+    const activeContent = document.getElementById('panel-active-content');
+    
+    if (welcomeWrapper) welcomeWrapper.style.display = 'none';
+    if (activeContent) activeContent.style.display = 'block';
+
+    // Başlık alanını güvenli şekilde yerleştir (Önce başlık, yoksa ID)
+    const titleText = item.baslik || item.title || (item.external_id ? `Makale ID: ${item.external_id}` : 'Başlık Belirtilmemiş');
+    document.getElementById('panel-title').innerText = titleText;
+    
+    // Özet
+    document.getElementById('panel-abstract').innerText = item.ozet || item.abstract || 'Özet metni bulunmuyor.';
+    
+    // Risk Skoru
+    const risk = item.risk_skoru !== undefined ? item.risk_skoru : (item.bileşik_risk || 0);
+    document.getElementById('panel-risk').innerText = `%${(Number(risk) * 100).toFixed(1)}`;
+    
+    // Kategori ve Öneri (Alternatif sütun adları eklenmiştir)
+    document.getElementById('panel-cat').innerText = item.mevcut_kategori || item.gercek_kategori || item.kategori || '-';
+    document.getElementById('panel-suggestion').innerText = item.oneri_kategori || item.model_onerisi || item.tahmin_kategori || '-';
+}
+
+// Paneli başlangıç durumuna döndüren fonksiyon
+function resetSidePanel() {
+    const welcomeWrapper = document.getElementById('panel-content-wrapper');
+    const activeContent = document.getElementById('panel-active-content');
+    
+    if (welcomeWrapper) welcomeWrapper.style.display = 'block';
+    if (activeContent) activeContent.style.display = 'none';
+}
+
+// Sağdaki Paneli Kapatma Fonksiyonu
+function closeDetailPanel() {
+    const panel = document.getElementById('article-detail-panel');
+    if (panel) {
+        panel.style.display = 'none';
+    }
+}
+
+// Eski Modal Fonksiyonu (Yedek olarak durabilir)
+function openDetailModal(item) {
+    if (!item || !detailModalInstance) return;
 
     const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
     const pBadge = document.getElementById("modalPriority");
-    pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : "badge-high"} mb-1`;
-    pBadge.innerText = item.oncelik || 'BELİRTİLMEDİ';
-
-    document.getElementById("modalTitle").innerText = item.baslik || 'Başlık Yok';
-    document.getElementById("modalRisk").innerText = Number(item.risk_skoru || 0).toFixed(3);
-    
-    // Etiket ve Değer
-    const scoreLabel = currentAlgo === "hdbscan" ? "GLOSH SKORU" : "AYKIRILIK SKORU";
-    const scoreLabelEl = document.getElementById("modalScoreLabel");
-    if (scoreLabelEl) scoreLabelEl.innerText = scoreLabel;
-
-    const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
-    document.getElementById("modalGlosh").innerText = scoreVal;
-
-    document.getElementById("modalKnnBaskinlik").innerText = item.knn_baskinlik ? `%${(Number(item.knn_baskinlik) * 100).toFixed(0)}` : '-';
-    
-    const kumeId = item.kume !== undefined && item.kume !== -1 ? item.kume : (item.kmeans_kume !== undefined && item.kmeans_kume !== -1 ? item.kmeans_kume : -1);
-    document.getElementById("modalKume").innerText = kumeId !== -1 ? `#${kumeId}` : 'Aykırı (-1)';
-
-    document.getElementById("modalMevcutKat").innerText = item.mevcut_kategori || '-';
-    document.getElementById("modalTamYol").innerText = item.tam_kategori_yollari || '-';
-    document.getElementById("modalOneriKat").innerText = item.oneri_kategori || '-';
-    document.getElementById("modalOneriYol").innerText = item.oneri_yol || '-';
-    document.getElementById("modalKnnOneri").innerText = item.knn_oneri || '-';
-
-    // Karar tipi gösterimi (TP-1 / TP-2)
-    const kararEl = document.getElementById("modalKararTipi");
-    if (item.karar_tipi === "TP-1") {
-        kararEl.innerHTML = `<span class="badge bg-danger">Doğrudan Düzeltme (TP-1)</span> &rarr; Öneri: <b>${item.duzeltme_onerisi_tp1 || item.oneri_kategori}</b>`;
-    } else if (item.karar_tipi === "TP-2") {
-        kararEl.innerHTML = `<span class="badge bg-warning text-dark">İkincil Etiket Zenginleştirme (TP-2)</span> &rarr; Eklenecek: <b>${item.ikincil_etiket_tp2 || item.oneri_kategori}</b>`;
-    } else {
-        kararEl.innerText = item.karar_tipi || 'İnceleme Gerekli';
+    if (pBadge) {
+        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : "badge-high"} mb-1`;
+        pBadge.innerText = item.oncelik || 'BELİRTİLMEDİ';
     }
 
-    document.getElementById("modalOzet").innerText = item.ozet || 'Özet metni veri kümesinde bulunamadı.';
-    document.getElementById("modalId").innerText = item.external_id || item.doi || '-';
-    document.getElementById("modalFiltre").innerText = item.filtre_aciklamasi || '-';
+    if (document.getElementById("modalTitle")) document.getElementById("modalTitle").innerText = item.baslik || 'Başlık Yok';
+    if (document.getElementById("modalRisk")) document.getElementById("modalRisk").innerText = Number(item.risk_skoru || 0).toFixed(3);
+    
+    const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
+    if (document.getElementById("modalGlosh")) document.getElementById("modalGlosh").innerText = scoreVal;
+
+    if (document.getElementById("modalMevcutKat")) document.getElementById("modalMevcutKat").innerText = item.mevcut_kategori || '-';
+    if (document.getElementById("modalOneriKat")) document.getElementById("modalOneriKat").innerText = item.oneri_kategori || '-';
+    if (document.getElementById("modalOzet")) document.getElementById("modalOzet").innerText = item.ozet || 'Özet metni veri kümesinde bulunamadı.';
 
     detailModalInstance.show();
 }

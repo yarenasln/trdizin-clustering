@@ -25,6 +25,27 @@ def get_anomalies():
 
   df = load_algorithm_data(algorithm)
 
+  # --- EKLENECEK GÜVENLİK ÖNLEMLERİ ---
+  if not df.empty:
+    if 'risk_skoru' not in df.columns:
+      df['risk_skoru'] = 0.5
+    
+    if 'oncelik' not in df.columns:
+      df['oncelik'] = np.where(df['risk_skoru'] > 0.7, 'KRİTİK', 'NORMAL')
+
+    if 'baslik' not in df.columns:
+      df['baslik'] = df.get('title', 'Başlık Belirtilmemiş')
+
+    if 'mevcut_kategori' not in df.columns:
+      df['mevcut_kategori'] = df.get('keywords', 'Belirtilmemiş')
+
+    if 'oneri_kategori' not in df.columns:
+      df['oneri_kategori'] = 'Uyumlu / Normal'
+      
+    if 'external_id' not in df.columns:
+      df['external_id'] = ''
+  # ------------------------------------
+
   if df.empty:
     return jsonify({
         'data': [],
@@ -74,17 +95,58 @@ def get_anomalies():
 
   return jsonify({'data': df.to_dict(orient='records'), 'stats': stats})
 
-
 @app.route('/api/plot', methods=['GET'])
 def get_plot():
   algorithm = request.args.get('algorithm', 'hdbscan').lower()
   df = load_algorithm_data(algorithm)
 
+  # --- EKLENECEK KISIM BURASI ---
+  # Sonuç dosyasındaki sütunları frontend ve hover metinlerinin beklediği isimlere eşleyelim
+  if 'mevcut_kategori' not in df.columns:
+    for c in ['category', 'kategori', 'subject', 'keywords']:
+      if c in df.columns:
+        df['mevcut_kategori'] = df[c]
+        break
+    if 'mevcut_kategori' not in df.columns:
+      df['mevcut_kategori'] = 'Belirtilmemiş'
+
+  if 'oneri_kategori' not in df.columns:
+    for c in ['knn_oneri', 'predicted_category', 'onerilen_kategori']:
+      if c in df.columns:
+        df['oneri_kategori'] = df[c]
+        break
+    if 'oneri_kategori' not in df.columns:
+      df['oneri_kategori'] = 'Uyumlu / Normal'
+
+  if 'baslik' not in df.columns:
+    if 'title' in df.columns:
+      df['baslik'] = df['title']
+    else:
+      df['baslik'] = 'Başlık Belirtilmemiş'
+
+  # İŞTE BURASI: Risk ve GLOSH skorlarının sıfır kalmasını önleyen eşleme
+  if 'risk_skoru' not in df.columns or df['risk_skoru'].fillna(0).sum() == 0:
+    for c in ['risk', 'risk_score', 'anomaly_score', 'outlier_score', 'score']:
+      if c in df.columns:
+        df['risk_skoru'] = df[c]
+        break
+
+  if 'glosh_skoru' not in df.columns or df['glosh_skoru'].fillna(0).sum() == 0:
+    for c in ['glosh', 'glosh_score', 'aykirilik_skoru']:
+      if c in df.columns:
+        df['glosh_skoru'] = df[c]
+        break
+  # -----------------------------
+
   if df.empty:
     fig = go.Figure()
     fig.update_layout(title='Görüntülenecek veri bulunamadı.')
   else:
-    if 'umap_x' not in df.columns or 'umap_y' not in df.columns or df['umap_x'].isna().any():
+    if (
+        'umap_x' not in df.columns
+        or 'umap_y' not in df.columns
+        or df['umap_x'].isna().any()
+    ):
       np.random.seed(42)
       df['umap_x'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
       df['umap_y'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
@@ -102,19 +164,22 @@ def get_plot():
         for row in records
     ]
 
-    trace = go.Scatter(
+    trace = go.Scattergl(
         x=df['umap_x'].tolist(),
         y=df['umap_y'].tolist(),
         mode='markers',
         customdata=records,
         marker=dict(
-            size=12,
+            size=6,
             color=df['risk_skoru'].fillna(0.5).tolist(),
-            colorscale=[[0, "#474747"], [0.5, "#BB5B5B"], [1, "#e60404"]], # Açık griden canlı TÜBİTAK kırmızısına geçiş
+            colorscale=[
+                [0, '#474747'],
+                [0.5, '#BB5B5B'],
+                [1, '#e60404'],
+            ],
             showscale=True,
             colorbar=dict(title='Risk', thickness=10, len=0.8),
-            line=dict(width=1, color='#ffffff'),
-            opacity=0.9,
+            opacity=0.8,
         ),
         text=hover_texts,
         hoverinfo='text',
@@ -122,7 +187,7 @@ def get_plot():
 
     fig = go.Figure(data=[trace])
 
-    algo_title = "HDBSCAN" if algorithm == "hdbscan" else "K-MEANS"
+    algo_title = 'HDBSCAN' if algorithm == 'hdbscan' else 'K-MEANS'
     fig.update_layout(
         title=dict(
             text=f'{algo_title} 2D Küme & Anomali Uzayı (UMAP)',
@@ -134,10 +199,16 @@ def get_plot():
         xaxis=dict(title='UMAP 1', gridcolor='#e2e8f0', zeroline=False),
         yaxis=dict(title='UMAP 2', gridcolor='#e2e8f0', zeroline=False),
         hovermode='closest',
+        dragmode='pan',  # <--- İşte bu! Tıklayıp tutup her yöne kaydırmanı sağlar (Nomic tarzı)
     )
 
-  graph_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+  # Plotly'nin tekerlekle zoom yapma (scrollZoom) özelliğini aktif eden config yapısı:
+  fig_dict = fig.to_dict()
+  fig_dict['config'] = {'scrollZoom': True, 'displayModeBar': True}
+
+  graph_json = json.dumps(fig_dict, cls=plotly.utils.PlotlyJSONEncoder)
   return Response(graph_json, mimetype='application/json')
+
 
 
 @app.route('/api/evaluation', methods=['GET'])

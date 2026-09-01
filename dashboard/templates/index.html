@@ -9,7 +9,6 @@
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 
     <style>
-        /* Modalın arka plandan net ayrışması için özel stil */
         .modal-backdrop.show {
             opacity: 0.65 !important;
             background-color: #0f111a !important;
@@ -31,10 +30,10 @@
 <body>
 
 <nav class="navbar navbar-expand-lg px-4 py-2">
-   <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items: center">
+   <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items-center">
     <img src="{{ url_for('static', filename='images/ULAKBIM-Yatay.png') }}" alt="TÜBİTAK ULAKBİM" style="height: 42px; width: auto; max-width: 100%;">
-</a>
-    <span class="navbar-brand"> <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</span>
+   </a>
+    <span class="navbar-brand ms-2"> <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı</span>
     <div class="ms-auto d-flex align-items-center gap-3">
         <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#evalModal" id="btnMetrics" title="Model Karşılaştırma ve Metrikler">
              Model Metrikleri
@@ -48,70 +47,121 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- SOL PANEL -->
-        <div class="col-lg-5 p-3 sidebar">
+<div class="container-fluid py-3">
+    <div class="row g-3">
+        
+        <!-- 1. SOL TARAF: Daraltılmış Nomic Sabit Detay Paneli (col-lg-3) -->
+        <div class="col-lg-3">
             <!-- İstatistik Sayaçları -->
             <div class="row g-2 mb-3">
                 <div class="col-4">
-                    <div class="stat-card text-center">
-                        <small class="text-secondary d-block">Tespit Edilen</small>
-                        <h4 id="statTotal" class="fw-bold mb-0" style="color: var(--pastel-sky-text);">0</h4>
+                    <div class="stat-card text-center p-2">
+                        <small class="text-secondary d-block" style="font-size: 0.65rem;">Tespit</small>
+                        <h6 id="statTotal" class="fw-bold mb-0" style="color: var(--pastel-sky-text);">0</h6>
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="stat-card text-center">
-                        <small class="text-secondary d-block">Ortalama Risk</small>
-                        <h4 id="statRisk" class="fw-bold mb-0" style="color: var(--pastel-amber-text);">0.0</h4>
+                    <div class="stat-card text-center p-2">
+                        <small class="text-secondary d-block" style="font-size: 0.65rem;">Risk</small>
+                        <h6 id="statRisk" class="fw-bold mb-0" style="color: var(--pastel-amber-text);">0.0</h6>
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="stat-card text-center">
-                        <small class="text-secondary d-block">Kritik Sayı</small>
-                        <h4 id="statCritical" class="fw-bold mb-0" style="color: var(--pastel-rose-text);">0</h4>
+                    <div class="stat-card text-center p-2">
+                        <small class="text-secondary d-block" style="font-size: 0.65rem;">Kritik</small>
+                        <h6 id="statCritical" class="fw-bold mb-0" style="color: var(--pastel-rose-text);">0</h6>
                     </div>
                 </div>
             </div>
 
-            <!-- Filtreler -->
+            <!-- Nomic Sabit Detay Paneli -->
+            <div id="article-detail-panel" class="card card-custom p-3 mb-3 shadow-sm" style="height: 520px; overflow-y: auto; background-color: #f8fafc; border-left: 4px solid #dc2626 !important;">
+                
+                <!-- Başlangıç Rehber Durumu -->
+                <div id="panel-content-wrapper">
+                    <div class="text-center text-muted py-5 mt-4">
+                        <h6 class="fw-bold text-dark small">Nomic Detay Paneli</h6>
+                        <p class="text-secondary" style="font-size: 0.75rem;">
+                            Haritadaki bir noktaya tıklayarak detayları burada inceleyin.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Seçilen Makale İçeriği -->
+                <div id="panel-active-content" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-danger" style="font-size: 0.65rem;">Anomali Detayı</span>
+                        <button type="button" class="btn-close btn-sm" onclick="resetSidePanel()"></button>
+                    </div>
+                    
+                    <h6 id="panel-title" class="fw-bold text-dark mb-2" style="font-size: 0.85rem;">Makale Başlığı</h6>
+                    
+                    <div class="mb-2">
+                        <span class="text-muted small d-block fw-bold" style="font-size: 0.65rem;">ÖZET</span>
+                        <p id="panel-abstract" class="text-secondary mb-2" style="font-size: 0.72rem; line-height: 1.4;">Özet...</p>
+                    </div>
+
+                    <hr class="text-muted my-2">
+
+                    <div class="mb-1">
+                        <span class="text-muted fw-bold" style="font-size: 0.7rem;">Risk:</span>
+                        <span id="panel-risk" class="badge bg-dark ms-1" style="font-size: 0.65rem;">%0.0</span>
+                    </div>
+                    <div class="mb-1">
+                        <span class="text-muted fw-bold" style="font-size: 0.7rem;">Mevcut Kategori:</span>
+                        <span id="panel-cat" class="text-danger fw-semibold d-block" style="font-size: 0.72rem;">Kategori</span>
+                    </div>
+                    <div class="mb-1">
+                        <span class="text-muted fw-bold" style="font-size: 0.7rem;">Model Önerisi:</span>
+                        <span id="panel-suggestion" class="text-success fw-semibold d-block" style="font-size: 0.72rem;">Öneri</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. SAĞ TARAF: Genişletilmiş Harita ve Liste Alanı (col-lg-9) -->
+        <div class="col-lg-9">
+            
+            <!-- Dev UMAP Haritası (Geniş Ekran) -->
+            <div class="card card-custom p-2 mb-3">
+                <div class="d-flex justify-content-between align-items-center px-2 py-1">
+                    <span class="small fw-semibold text-secondary">HDBSCAN 2D Küme & Anomali Uzayı (UMAP)</span>
+                    <span id="systemInfoText" class="badge bg-light text-dark border small">Yükleniyor...</span>
+                </div>
+                <div id="clusterPlot" style="height: 550px; width: 100%;"></div>
+            </div>
+
+            <!-- Filtreler Çubuğu -->
             <div class="card card-custom p-3 mb-3">
                 <div class="row g-2">
-                    <div class="col-md-6">
-                        <label class="form-label small text-secondary fw-semibold">Risk Sıralaması</label>
+                    <div class="col-md-4">
                         <select id="sortSelect" class="form-select form-select-sm">
-                            <option value="desc">Yüksekten Düşüğe</option>
-                            <option value="asc">Düşükten Yükseğe</option>
+                            <option value="desc">Yüksekten Düşüğe Sırala</option>
+                            <option value="asc">Düşükten Yükseğe Sırala</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label small text-secondary fw-semibold">Öncelik Seviyesi</label>
+                    <div class="col-md-4">
                         <select id="prioritySelect" class="form-select form-select-sm">
-                            <option value="ALL">Tümü</option>
-                            <option value="KRİTİK">Yalnızca Kritik (Ana Disiplin)</option>
-                            <option value="YÜKSEK">Yüksek (Alt Alan)</option>
+                            <option value="ALL">Tüm Öncelikler</option>
+                            <option value="KRİTİK">Yalnızca Kritik</option>
+                            <option value="YÜKSEK">Yüksek</option>
                         </select>
                     </div>
-                    <div class="col-12 mt-2">
+                    <div class="col-md-4">
                         <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Başlık, kategori veya ID ara...">
                     </div>
                 </div>
             </div>
 
-            <!-- Plotly Görselleştirmesi -->
-            <div class="card card-custom p-2">
-                <div id="clusterPlot" style="height: 380px;"></div>
+            <!-- Anomali İnceleme Havuzu -->
+            <div class="card card-custom p-3">
+                <h6 id="poolTitle" class="text-secondary text-uppercase fw-semibold mb-3" style="font-size: 0.85rem;">Anomali İnceleme Havuzu</h6>
+                <div id="cardContainer" class="d-flex flex-column gap-3" style="max-height: 400px; overflow-y: auto; padding-right: 4px;"></div>
             </div>
+
         </div>
 
-        <!-- SAĞ PANEL -->
-        <div class="col-lg-7 p-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 id="poolTitle" class="text-secondary text-uppercase fw-semibold mb-0">Anomali İnceleme Havuzu (Detay için karta tıklayın)</h6>
-                <span id="systemInfoText" class="badge bg-light text-dark border small">Yükleniyor...</span>
-            </div>
-            <div id="cardContainer" class="d-flex flex-column gap-3" style="max-height: calc(100vh - 120px); overflow-y: auto; padding-right: 4px;"></div>
-        </div>
     </div>
 </div>
 
@@ -119,7 +169,7 @@
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content modal-content-custom">
-            <div class="modal-header border-bottom px-4 pt-4 pb-3" style="border-color: #edbffa !important;">
+            <div class="modal-header border-bottom px-4 pt-4 pb-3">
                 <div class="w-100 pe-3">
                     <span id="modalPriority" class="badge badge-risk mb-2"></span>
                     <h5 class="modal-title fw-bold text-dark text-break" id="modalTitle">Makale Başlığı</h5>
@@ -127,7 +177,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
             </div>
             <div class="modal-body px-4 py-3">
-                <!-- Üst Metrikler Grid -->
                 <div class="row g-2 mb-4">
                     <div class="col-md-3 col-6">
                         <div class="metric-box text-center">
@@ -155,26 +204,17 @@
                     </div>
                 </div>
 
-                <!-- Kategori ve Karar Analizi Tablosu -->
                 <h6 class="fw-bold text-dark text-uppercase small mb-2">🏷️ Sınıflandırma ve Öneri Analizi</h6>
                 <div class="table-responsive mb-4">
-                    <table class="table table-bordered table-sm align-middle mb-0" style="border-color: #e8c8ec;">
+                    <table class="table table-bordered table-sm align-middle mb-0">
                         <tbody>
                             <tr>
                                 <th class="bg-light text-secondary w-25">Mevcut Kategori:</th>
                                 <td id="modalMevcutKat" class="text-danger fw-semibold"></td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Mevcut Tam Yol:</th>
-                                <td id="modalTamYol" class="small text-muted"></td>
-                            </tr>
-                            <tr>
                                 <th class="bg-light text-secondary">Model Önerisi:</th>
                                 <td id="modalOneriKat" class="text-success fw-semibold"></td>
-                            </tr>
-                            <tr>
-                                <th class="bg-light text-secondary">Öneri Tam Yol:</th>
-                                <td id="modalOneriYol" class="small text-muted"></td>
                             </tr>
                             <tr>
                                 <th class="bg-light text-secondary">k-NN Yerel Uzlaşısı:</th>
@@ -188,22 +228,12 @@
                     </table>
                 </div>
 
-                <!-- Özet ve İçerik Metni -->
                 <h6 class="fw-bold text-dark text-uppercase small mb-2">📄 Özet Metni</h6>
-                <div class="p-3 bg-light border rounded mb-3" style="border-color: #e2e8f0 !important;">
+                <div class="p-3 bg-light border rounded mb-3">
                     <p id="modalOzet" class="small mb-0 text-secondary" style="line-height: 1.6; text-align: justify;"></p>
                 </div>
-
-                <div class="row g-2 small text-muted border-top pt-2" style="border-color: #e2e8f0 !important;">
-                    <div class="col-md-6">
-                        <strong>External ID:</strong> <span id="modalId" class="font-monospace text-dark"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Filtre Açıklaması:</strong> <span id="modalFiltre" class="text-dark"></span>
-                    </div>
-                </div>
             </div>
-            <div class="modal-footer border-top px-4 py-2" style="border-color: #e2e8f0 !important;">
+            <div class="modal-footer border-top px-4 py-2">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Kapat</button>
             </div>
         </div>
@@ -215,51 +245,20 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content modal-content-custom">
             <div class="modal-header border-bottom px-4 pt-4 pb-3">
-                <h5 class="modal-title fw-bold text-dark" id="evalModalLabel">📊 Kümeleme & Anomali Modelleri Karşılaştırması</h5>
+                <h5 class="modal-title fw-bold text-dark" id="evalModalLabel">📊 Modelleri Karşılaştırması</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
             </div>
             <div class="modal-body px-4 py-3">
-                <h6 class="fw-bold text-dark mb-2">1. K-Means Değerlendirme Özeti</h6>
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered table-sm small align-middle mb-0">
                         <thead class="table-light">
-                            <tr>
-                                <th>Yöntem</th>
-                                <th>Makale</th>
-                                <th>Küme (K)</th>
-                                <th>Silhouette</th>
-                                <th>Davies-Bouldin</th>
-                                <th>Calinski-Harabasz</th>
-                                <th>Konu Uyum Oranı</th>
-                            </tr>
+                            <tr><th>Yöntem</th><th>Makale</th><th>Küme</th><th>Silhouette</th></tr>
                         </thead>
                         <tbody id="evalTableKmeans">
-                            <tr><td colspan="7" class="text-center text-muted">Yükleniyor...</td></tr>
+                            <tr><td colspan="4" class="text-center text-muted">Yükleniyor...</td></tr>
                         </tbody>
                     </table>
                 </div>
-
-                <h6 class="fw-bold text-dark mb-2">2. Embedding Modelleri Karşılaştırması</h6>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-sm small align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Model</th>
-                                <th>Boyut</th>
-                                <th>Silhouette</th>
-                                <th>Davies-Bouldin</th>
-                                <th>Calinski-Harabasz</th>
-                                <th>Kümeleme Süresi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="evalTableEmb">
-                            <tr><td colspan="6" class="text-center text-muted">Yükleniyor...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer border-top px-4 py-2">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>
