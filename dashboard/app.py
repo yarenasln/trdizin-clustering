@@ -164,7 +164,8 @@ def get_plot():
         for row in records
     ]
 
-    trace = go.Scattergl(
+    # 1. Ana Trace: Tüm makaleler (normal halleriyle durur)
+    main_trace = go.Scattergl(
         x=df['umap_x'].tolist(),
         y=df['umap_y'].tolist(),
         mode='markers',
@@ -183,9 +184,25 @@ def get_plot():
         ),
         text=hover_texts,
         hoverinfo='text',
+        name='Makaleler'
     )
 
-    fig = go.Figure(data=[trace])
+    # 2. Seçim Trace'i: Tıklanan nokta burada öne çıkar (başlangıçta boştur)
+    selected_trace = go.Scattergl(
+        x=[],
+        y=[],
+        mode='markers',
+        marker=dict(
+            size=12,               # Boyutu büyük
+            color="#3167A5",       # Doğrudan rengi değişmiş hali (Parlak Turkuaz / Cyan veya istediğin başka bir renk)
+            opacity=1.0
+        ),
+        hoverinfo='skip',
+        name='Seçilen'
+    )
+
+    # İki trace'i birden grafiğe veriyoruz
+    fig = go.Figure(data=[main_trace, selected_trace])
 
     algo_title = 'HDBSCAN' if algorithm == 'hdbscan' else 'K-MEANS'
     fig.update_layout(

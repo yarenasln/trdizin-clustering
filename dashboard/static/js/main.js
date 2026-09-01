@@ -180,6 +180,12 @@ function openSidePanel(item) {
     if (welcomeWrapper) welcomeWrapper.style.display = 'none';
     if (activeContent) activeContent.style.display = 'block';
 
+    // External ID bilgisini panele yazdıralım
+    const extIdElem = document.getElementById('panel-id');
+    if (extIdElem) {
+        extIdElem.innerText = item.external_id ? `(ID: ${item.external_id})` : '';
+    }
+
     // Başlık alanını güvenli şekilde yerleştir (Önce başlık, yoksa ID)
     const titleText = item.baslik || item.title || (item.external_id ? `Makale ID: ${item.external_id}` : 'Başlık Belirtilmemiş');
     document.getElementById('panel-title').innerText = titleText;

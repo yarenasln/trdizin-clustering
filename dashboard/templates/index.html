@@ -80,7 +80,7 @@
                 <!-- Başlangıç Rehber Durumu -->
                 <div id="panel-content-wrapper">
                     <div class="text-center text-muted py-5 mt-4">
-                        <h6 class="fw-bold text-dark small">Nomic Detay Paneli</h6>
+                        <h6 class="fw-bold text-dark small">Detay Paneli</h6>
                         <p class="text-secondary" style="font-size: 0.75rem;">
                             Haritadaki bir noktaya tıklayarak detayları burada inceleyin.
                         </p>
@@ -90,7 +90,9 @@
                 <!-- Seçilen Makale İçeriği -->
                 <div id="panel-active-content" style="display: none;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-danger" style="font-size: 0.65rem;">Anomali Detayı</span>
+                        <span class="badge bg-danger" style="font-size: 0.65rem;">Anomali Detayı</span><br>
+                        <!-- External ID için eklediğimiz alan -->
+                        <span id="panel-id" class="text-muted ms-2 fw-semibold" style="font-size: 0.85rem; font-family: monospace;"></span>
                         <button type="button" class="btn-close btn-sm" onclick="resetSidePanel()"></button>
                     </div>
                     
