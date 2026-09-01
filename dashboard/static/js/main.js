@@ -61,7 +61,7 @@ async function loadDashboard() {
             scrollZoom: true
         });
 
-        // NOMIC ATLAS TARZI: Grafikteki noktaya tıklama olayı (Güncellendi)
+        //Grafikteki noktaya tıklama olayı (Güncellendi)
         const plotElement = document.getElementById('clusterPlot');
         
         // Eski dinleyicileri temizle
@@ -169,7 +169,7 @@ async function loadDashboard() {
     }
 }
 
-// NOMIC ATLAS: Soldaki Sabit Detay Panelini Dolduran Fonksiyon
+// Soldaki Sabit Detay Panelini Dolduran Fonksiyon
 function openSidePanel(item) {
     if (!item) return;
 
@@ -337,10 +337,10 @@ function switchMapView(viewType) {
         ];
         colorBarTitle = 'Risk';
     } else {
-        // Nomic Atlas tarzı Tableau10 benzeri şık kategorik renk paleti
+        // Tableau10 benzeri kategorik renk paleti
         const palette = [
             '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', 
-            '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#bab0ac'
+            '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#374983'
         ];
 
         // Her noktanın küme ID'sine göre paletten renk seçiyoruz (mod alarak döndürüyoruz)

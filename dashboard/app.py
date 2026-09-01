@@ -214,10 +214,10 @@ def get_plot():
         xaxis=dict(title='UMAP 1', gridcolor='#e2e8f0', zeroline=False),
         yaxis=dict(title='UMAP 2', gridcolor='#e2e8f0', zeroline=False),
         hovermode='closest',
-        dragmode='pan',  # <--- İşte bu! Tıklayıp tutup her yöne kaydırmanı sağlar (Nomic tarzı)
+        dragmode='pan',  
     )
 
-  # Plotly'nin tekerlekle zoom yapma (scrollZoom) özelliğini aktif eden config yapısı:
+  
   fig_dict = fig.to_dict()
   fig_dict['config'] = {'scrollZoom': True, 'displayModeBar': True}
 

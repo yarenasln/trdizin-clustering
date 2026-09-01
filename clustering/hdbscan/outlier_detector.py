@@ -254,10 +254,15 @@ class OutlierDetector:
             )
 
             oncelik = "DÜŞÜK"
-            if ortak_derinlik == 0:
+            # Öncelik belirleme (Hem hiyerarşik derinlik hem de bileşik risk skoruna göre)
+            if ortak_derinlik == 0 and risk_skoru >= 0.70:
                 oncelik = "KRİTİK (Farklı Ana Disiplin)"
-            elif ortak_derinlik == 1:
-                oncelik = "YÜKSEK (Farklı Alt Alan)"
+            elif risk_skoru >= 0.70:
+                oncelik = "YÜKSEK"
+            elif risk_skoru >= 0.40:
+                oncelik = "ORTA"
+            else:
+                oncelik = "DÜŞÜK"
 
             sonuc_listesi.append({
                 "external_id": ext_id,
