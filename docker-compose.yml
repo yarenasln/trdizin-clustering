@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:16
     container_name: trdizin_clustering_postgres
@@ -24,7 +23,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
 
   app:
     build: .
@@ -55,6 +53,19 @@ services:
 
     command: python dashboard/app.py
 
+  caddy:
+    image: caddy:latest
+    container_name: trdizin_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:
