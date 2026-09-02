@@ -53,24 +53,28 @@ def load_algorithm_data(algorithm="hdbscan"):
     try:
       umap_df = pd.read_csv(umap_file)
       
-      if "external_id" not in umap_df.columns:
-        for col in ["id", "ArticleID", "makale_id"]:
-          if col in umap_df.columns:
-            umap_df["external_id"] = umap_df[col]
-            break
+      # Sütun adını esnek bulalım
+      id_col_umap = None
+      for col in ["external_id", "id", "ArticleID", "makale_id"]:
+        if col in umap_df.columns:
+          id_col_umap = col
+          break
 
-      if "external_id" in umap_df.columns and "umap_x" in umap_df.columns and "umap_y" in umap_df.columns:
-        df["external_id_str"] = df["external_id"].astype(str).str.strip()
-        umap_df["external_id_str"] = umap_df["external_id"].astype(str).str.strip()
+      if id_col_umap and "umap_x" in umap_df.columns and "umap_y" in umap_df.columns:
+        # İki taraftaki ID'leri de tertemiz string yapalım ki eşleşmeme ihtimali kalmasın
+        df["clean_id"] = df["external_id"].astype(str).str.strip().str.lower()
+        umap_df["clean_id"] = umap_df[id_col_umap].astype(str).str.strip().str.lower()
 
+        # Eski koordinat sütunları varsa temizle
         df.drop(columns=[c for c in ["umap_x", "umap_y"] if c in df.columns], errors="ignore", inplace=True)
 
+        # Left join ile birleştir
         df = df.merge(
-            umap_df[["external_id_str", "umap_x", "umap_y"]],
-            on="external_id_str",
+            umap_df[["clean_id", "umap_x", "umap_y"]],
+            on="clean_id",
             how="left"
         )
-        df.drop(columns=["external_id_str"], errors="ignore", inplace=True)
+        df.drop(columns=["clean_id"], errors="ignore", inplace=True)
     except Exception as e:
       print(f"UMAP okuma hatası: {e}")
 

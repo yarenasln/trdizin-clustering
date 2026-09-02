@@ -1,3 +1,13 @@
 qdrant.ulakbim.gov.tr {
+    # /ui ile başlayan istekleri yakala
+    handle_path /ui* {
+        # İstek Qdrant'a giderken yolun başındaki /ui kısmını temizle
+        # Qdrant sanki kök dizinden çalışıyormuş gibi isteği karşılar
+        reverse_proxy qdrant:6333 {
+            header_up Host {http.reverse_proxy.upstream.host}
+        }
+    }
+
+    # Geri kalan tüm istekler mevcut Flask uygulamana gider
     reverse_proxy app:5001
 }
