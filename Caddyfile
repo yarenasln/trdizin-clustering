@@ -1,8 +1,22 @@
 qdrant.ulakbim.gov.tr {
     handle /dashboard* {
-        reverse_proxy qdrant:6333 {
-            header_up Host {http.reverse_proxy.upstream.host}
-        }
+        reverse_proxy qdrant:6333
+    }
+
+    handle /collections* {
+        reverse_proxy qdrant:6333
+    }
+
+    handle /cluster* {
+        reverse_proxy qdrant:6333
+    }
+
+    handle /telemetry* {
+        reverse_proxy qdrant:6333
+    }
+
+    handle /aliases* {
+        reverse_proxy qdrant:6333
     }
 
     handle {
