@@ -1,9 +1,12 @@
 qdrant.ulakbim.gov.tr {
-    # /ui ile başlayan tüm istekleri /dashboard yapısına tam yönlendir
-    handle_path /ui* {
+
+    # Qdrant Dashboard
+    handle /dashboard* {
         reverse_proxy qdrant:6333
     }
 
-    # Geri kalan her şeyi Flask'a ver
-    reverse_proxy app:5001
+    # Ana web sitesi
+    handle {
+        reverse_proxy app:5001
+    }
 }
