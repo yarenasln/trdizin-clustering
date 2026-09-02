@@ -1,11 +1,10 @@
 qdrant.ulakbim.gov.tr {
-
-    # Qdrant Dashboard
     handle /dashboard* {
-        reverse_proxy qdrant:6333
+        reverse_proxy qdrant:6333 {
+            header_up Host {http.reverse_proxy.upstream.host}
+        }
     }
 
-    # Ana web sitesi
     handle {
         reverse_proxy app:5001
     }
