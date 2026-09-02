@@ -1,10 +1,11 @@
 qdrant.ulakbim.gov.tr {
-    # /ui veya /ui/ ile başlayan tüm istekleri doğrudan qdrant'a yönlendir
     route /ui* {
         uri strip_prefix /ui
+        # Qdrant paneli /dashboard altında çalıştığı için yolu /dashboard olarak güncelliyoruz
+        rewrite * /dashboard{path}
         reverse_proxy qdrant:6333
     }
 
-    # Geri kalan her şeyi Flask uygulamasına ver
+    # Geri kalan her şey Flask uygulamasına
     reverse_proxy app:5001
 }
