@@ -6,13 +6,129 @@ import umap
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 from collections import Counter
+from qdrant_client import QdrantClient
+from qdrant_client.models import QueryRequest, SearchParams
 
 
 class OutlierDetector:
-    def __init__(self, model_name="paraphrase-multilingual-mpnet-base-v2", knn_k=10):
+    def __init__(
+        self,
+        model_name="paraphrase-multilingual-mpnet-base-v2",
+        knn_k=10,
+        qdrant_url=None,
+        qdrant_api_key=None,
+        collection_name=None,
+    ):
         self.model_name = model_name
         self.knn_k = knn_k
         self._model = None
+        self.qdrant_url = qdrant_url or os.getenv("QDRANT_URL", "https://qdrant.ulakbim.gov.tr")
+        self.qdrant_api_key = qdrant_api_key or os.getenv("QDRANT_API_KEY", None)
+        self.collection_name = collection_name or os.getenv("QDRANT_COLLECTION", "trdizin_articles")
+        self.vector_name = "mpnet_v1"
+
+    def _get_qdrant_client(self) -> QdrantClient:
+        return QdrantClient(
+            url=self.qdrant_url,
+            api_key=self.qdrant_api_key,
+            port=None,
+            prefer_grpc=False,
+            check_compatibility=False,
+            timeout=60,
+        )
+
+    def _get_qdrant_knn_indices(
+        self,
+        makaleler: list,
+        vektorler_np: np.ndarray,
+        batch_size: int = 256
+    ) -> np.ndarray:
+        n_samples = len(makaleler)
+        print(f"[*] Qdrant üzerinden {n_samples} makale için batch k-NN komşulukları çekiliyor (Batch: {batch_size})...")
+
+        # 1. external_id -> 0-tabanlı satır indeksi eşleme sözlüğü
+        eid_to_row = {}
+        for i, m in enumerate(makaleler):
+            raw_eid = m.get("external_id")
+            if raw_eid is None:
+                raise ValueError(f"Makale {i} için 'external_id' eksik!")
+            try:
+                eid_to_row[int(raw_eid)] = i
+            except (ValueError, TypeError) as e:
+                raise ValueError(f"Geçersiz external_id: {raw_eid} (Satır: {i})") from e
+
+        client = self._get_qdrant_client()
+        knn_indices = np.empty((n_samples, self.knn_k + 1), dtype=np.int32)
+
+        num_batches = (n_samples + batch_size - 1) // batch_size
+
+        for b_idx in range(num_batches):
+            start = b_idx * batch_size
+            end = min(start + batch_size, n_samples)
+            batch_slice = range(start, end)
+
+            requests = []
+            for i in batch_slice:
+                vec = vektorler_np[i].tolist()
+                requests.append(
+                    QueryRequest(
+                        query=vec,
+                        using=self.vector_name,
+                        params=SearchParams(exact=True),
+                        limit=self.knn_k + 1,
+                        with_payload=["subject_names", "root_names", "external_id"],
+                        with_vector=False,
+                    )
+                )
+
+            batch_responses = client.query_batch_points(
+                collection_name=self.collection_name,
+                requests=requests,
+                timeout=60,
+            )
+
+            if len(batch_responses) != len(requests):
+                raise RuntimeError(
+                    f"Qdrant batch response sayısı istek sayısıyla eşleşmiyor! "
+                    f"Beklenen: {len(requests)}, Dönen: {len(batch_responses)} (Batch {b_idx + 1}/{num_batches})"
+                )
+
+            for offset, resp in enumerate(batch_responses):
+                row_idx = start + offset
+                curr_eid = int(makaleler[row_idx]["external_id"])
+                points = resp.points
+
+                if len(points) < (self.knn_k + 1):
+                    raise RuntimeError(
+                        f"Qdrant makale {curr_eid} (satır {row_idx}) için yeterli sonuç dönmedi! "
+                        f"Beklenen en az {self.knn_k + 1}, dönen: {len(points)}"
+                    )
+
+                # Self çıkarıldıktan sonra en az knn_k komşu kalmalı
+                filtered_neighbors = [p for p in points if int(p.id) != curr_eid]
+                if len(filtered_neighbors) < self.knn_k:
+                    raise RuntimeError(
+                        f"Makale {curr_eid} (satır {row_idx}) için self çıkarıldıktan sonra "
+                        f"{self.knn_k} komşu kalmıyor! Kalan komşu sayısı: {len(filtered_neighbors)}"
+                    )
+
+                row_indices_11 = []
+                for p in points[:self.knn_k + 1]:
+                    p_id = int(p.id)
+                    if p_id not in eid_to_row:
+                        raise KeyError(
+                            f"Qdrant'tan dönen point ID ({p_id}) makale listesinde (eid_to_row) bulunamadı! "
+                            f"(Sorgulanan makale: {curr_eid}, satır: {row_idx})"
+                        )
+                    row_indices_11.append(eid_to_row[p_id])
+
+                knn_indices[row_idx] = row_indices_11
+
+            if b_idx == 0 or end % 2048 == 0 or end == n_samples:
+                print(f"[*] Qdrant k-NN ilerleme: {end}/{n_samples}")
+
+        print("[*] Qdrant k-NN tamamlandı:", knn_indices.shape)
+        return knn_indices
 
     @property
     def model(self):
@@ -85,51 +201,7 @@ class OutlierDetector:
         ).astype(np.float32, copy=False)
         print("[*] Taksonomi similarity shape:", sim_matrix.shape)
 
-        print("[*] Bellek-dostu k-NN komşulukları hesaplanıyor...")
-
-        chunk_size = 256
-        n_samples = len(vektorler_np)
-
-        knn_indices = np.empty(
-            (n_samples, self.knn_k + 1),
-            dtype=np.int32
-        )
-
-        for start in range(0, n_samples, chunk_size):
-            end = min(start + chunk_size, n_samples)
-
-            chunk_sim = cosine_similarity(
-                vektorler_np[start:end],
-                vektorler_np
-            ).astype(
-                np.float32,
-                copy=False
-            )
-
-            part = np.argpartition(
-                chunk_sim,
-                kth=chunk_sim.shape[1] - (self.knn_k + 1),
-                axis=1
-            )[:, -(self.knn_k + 1):]
-
-            row_idx = np.arange(end - start)[:, None]
-            part_scores = chunk_sim[row_idx, part]
-
-            order = np.argsort(
-                part_scores,
-                axis=1
-            )[:, ::-1]
-
-            knn_indices[start:end] = part[row_idx, order]
-
-            del chunk_sim, part, part_scores, order
-
-            if start == 0 or end % 2048 == 0 or end == n_samples:
-                print(
-                    f"[*] k-NN ilerleme: {end}/{n_samples}"
-                )
-
-        print("[*] k-NN tamamlandı:", knn_indices.shape)
+        knn_indices = self._get_qdrant_knn_indices(makaleler, vektorler_np, batch_size=256)
 
         taxonomy_index = {
             yol: idx

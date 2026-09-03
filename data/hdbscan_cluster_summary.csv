@@ -1,21 +1,21 @@
 ﻿cluster_id,taxonomy_path,display_name_level_1,display_name_level_2,display_name_level_3,x_center,y_center,size,dominant_category,category_purity
-1,Fen > Tıp > Tıbbi İnformatik,Fen,Tıp,Tıbbi İnformatik,3.3446162,2.214953,2,Fen > Tıp > Tıbbi İnformatik,0.5
+1,Fen > Tıp > Pediatri,Fen,Tıp,Pediatri,3.3446162,2.214953,2,Fen > Tıp > Pediatri,0.5
 8,Sosyal > Sağlık Politikaları ve Hizmetleri,Sosyal,Küme #8,Küme #8,4.698844,2.0607219,6,Sosyal > Sağlık Politikaları ve Hizmetleri,0.33
-17,Sosyal > Folklor,Sosyal,Folklor,Folklor,5.1329985,3.754109,1,Sosyal > Folklor,1.0
+17,Sosyal > Etik,Sosyal,Etik,Etik,5.1329985,3.754109,1,Sosyal > Etik,1.0
 23,Fen > Tıp > Adli Tıp,Fen,Tıp,Adli Tıp,3.5088105,6.611297,1,Fen > Tıp > Adli Tıp,1.0
 28,Fen > Temel Bilimler > Zooloji,Fen,Temel Bilimler,Zooloji,7.45843,0.34330118,2,Fen > Temel Bilimler > Zooloji,0.5
-31,Sosyal > Coğrafya,Sosyal,Coğrafya,Coğrafya,6.477532,6.26559,1,Sosyal > Coğrafya,1.0
-32,Fen > Tıp > Üroloji ve Nefroloji,Fen,Tıp,Üroloji ve Nefroloji,5.3337593,5.7453537,2,Fen > Tıp > Üroloji ve Nefroloji,0.5
+31,Fen > Temel Bilimler > Ekoloji,Fen,Temel Bilimler,Ekoloji,6.477532,6.26559,1,Fen > Temel Bilimler > Ekoloji,1.0
+32,Fen > Mühendislik > Mimarlık,Fen,Mühendislik,Mimarlık,5.3337593,5.7453537,2,Fen > Mühendislik > Mimarlık,0.5
 34,Sosyal > İletişim,Sosyal,İletişim,İletişim,5.708731,1.8768868,1,Sosyal > İletişim,1.0
 35,Fen > Mühendislik > Polimer Bilimi,Fen,Küme #35,Küme #35,9.196403,9.248849,3,Fen > Mühendislik > Polimer Bilimi,0.33
 40,Fen > Tıp > Biyofizik,Fen,Küme #40,Küme #40,8.642365,10.717305,4,Fen > Tıp > Biyofizik,0.25
-41,Fen > Tıp > Transplantasyon,Fen,Tıp,Transplantasyon,6.3729334,5.063985,2,Fen > Tıp > Transplantasyon,0.5
+41,Sosyal > İktisat,Sosyal,İktisat,İktisat,6.3729334,5.063985,2,Sosyal > İktisat,0.5
 43,Sosyal > Hemşirelik,Sosyal,Hemşirelik,Hemşirelik,6.982562,1.3516227,1,Sosyal > Hemşirelik,1.0
 45,Sosyal > İşletme,Sosyal,İşletme,İşletme,4.8792195,6.1689467,2,Sosyal > İşletme,1.0
 48,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,Fen,Tıp,Sağlık Bilimleri ve Hizmetleri,4.68909,4.1006274,1,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1.0
 50,"Fen > Temel Bilimler > Kimya, Analitik",Fen,Temel Bilimler,"Kimya, Analitik",6.9861846,3.5245044,5,"Fen > Temel Bilimler > Kimya, Analitik",0.4
 54,Fen > Temel Bilimler > Matematik,Fen,Temel Bilimler,Matematik,7.3237686,0.57071865,1,Fen > Temel Bilimler > Matematik,1.0
-58,Fen > Temel Bilimler > Matematik,Fen,Temel Bilimler,Matematik,8.655395,5.3604054,2,Fen > Temel Bilimler > Matematik,0.5
+58,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,Fen,Mühendislik,Görüntüleme Bilimi ve Fotoğraf Teknolojisi,8.655395,5.3604054,2,Fen > Mühendislik > Görüntüleme Bilimi ve Fotoğraf Teknolojisi,0.5
 59,Sosyal > Tarih,Sosyal,Küme #59,Küme #59,6.878801,5.885933,6,Sosyal > Tarih,0.33
 66,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,Fen,Tıp,Biyokimya ve Moleküler Biyoloji,7.4077673,1.097266,1,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,1.0
 68,Sosyal > Kriminoloji ve Ceza Bilimi,Sosyal,Kriminoloji ve Ceza Bilimi,Kriminoloji ve Ceza Bilimi,4.300343,7.1587224,1,Sosyal > Kriminoloji ve Ceza Bilimi,1.0
@@ -30,51 +30,51 @@
 89,Sosyal > Hemşirelik,Sosyal,Hemşirelik,Hemşirelik,3.4265687,1.7126166,1,Sosyal > Hemşirelik,1.0
 90,Fen > Temel Bilimler > Kuş Bilimi,Fen,Temel Bilimler,Kuş Bilimi,4.7843738,4.46759,1,Fen > Temel Bilimler > Kuş Bilimi,1.0
 91,Fen > Temel Bilimler > Optik,Fen,Temel Bilimler,Optik,4.5202155,2.9154646,1,Fen > Temel Bilimler > Optik,1.0
-93,Fen > Ziraat > Bitki Bilimleri,Fen,Ziraat,Bitki Bilimleri,10.146105,6.530145,2,Fen > Ziraat > Bitki Bilimleri,0.5
+93,Sosyal > Mantık,Sosyal,Mantık,Mantık,10.146105,6.530145,2,Sosyal > Mantık,0.5
 94,Sosyal > Müzik,Sosyal,Müzik,Müzik,4.6432977,4.5780993,2,Sosyal > Müzik,1.0
-95,Fen > Tıp > Klinik Nöroloji,Fen,Tıp,Klinik Nöroloji,2.2697682,4.3575006,1,Fen > Tıp > Klinik Nöroloji,1.0
-97,Fen > Temel Bilimler > Kuş Bilimi,Fen,Temel Bilimler,Kuş Bilimi,4.148323,2.9037619,1,Fen > Temel Bilimler > Kuş Bilimi,1.0
+95,Fen > Tıp > Rehabilitasyon,Fen,Tıp,Rehabilitasyon,2.2697682,4.3575006,1,Fen > Tıp > Rehabilitasyon,1.0
+97,Fen > Veterinerlik,Fen,Veterinerlik,Veterinerlik,4.148323,2.9037619,1,Fen > Veterinerlik,1.0
 100,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",Fen,Mühendislik,"Bilgisayar Bilimleri, Yazılım Mühendisliği",5.421581,4.823598,1,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1.0
-101,Sosyal > Müzik,Sosyal,Müzik,Müzik,5.2593756,4.701955,1,Sosyal > Müzik,1.0
+101,Sosyal > Sanat,Sosyal,Sanat,Sanat,5.2593756,4.701955,1,Sosyal > Sanat,1.0
 103,Fen > Tıp > Adli Tıp,Fen,Tıp,Adli Tıp,5.275606,8.09099,2,Fen > Tıp > Adli Tıp,0.5
-109,Fen > Tıp > Halk ve Çevre Sağlığı,Fen,Tıp,Halk ve Çevre Sağlığı,4.899923,2.856917,1,Fen > Tıp > Halk ve Çevre Sağlığı,1.0
+109,Fen > Tıp > Mikrobiyoloji,Fen,Tıp,Mikrobiyoloji,4.899923,2.856917,1,Fen > Tıp > Mikrobiyoloji,1.0
 110,Sosyal > Sağlık Politikaları ve Hizmetleri,Sosyal,Sağlık Politikaları ve Hizmetleri,Sağlık Politikaları ve Hizmetleri,4.9509573,2.909736,1,Sosyal > Sağlık Politikaları ve Hizmetleri,1.0
 111,Sosyal > İşletme,Sosyal,Küme #111,Küme #111,4.5136905,5.086138,8,Sosyal > İşletme,0.25
 117,Fen > Veterinerlik,Fen,Veterinerlik,Veterinerlik,8.11698,0.7550183,1,Fen > Veterinerlik,1.0
 118,"Sosyal > Bilgi, Belge Yönetimi",Sosyal,"Bilgi, Belge Yönetimi","Bilgi, Belge Yönetimi",3.2495277,4.925425,1,"Sosyal > Bilgi, Belge Yönetimi",1.0
 121,Sosyal > Etik,Sosyal,Etik,Etik,5.024486,3.406957,1,Sosyal > Etik,1.0
-122,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,Fen,Mühendislik,Maden İşletme ve Cevher Hazırlama,5.2217736,3.2459333,1,Fen > Mühendislik > Maden İşletme ve Cevher Hazırlama,1.0
-124,Fen > Temel Bilimler > Viroloji,Fen,Temel Bilimler,Viroloji,7.013937,2.366598,1,Fen > Temel Bilimler > Viroloji,1.0
+122,Fen > Temel Bilimler > Matematik,Fen,Temel Bilimler,Matematik,5.2217736,3.2459333,1,Fen > Temel Bilimler > Matematik,1.0
+124,Fen > Diş Hekimliği,Fen,Diş Hekimliği,Diş Hekimliği,7.013937,2.366598,1,Fen > Diş Hekimliği,1.0
 125,Fen > Diş Hekimliği,Fen,Diş Hekimliği,Diş Hekimliği,9.257715,7.719471,1,Fen > Diş Hekimliği,1.0
-130,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",Fen,Mühendislik,"Bilgisayar Bilimleri, Yazılım Mühendisliği",3.548273,6.044377,1,"Fen > Mühendislik > Bilgisayar Bilimleri, Yazılım Mühendisliği",1.0
-133,Fen > Ziraat > Ziraat Mühendisliği,Fen,Ziraat,Ziraat Mühendisliği,4.5022244,6.3148293,1,Fen > Ziraat > Ziraat Mühendisliği,1.0
+130,Fen > Mühendislik > Telekomünikasyon,Fen,Mühendislik,Telekomünikasyon,3.548273,6.044377,1,Fen > Mühendislik > Telekomünikasyon,1.0
+133,Fen > Ziraat > Tarımsal Ekonomi ve Politika,Fen,Ziraat,Tarımsal Ekonomi ve Politika,4.5022244,6.3148293,1,Fen > Ziraat > Tarımsal Ekonomi ve Politika,1.0
 134,Fen > Mühendislik > Endüstri Mühendisliği,Fen,Mühendislik,Endüstri Mühendisliği,4.8159046,6.8883715,2,Fen > Mühendislik > Endüstri Mühendisliği,0.5
 136,Sosyal > Hukuk,Sosyal,Hukuk,Hukuk,5.1614757,7.3835425,1,Sosyal > Hukuk,1.0
 138,"Sosyal > Eğitim, Eğitim Araştırmaları",Sosyal,"Eğitim, Eğitim Araştırmaları","Eğitim, Eğitim Araştırmaları",5.527847,2.419655,1,"Sosyal > Eğitim, Eğitim Araştırmaları",1.0
-139,Fen > Tıp > Psikiyatri,Fen,Tıp,Psikiyatri,2.9458363,3.2695818,2,Fen > Tıp > Psikiyatri,0.5
-142,Fen > Tıp > Cerrahi,Fen,Tıp,Cerrahi,5.98573,2.0765178,2,Fen > Tıp > Cerrahi,0.5
+139,Fen > Tıp > Temel Sağlık Hizmetleri,Fen,Tıp,Temel Sağlık Hizmetleri,2.9458363,3.2695818,2,Fen > Tıp > Temel Sağlık Hizmetleri,0.5
+142,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,Fen,Tıp,Odyoloji ve Konuşma-Dil Patolojisi,5.98573,2.0765178,2,Fen > Tıp > Odyoloji ve Konuşma-Dil Patolojisi,0.5
 143,Fen > Tıp > Cerrahi,Fen,Tıp,Cerrahi,6.1191993,2.3749866,5,Fen > Tıp > Cerrahi,0.4
 148,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,Fen,Tıp,Sağlık Bilimleri ve Hizmetleri,3.4323545,3.885205,1,Fen > Tıp > Sağlık Bilimleri ve Hizmetleri,1.0
 155,Fen > Temel Bilimler > Çevre Bilimleri,Fen,Temel Bilimler,Çevre Bilimleri,9.254208,7.009712,1,Fen > Temel Bilimler > Çevre Bilimleri,1.0
 164,Sosyal > Çevre Çalışmaları,Sosyal,Çevre Çalışmaları,Çevre Çalışmaları,5.936903,9.668962,2,Sosyal > Çevre Çalışmaları,0.5
 165,Sosyal > Felsefe,Sosyal,Felsefe,Felsefe,2.4453266,5.580749,1,Sosyal > Felsefe,1.0
 166,Fen > Mühendislik > İnşaat Mühendisliği,Fen,Mühendislik,İnşaat Mühendisliği,2.313036,5.653787,2,Fen > Mühendislik > İnşaat Mühendisliği,0.5
-167,Sosyal > Sosyoloji,Sosyal,Sosyoloji,Sosyoloji,4.3322563,0.7398187,1,Sosyal > Sosyoloji,1.0
+167,Sosyal > Etik,Sosyal,Etik,Etik,4.3322563,0.7398187,1,Sosyal > Etik,1.0
 178,Fen > Mühendislik > Mimarlık,Fen,Küme #178,Küme #178,4.252078,9.454332,3,Fen > Mühendislik > Mimarlık,0.33
 183,Fen > Temel Bilimler > Spektroskopi,Fen,Temel Bilimler,Spektroskopi,10.662468,6.7003226,1,Fen > Temel Bilimler > Spektroskopi,1.0
-184,Sosyal > Bilim Felsefesi ve Tarihi,Sosyal,Bilim Felsefesi ve Tarihi,Bilim Felsefesi ve Tarihi,4.4196925,8.082477,1,Sosyal > Bilim Felsefesi ve Tarihi,1.0
+184,Sosyal > Tarih,Sosyal,Tarih,Tarih,4.4196925,8.082477,1,Sosyal > Tarih,1.0
 185,Sosyal > Hukuk,Sosyal,Hukuk,Hukuk,4.154974,5.302867,2,Sosyal > Hukuk,1.0
-187,Sosyal > Coğrafya,Sosyal,Coğrafya,Coğrafya,5.6567893,10.333542,2,Sosyal > Coğrafya,0.5
-188,Fen > Temel Bilimler > Viroloji,Fen,Temel Bilimler,Viroloji,9.136725,3.7230172,1,Fen > Temel Bilimler > Viroloji,1.0
+187,Fen > Tıp > Biyofizik,Fen,Tıp,Biyofizik,5.6567893,10.333542,2,Fen > Tıp > Biyofizik,0.5
+188,Fen > Temel Bilimler > Biyoloji,Fen,Temel Bilimler,Biyoloji,9.136725,3.7230172,1,Fen > Temel Bilimler > Biyoloji,1.0
 193,Sosyal > Hukuk,Sosyal,Küme #193,Küme #193,4.1248527,5.1753125,4,Sosyal > Hukuk,0.25
-200,Sosyal > Etik,Sosyal,Etik,Etik,2.5809164,3.8218956,1,Sosyal > Etik,1.0
-201,"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",Fen,Temel Bilimler,"Kimya, İnorganik ve Nükleer",8.343732,8.361368,1,"Fen > Temel Bilimler > Kimya, İnorganik ve Nükleer",1.0
+200,Sosyal > İktisat,Sosyal,İktisat,İktisat,2.5809164,3.8218956,1,Sosyal > İktisat,1.0
+201,"Fen > Temel Bilimler > Kimya, Organik",Fen,Temel Bilimler,"Kimya, Organik",8.343732,8.361368,1,"Fen > Temel Bilimler > Kimya, Organik",1.0
 207,Fen > Tıp > Acil Tıp,Fen,Tıp,Acil Tıp,3.213469,3.9573302,1,Fen > Tıp > Acil Tıp,1.0
 210,Fen > Diş Hekimliği,Fen,Diş Hekimliği,Diş Hekimliği,9.317677,7.9445667,1,Fen > Diş Hekimliği,1.0
 211,Fen > Temel Bilimler > İstatistik ve Olasılık,Fen,Temel Bilimler,İstatistik ve Olasılık,7.0355773,6.3291774,2,Fen > Temel Bilimler > İstatistik ve Olasılık,0.5
 218,Sosyal > Folklor,Sosyal,Folklor,Folklor,8.928313,7.588723,3,Sosyal > Folklor,0.67
 219,Sosyal > İşletme,Sosyal,Küme #219,Küme #219,5.570337,7.419206,4,Sosyal > İşletme,0.25
-222,Fen > Tıp > Spor Bilimleri,Fen,Tıp,Spor Bilimleri,6.117875,8.160648,1,Fen > Tıp > Spor Bilimleri,1.0
+222,Fen > Tıp > Rehabilitasyon,Fen,Tıp,Rehabilitasyon,6.117875,8.160648,1,Fen > Tıp > Rehabilitasyon,1.0
 224,Fen > Temel Bilimler > Entomoloji,Fen,Temel Bilimler,Entomoloji,9.106511,4.5105586,2,Fen > Temel Bilimler > Entomoloji,0.5
 225,"Fen > Ziraat > Ziraat, Toprak Bilimi",Fen,Ziraat,"Ziraat, Toprak Bilimi",9.416796,4.9239707,1,"Fen > Ziraat > Ziraat, Toprak Bilimi",1.0
 226,Fen > Veterinerlik,Fen,Veterinerlik,Veterinerlik,8.920483,5.27297,1,Fen > Veterinerlik,1.0
@@ -82,20 +82,20 @@
 242,Fen > Temel Bilimler > Mikroskopi,Fen,Temel Bilimler,Mikroskopi,9.989551,9.001311,1,Fen > Temel Bilimler > Mikroskopi,1.0
 243,"Fen > Mühendislik > Mühendislik, Makine",Fen,Küme #243,Küme #243,8.343899,9.767446,4,"Fen > Mühendislik > Mühendislik, Makine",0.25
 247,Fen > Tıp > Üroloji ve Nefroloji,Fen,Küme #247,Küme #247,7.640329,6.6807485,3,Fen > Tıp > Üroloji ve Nefroloji,0.33
-248,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,Fen,Tıp,Biyokimya ve Moleküler Biyoloji,10.904626,7.6151466,2,Fen > Tıp > Biyokimya ve Moleküler Biyoloji,0.5
+248,Fen > Tıp > Mikrobiyoloji,Fen,Tıp,Mikrobiyoloji,10.904626,7.6151466,2,Fen > Tıp > Mikrobiyoloji,0.5
 249,Fen > Temel Bilimler > Çevre Bilimleri,Fen,Temel Bilimler,Çevre Bilimleri,5.651847,6.6147523,4,Fen > Temel Bilimler > Çevre Bilimleri,0.5
 254,Fen > Temel Bilimler > Fizikokimya,Fen,Temel Bilimler,Fizikokimya,10.263244,8.343437,3,Fen > Temel Bilimler > Fizikokimya,0.67
 258,"Fen > Temel Bilimler > Fizik, Uygulamalı",Fen,Temel Bilimler,"Fizik, Uygulamalı",10.236938,8.756045,2,"Fen > Temel Bilimler > Fizik, Uygulamalı",1.0
 259,"Fen > Temel Bilimler > Kimya, Organik",Fen,Temel Bilimler,"Kimya, Organik",10.231235,8.515487,2,"Fen > Temel Bilimler > Kimya, Organik",1.0
-260,Sosyal > Çevre Çalışmaları,Sosyal,Çevre Çalışmaları,Çevre Çalışmaları,6.5322924,7.2677107,2,Sosyal > Çevre Çalışmaları,0.5
+260,Sosyal > İktisat,Sosyal,İktisat,İktisat,6.5322924,7.2677107,2,Sosyal > İktisat,0.5
 263,Sosyal > Hukuk,Sosyal,Hukuk,Hukuk,6.891881,7.8757606,1,Sosyal > Hukuk,1.0
-265,"Fen > Temel Bilimler > Kimya, Analitik",Fen,Temel Bilimler,"Kimya, Analitik",7.5583334,8.162816,1,"Fen > Temel Bilimler > Kimya, Analitik",1.0
+265,"Fen > Temel Bilimler > Kimya, Uygulamalı",Fen,Temel Bilimler,"Kimya, Uygulamalı",7.5583334,8.162816,1,"Fen > Temel Bilimler > Kimya, Uygulamalı",1.0
 269,Fen > Temel Bilimler > Mantar Bilimi,Fen,Küme #269,Küme #269,8.04405,5.0958,9,Fen > Temel Bilimler > Mantar Bilimi,0.33
 270,Fen > Eczacılık > Farmakoloji ve Eczacılık,Fen,Küme #270,Küme #270,9.891399,4.5871925,11,Fen > Eczacılık > Farmakoloji ve Eczacılık,0.27
 271,Fen > Ziraat > Ziraat Mühendisliği,Fen,Küme #271,Küme #271,9.550369,5.235389,3,Fen > Ziraat > Ziraat Mühendisliği,0.33
 272,"Fen > Ziraat > Ziraat, Toprak Bilimi",Fen,Ziraat,"Ziraat, Toprak Bilimi",9.851858,5.0679317,1,"Fen > Ziraat > Ziraat, Toprak Bilimi",1.0
 273,Fen > Ziraat > Bahçe Bitkileri,Fen,Ziraat,Bahçe Bitkileri,9.928056,5.590213,1,Fen > Ziraat > Bahçe Bitkileri,1.0
-274,Fen > Temel Bilimler > Mantar Bilimi,Fen,Temel Bilimler,Mantar Bilimi,9.571427,5.404935,2,Fen > Temel Bilimler > Mantar Bilimi,0.5
+274,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,Fen,Temel Bilimler,Biyoloji Çeşitliliğinin Korunması,9.571427,5.404935,2,Fen > Temel Bilimler > Biyoloji Çeşitliliğinin Korunması,0.5
 281,Sosyal > Beşeri Bilimler,Sosyal,Küme #281,Küme #281,2.5221748,7.9468007,8,Sosyal > Beşeri Bilimler,0.38
-283,Sosyal > Tiyatro,Sosyal,Tiyatro,Tiyatro,1.544898,5.6233644,1,Sosyal > Tiyatro,1.0
-292,"Sosyal > Bilgi, Belge Yönetimi",Sosyal,"Bilgi, Belge Yönetimi","Bilgi, Belge Yönetimi",0.9218792,7.3530293,1,"Sosyal > Bilgi, Belge Yönetimi",1.0
+283,Sosyal > Felsefe,Sosyal,Felsefe,Felsefe,1.544898,5.6233644,1,Sosyal > Felsefe,1.0
+292,Sosyal > Sanat,Sosyal,Sanat,Sanat,0.9218792,7.3530293,1,Sosyal > Sanat,1.0
