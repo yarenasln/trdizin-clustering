@@ -4,14 +4,14 @@ import pandas as pd
 from outlier_detector import OutlierDetector
 from cluster_labeler import generate_cluster_labels
 
+from config.paths import EMBEDDING_FILE, UMAP_FILE
+
 # ==========================================
 # DOSYA YOLLARI
 # ==========================================
 ARTICLE_FILE = "data/balanced_articles.csv"
 SUBJECT_FILE = "data/article_subjects.csv"
-EMBEDDING_FILE = "embeddings/mpnet_multilingual_embeddings.npy"
 OUTPUT_FILE = "results/hdbscan_anomaliler.csv"
-
 
 def main():
     print("=" * 80)
@@ -67,7 +67,7 @@ def main():
     print("[*] Otomatik küme etiketleri ve merkezleri hesaplanıyor...")
     
     # UMAP koordinat dosyasını oku
-    umap_df = pd.read_csv("embeddings/umap_2d_coordinates.csv")
+    umap_df = pd.read_csv(UMAP_FILE)
     umap_df["external_id"] = umap_df["external_id"].astype(str)
     df_anomaliler["external_id"] = df_anomaliler["external_id"].astype(str)
     

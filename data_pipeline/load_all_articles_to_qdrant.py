@@ -7,7 +7,7 @@ from collections import defaultdict
 import numpy as np
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointStruct, UpdateStatus
-
+from config.paths import EMBEDDING_FILE, INDEX_FILE
 # ============================================================
 # 1. YAPILANDIRMA
 # ============================================================
@@ -27,8 +27,7 @@ TOLERANCE_ATOL = 1e-5
 # Dosya Yolları
 ARTICLE_FILE = os.path.join(BASE_DIR, "data", "balanced_articles.csv")
 SUBJECT_FILE = os.path.join(BASE_DIR, "data", "article_subjects.csv")
-INDEX_FILE = os.path.join(BASE_DIR, "embeddings", "article_embedding_index.csv")
-EMBEDDING_FILE = os.path.join(BASE_DIR, "embeddings", "mpnet_multilingual_embeddings.npy")
+
 
 
 def parse_keywords(raw_keywords: str) -> list[str]:

@@ -3,29 +3,13 @@ import numpy as np
 import pandas as pd
 import umap
 
+from config.paths import EMBEDDING_FILE, INDEX_FILE, UMAP_FILE
+
 # ============================================================
 # HDBSCAN DASHBOARD İÇİN GERÇEK 2D UMAP KOORDİNATLARI
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-EMBEDDING_FILE = (
-    BASE_DIR
-    / "embeddings"
-    / "mpnet_multilingual_embeddings.npy"
-)
-
-INDEX_FILE = (
-    BASE_DIR
-    / "embeddings"
-    / "article_embedding_index.csv"
-)
-
-OUTPUT_FILE = (
-    BASE_DIR
-    / "embeddings"
-    / "umap_2d_coordinates.csv"
-)
+OUTPUT_FILE = UMAP_FILE
 
 print("=" * 100)
 print("HDBSCAN 20K - GERÇEK 2D UMAP KOORDİNATLARI")

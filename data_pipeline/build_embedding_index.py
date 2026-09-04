@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-
+from config.paths import EMBEDDING_FILE, INDEX_FILE
 
 # ============================================================
 # AYARLAR
@@ -9,13 +9,8 @@ import pandas as pd
 
 DATA_FILE = "data/balanced_articles.csv"
 
-EMBEDDING_FILE = (
-    "embeddings/mpnet_multilingual_embeddings.npy"
-)
 
-OUTPUT_FILE = (
-    "embeddings/article_embedding_index.csv"
-)
+OUTPUT_FILE = INDEX_FILE
 
 
 # ============================================================

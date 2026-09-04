@@ -4,19 +4,12 @@ import numpy as np
 import pandas as pd
 
 from sklearn.cluster import KMeans
-
+from config.paths import EMBEDDING_FILE, INDEX_FILE
 
 # ============================================================
 # AYARLAR
 # ============================================================
 
-EMBEDDING_FILE = (
-    "embeddings/mpnet_multilingual_embeddings.npy"
-)
-
-INDEX_FILE = (
-    "embeddings/article_embedding_index.csv"
-)
 
 SEED_ARTICLE_FILE = (
     "results/kmeans/seed_articles.csv"

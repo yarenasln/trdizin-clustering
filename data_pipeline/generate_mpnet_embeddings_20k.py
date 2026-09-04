@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import torch
 from sentence_transformers import SentenceTransformer
+from config.paths import EMBEDDING_FILE
 
 # ============================================================
 # AYARLAR
@@ -11,9 +12,7 @@ from sentence_transformers import SentenceTransformer
 
 DATA_FILE = "data/balanced_articles.csv"
 
-OUTPUT_FILE = (
-    "embeddings/mpnet_multilingual_embeddings.npy"
-)
+OUTPUT_FILE = EMBEDDING_FILE
 
 MODEL_NAME = (
     "paraphrase-multilingual-mpnet-base-v2"

@@ -1,13 +1,13 @@
 import os
 import numpy as np
 import pandas as pd
-
+from config.paths import INDEX_FILE
 
 # ============================================================
 # AYARLAR
 # ============================================================
 
-INDEX_FILE = "embeddings/article_embedding_index.csv"
+
 SUBJECT_FILE = "data/article_subjects.csv"
 
 OUTPUT_DIR = "results/kmeans/holdout"

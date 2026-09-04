@@ -10,13 +10,14 @@ from sklearn.metrics import (
     f1_score
 )
 from sklearn.preprocessing import MultiLabelBinarizer
+from config.paths import EMBEDDING_FILE
 
 
 # ============================================================
 # AYARLAR
 # ============================================================
 
-EMBEDDING_FILE = "embeddings/mpnet_multilingual_embeddings.npy"
+
 SUBJECT_FILE = "data/article_subjects.csv"
 
 REFERENCE_FILE = "results/kmeans/holdout/reference.csv"

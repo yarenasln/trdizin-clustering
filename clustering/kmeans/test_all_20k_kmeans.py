@@ -2,11 +2,11 @@ import os, runpy
 import numpy as np
 import pandas as pd
 from sklearn.metrics import precision_score, recall_score, f1_score
+from config.paths import INDEX_FILE
 
 BASE_SCRIPT='clustering/kmeans/adaptive_label_count_v2_20k.py'
 ARTICLE_FILE='data/balanced_articles.csv'
 SUBJECT_FILE='data/article_subjects.csv'
-INDEX_FILE='embeddings/article_embedding_index.csv'
 OUTPUT_DIR='results/kmeans'
 
 print('='*110)

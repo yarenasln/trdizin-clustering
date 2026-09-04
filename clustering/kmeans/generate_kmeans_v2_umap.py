@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import umap
-
+from config.paths import EMBEDDING_FILE, INDEX_FILE
 # ============================================================
 # K-MEANS V2 - GERÇEK UMAP KÜME GÖRSELLEŞTİRMESİ
 # ============================================================
@@ -23,18 +23,8 @@ import umap
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-EMBEDDING_PATH = (
-    BASE_DIR
-    / "embeddings"
-    / "mpnet_multilingual_embeddings.npy"
-)
-
-INDEX_PATH = (
-    BASE_DIR
-    / "embeddings"
-    / "article_embedding_index.csv"
-)
+EMBEDDING_PATH = EMBEDDING_FILE
+INDEX_PATH = INDEX_FILE
 
 PREDICTION_PATH = (
     BASE_DIR
