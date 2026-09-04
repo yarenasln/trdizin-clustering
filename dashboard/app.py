@@ -6,7 +6,13 @@ import plotly.graph_objects as go
 import plotly.utils
 from flask import Flask, Response, jsonify, render_template, request, send_file
 
-from data_loader import load_algorithm_data, load_article_detail, BASE_DIR, RESULTS_DIR
+from data_loader import (
+    load_algorithm_data,
+    load_article_detail,
+    load_hdbscan_anomaly_ids,
+    BASE_DIR,
+    RESULTS_DIR,
+)
 
 app = Flask(__name__)
 
@@ -74,10 +80,9 @@ def get_anomalies():
 
   # HDBSCAN Anomali Filtreleme (Yalnızca pipeline tarafından tespit edilen 388 anomali)
   if algorithm == 'hdbscan' and not df.empty:
-    anom_file = os.path.join(RESULTS_DIR, 'hdbscan_anomaliler.csv')
-    if os.path.exists(anom_file):
-      anom_ids = pd.read_csv(anom_file, dtype={'external_id': str}, usecols=['external_id'])['external_id'].astype(str).str.strip()
-      df = df[df['external_id'].astype(str).str.strip().isin(set(anom_ids))]
+    anom_ids = load_hdbscan_anomaly_ids()
+    if anom_ids:
+      df = df[df['external_id'].astype(str).str.strip().isin(anom_ids)]
     elif 'supheli_mi' in df.columns:
       mask_ana = (df.get('ortak_agac_derinligi') == 0) & (df.get('knn_baskinlik', 0) >= 0.30)
       mask_alt = (df.get('ortak_agac_derinligi') == 1) & (
@@ -278,14 +283,23 @@ def get_article(external_id):
     return jsonify({'error': str(e)}), 500
 
 
+_CLUSTER_SUMMARIES_CACHE = None
+
+
 #Küme merkezlerini ve etiketlerini front-end'e sunan route
 @app.route('/api/cluster-summaries', methods=['GET'])
 def get_cluster_summaries():
     """
     HDBSCAN küme özetlerini (merkezler, etiketler, boyutlar) front-end'e JSON olarak sunar.
     """
-    summary_path = 'data/hdbscan_cluster_summary.csv'
-    
+    global _CLUSTER_SUMMARIES_CACHE
+    if _CLUSTER_SUMMARIES_CACHE is not None:
+        return jsonify(_CLUSTER_SUMMARIES_CACHE)
+
+    summary_path = os.path.join(BASE_DIR, 'data', 'hdbscan_cluster_summary.csv')
+    if not os.path.exists(summary_path):
+        summary_path = 'data/hdbscan_cluster_summary.csv'
+
     if not os.path.exists(summary_path):
         return jsonify({"error": "Küme özet dosyası henüz oluşturulmamış. Lütfen pipeline'ı çalıştırın."}), 404
         
@@ -296,14 +310,21 @@ def get_cluster_summaries():
         
         # DataFrame'i dictionary listesine çevir
         summaries = df_summary.to_dict(orient='records')
+        _CLUSTER_SUMMARIES_CACHE = summaries
         return jsonify(summaries)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
+_EVALUATION_CACHE = None
+
 
 @app.route('/api/evaluation', methods=['GET'])
 def get_evaluation():
+  global _EVALUATION_CACHE
+  if _EVALUATION_CACHE is not None:
+    return jsonify(_EVALUATION_CACHE)
+
   res = {
       'seeded_kmeans': [],
       'baseline_kmeans': [],
@@ -331,6 +352,7 @@ def get_evaluation():
     except Exception:
       pass
 
+  _EVALUATION_CACHE = res
   return jsonify(res)
 
 
@@ -353,7 +375,16 @@ def _km_topics(value):
   return [part.strip() for part in text.split('||') if part.strip()]
 
 
-def _load_final_kmeans_records():
+_KMEANS_RECORDS_CACHE = None
+_KMEANS_MAP_CACHE = None
+_KMEANS_SUMMARY_CACHE = None
+
+
+def _load_final_kmeans_records(reload=False):
+  global _KMEANS_RECORDS_CACHE, _KMEANS_MAP_CACHE
+  if not reload and _KMEANS_RECORDS_CACHE is not None and _KMEANS_MAP_CACHE is not None:
+    return _KMEANS_RECORDS_CACHE, _KMEANS_MAP_CACHE
+
   # Öncelik: Adaptive V2. Dosya yoksa eski final Relabel çıktısına düşer.
   prediction_candidates = [
       os.path.join(RESULTS_DIR, 'kmeans', 'holdout', 'adaptive_v2_relabel_predictions.csv'),
@@ -429,10 +460,16 @@ def _load_final_kmeans_records():
     }
     records.append(record)
 
-  return records, {record['external_id']: record for record in records}
+  _KMEANS_RECORDS_CACHE = records
+  _KMEANS_MAP_CACHE = {record['external_id']: record for record in records}
+  return _KMEANS_RECORDS_CACHE, _KMEANS_MAP_CACHE
 
 
-def _load_final_kmeans_summary():
+def _load_final_kmeans_summary(reload=False):
+  global _KMEANS_SUMMARY_CACHE
+  if not reload and _KMEANS_SUMMARY_CACHE is not None:
+    return _KMEANS_SUMMARY_CACHE
+
   # V2 varsa onu göster. Yoksa eski final karşılaştırmasına düş.
   comparison_candidates = [
       os.path.join(RESULTS_DIR, 'kmeans', 'holdout', 'adaptive_v2_fixed_vs_relabel_comparison.csv'),
@@ -460,7 +497,7 @@ def _load_final_kmeans_summary():
     comp = pd.read_csv(path, encoding='utf-8-sig')
     relabel = comp[comp['Model'].astype(str).str.contains('Relabel', case=False, na=False)]
     row = relabel.iloc[0] if not relabel.empty else comp.iloc[-1]
-    return {
+    summary = {
         'micro_precision': float(row.get('Micro_Precision', defaults['micro_precision'])),
         'micro_recall': float(row.get('Micro_Recall', defaults['micro_recall'])),
         'micro_f1': float(row.get('Micro_F1', defaults['micro_f1'])),
@@ -472,6 +509,8 @@ def _load_final_kmeans_summary():
         'unique_topics': int(row.get('Unique_Topics', defaults['unique_topics'])),
         'version': 'Adaptive V2' if 'adaptive_v2' in path else 'Final K-Means',
     }
+    _KMEANS_SUMMARY_CACHE = summary
+    return summary
   except Exception:
     return defaults
 

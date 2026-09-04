@@ -7,10 +7,56 @@ RESULTS_DIR = os.path.join(BASE_DIR, "results")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 EMBEDDINGS_DIR = os.path.join(BASE_DIR, "embeddings")
 
+# In-memory lazy cache depoları (Flask debug reloader dostu)
+_DATA_CACHE = {}
+_ANOMALY_IDS_CACHE = None
+_ARTICLE_CACHE = {}
 
-def load_algorithm_data(algorithm="hdbscan"):
+
+def clear_cache():
+  """Tüm in-memory önbellekleri temizler."""
+  global _DATA_CACHE, _ANOMALY_IDS_CACHE, _ARTICLE_CACHE
+  _DATA_CACHE.clear()
+  _ANOMALY_IDS_CACHE = None
+  _ARTICLE_CACHE.clear()
+
+
+def load_hdbscan_anomaly_ids(reload=False):
+  """HDBSCAN anomali ID kümesini (388 kayıt) in-memory önbellekle döner."""
+  global _ANOMALY_IDS_CACHE
+  if not reload and _ANOMALY_IDS_CACHE is not None:
+    return _ANOMALY_IDS_CACHE
+
+  anom_file = os.path.join(RESULTS_DIR, "hdbscan_anomaliler.csv")
+  if os.path.exists(anom_file):
+    try:
+      ids = set(
+          pd.read_csv(
+              anom_file,
+              dtype={"external_id": str},
+              usecols=["external_id"],
+              encoding="utf-8-sig",
+          )["external_id"]
+          .astype(str)
+          .str.strip()
+      )
+    except Exception as e:
+      print(f"Anomali ID okuma hatası: {e}")
+      ids = set()
+  else:
+    ids = set()
+
+  _ANOMALY_IDS_CACHE = ids
+  return ids
+
+
+def load_algorithm_data(algorithm="hdbscan", reload=False):
   algo_lower = str(algorithm).lower()
-  
+
+  # 0. In-memory cache kontrolü (Tekrar disk okumasını engeller)
+  if not reload and algo_lower in _DATA_CACHE:
+    return _DATA_CACHE[algo_lower].copy()
+
   # 1. Eğer HDBSCAN seçildiyse, yeni oluşturduğumuz TÜM makalelerin ve skorların olduğu dosyayı okuyalım
   if algo_lower == "hdbscan":
     file_name = "hdbscan_tum_makaleler.csv"
@@ -47,9 +93,21 @@ def load_algorithm_data(algorithm="hdbscan"):
     else:
       df["ozet"] = np.nan
 
-  # 4. UMAP 2D koordinatlarını ekle (yoksa)
-  umap_file = os.path.join(EMBEDDINGS_DIR, "umap_2d_coordinates.csv")
-  if os.path.exists(umap_file):
+  # 4. UMAP 2D koordinatlarını ekle (config.paths veya yerel fallback üzerinden)
+  umap_file = None
+  try:
+    from config.paths import UMAP_FILE as CONFIG_UMAP_FILE
+    if CONFIG_UMAP_FILE and os.path.exists(CONFIG_UMAP_FILE):
+      umap_file = CONFIG_UMAP_FILE
+  except Exception:
+    pass
+
+  if not umap_file:
+    candidate = os.path.join(EMBEDDINGS_DIR, "umap_2d_coordinates.csv")
+    if os.path.exists(candidate):
+      umap_file = candidate
+
+  if umap_file and os.path.exists(umap_file):
     try:
       umap_df = pd.read_csv(umap_file)
       
@@ -139,48 +197,36 @@ def load_algorithm_data(algorithm="hdbscan"):
 
   df["ozet"] = df["ozet"].fillna("Özet metni veri tabanında bulunmuyor.")
 
-  return df
+  _DATA_CACHE[algo_lower] = df
+  return df.copy()
 
 
-def load_article_detail(external_id):
+def _build_article_cache_if_needed():
   """
-  hdbscan_tum_makaleler.csv dosyasından verilen external_id'ye sahip tek makaleyi bulup detaylarını döndürür.
-  Bulunamazsa None döner.
+  Tüm makalelerin detay sözlüğünü in-memory index olarak hazırlar.
+  Böylece /api/article/<external_id> disk okuması yapmadan O(1) hızla döner.
   """
-  target_id = str(external_id).strip()
-  if not target_id:
-    return None
+  global _ARTICLE_CACHE
+  if _ARTICLE_CACHE:
+    return
 
-  file_path = os.path.join(RESULTS_DIR, "hdbscan_tum_makaleler.csv")
-  if not os.path.exists(file_path):
-    fallback_path = os.path.join(DATA_DIR, "balanced_articles.csv")
-    if os.path.exists(fallback_path):
-      file_path = fallback_path
-    else:
-      return None
+  df = load_algorithm_data("hdbscan")
+  if df.empty:
+    return
 
-  try:
-    matched_row = None
-    for chunk in pd.read_csv(
-        file_path,
-        dtype={"external_id": str},
-        encoding="utf-8-sig",
-        chunksize=5000,
-    ):
-      match = chunk[chunk["external_id"].astype(str).str.strip() == target_id]
-      if not match.empty:
-        matched_row = match.iloc[0].to_dict()
-        break
+  def safe_val(val, default=""):
+    if val is None or pd.isna(val):
+      return default
+    return val
 
-    if matched_row is None:
-      return None
+  cache = {}
+  records = df.to_dict(orient="records")
+  for row in records:
+    target_id = str(row.get("external_id", "")).strip()
+    if not target_id:
+      continue
 
-    def safe_val(val, default=""):
-      if val is None or pd.isna(val):
-        return default
-      return val
-
-    ortak_derinlik = matched_row.get("ortak_agac_derinligi")
+    ortak_derinlik = row.get("ortak_agac_derinligi")
     if pd.isna(ortak_derinlik):
       ortak_derinlik = None
     else:
@@ -198,16 +244,8 @@ def load_article_detail(external_id):
     else:
       karar_tipi = "Normal"
 
-    oneri_kategori = safe_val(matched_row.get("oneri_kategori"), "Uyumlu / Normal")
-    duzeltme_tp1 = oneri_kategori if karar_tipi == "TP-1" else ""
-    ikincil_tp2 = oneri_kategori if karar_tipi == "TP-2" else ""
-    filtre_aciklamasi = (
-        "Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)"
-        if ortak_derinlik == 0
-        else "Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme"
-    )
-
-    kume = matched_row.get("hdbscan_kume")
+    oneri_kategori = safe_val(row.get("oneri_kategori"), "Uyumlu / Normal")
+    kume = row.get("hdbscan_kume")
     if pd.isna(kume):
       kume = -1
     else:
@@ -216,31 +254,50 @@ def load_article_detail(external_id):
       except (ValueError, TypeError):
         pass
 
-    detail = {
+    cache[target_id] = {
         "external_id": target_id,
-        "baslik": safe_val(matched_row.get("baslik") or matched_row.get("title"), "Başlık Belirtilmemiş"),
-        "ozet": safe_val(matched_row.get("ozet") or matched_row.get("abstract"), "Özet metni veri tabanında bulunmuyor."),
-        "mevcut_kategori": safe_val(matched_row.get("mevcut_kategori"), "Belirtilmemiş"),
-        "tam_kategori_yollari": safe_val(matched_row.get("tam_kategori_yollari"), ""),
-        "glosh_skoru": float(matched_row.get("glosh_skoru", 0.0)) if not pd.isna(matched_row.get("glosh_skoru")) else 0.0,
+        "baslik": safe_val(row.get("baslik") or row.get("title"), "Başlık Belirtilmemiş"),
+        "ozet": safe_val(row.get("ozet") or row.get("abstract"), "Özet metni veri tabanında bulunmuyor."),
+        "mevcut_kategori": safe_val(row.get("mevcut_kategori"), "Belirtilmemiş"),
+        "tam_kategori_yollari": safe_val(row.get("tam_kategori_yollari"), ""),
+        "glosh_skoru": float(row.get("glosh_skoru", 0.0)) if not pd.isna(row.get("glosh_skoru")) else 0.0,
         "hdbscan_kume": kume,
-        "oneri_yol": safe_val(matched_row.get("oneri_yol"), ""),
+        "oneri_yol": safe_val(row.get("oneri_yol"), ""),
         "oneri_kategori": oneri_kategori,
-        "label_sim_fark": float(matched_row.get("label_sim_fark", 0.0)) if not pd.isna(matched_row.get("label_sim_fark")) else 0.0,
-        "knn_oneri": safe_val(matched_row.get("knn_oneri"), ""),
-        "knn_baskinlik": float(matched_row.get("knn_baskinlik", 0.0)) if not pd.isna(matched_row.get("knn_baskinlik")) else 0.0,
-        "knn_impurity": float(matched_row.get("knn_impurity", 0.0)) if not pd.isna(matched_row.get("knn_impurity")) else 0.0,
+        "label_sim_fark": float(row.get("label_sim_fark", 0.0)) if not pd.isna(row.get("label_sim_fark")) else 0.0,
+        "knn_oneri": safe_val(row.get("knn_oneri"), ""),
+        "knn_baskinlik": float(row.get("knn_baskinlik", 0.0)) if not pd.isna(row.get("knn_baskinlik")) else 0.0,
+        "knn_impurity": float(row.get("knn_impurity", 0.0)) if not pd.isna(row.get("knn_impurity")) else 0.0,
         "ortak_agac_derinligi": ortak_derinlik if ortak_derinlik is not None else -1,
-        "oncelik": safe_val(matched_row.get("oncelik"), "NORMAL"),
-        "supheli_mi": int(matched_row.get("supheli_mi", 0)) if not pd.isna(matched_row.get("supheli_mi")) else 0,
-        "risk_skoru": float(matched_row.get("risk_skoru", 0.0)) if not pd.isna(matched_row.get("risk_skoru")) else 0.0,
+        "oncelik": safe_val(row.get("oncelik"), "NORMAL"),
+        "supheli_mi": int(row.get("supheli_mi", 0)) if not pd.isna(row.get("supheli_mi")) else 0,
+        "risk_skoru": float(row.get("risk_skoru", 0.0)) if not pd.isna(row.get("risk_skoru")) else 0.0,
         "kume": kume,
         "karar_tipi": karar_tipi,
-        "duzeltme_onerisi_tp1": duzeltme_tp1,
-        "ikincil_etiket_tp2": ikincil_tp2,
-        "filtre_aciklamasi": filtre_aciklamasi,
+        "duzeltme_onerisi_tp1": oneri_kategori if karar_tipi == "TP-1" else "",
+        "ikincil_etiket_tp2": oneri_kategori if karar_tipi == "TP-2" else "",
+        "filtre_aciklamasi": (
+            "Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)"
+            if ortak_derinlik == 0
+            else "Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme"
+        ),
     }
-    return detail
+
+  _ARTICLE_CACHE = cache
+
+
+def load_article_detail(external_id):
+  """
+  Verilen external_id'ye sahip tek makaleyi in-memory index üzerinden O(1) hızla döndürür.
+  Bulunamazsa None döner.
+  """
+  target_id = str(external_id).strip()
+  if not target_id:
+    return None
+
+  try:
+    _build_article_cache_if_needed()
+    return _ARTICLE_CACHE.get(target_id)
   except Exception as e:
     print(f"Makale detayı okuma hatası: {e}")
     return None
