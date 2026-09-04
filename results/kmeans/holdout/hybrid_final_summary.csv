@@ -1,4 +1,0 @@
-﻿Method,Correct,Accuracy
-Seeded K-Means,1394,0.5003589375448672
-Fixed Centroid + Cosine,1471,0.5279971284996411
-Hybrid,1470,0.5276381909547738

@@ -171,8 +171,14 @@
 
             <!-- Anomali İnceleme Havuzu -->
             <div class="card card-custom p-3">
-                <h6 id="poolTitle" class="text-secondary text-uppercase fw-semibold mb-3" style="font-size: 0.85rem;">Anomali İnceleme Havuzu</h6>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 id="poolTitle" class="text-secondary text-uppercase fw-semibold mb-0" style="font-size: 0.85rem;">Anomali İnceleme Havuzu</h6>
+                    <span id="poolCountText" class="text-muted small"></span>
+                </div>
                 <div id="cardContainer" class="d-flex flex-column gap-3" style="max-height: 400px; overflow-y: auto; padding-right: 4px;"></div>
+                <nav id="paginationNav" aria-label="Anomali Sayfalaması" class="pt-3 border-top mt-2" style="display: none;">
+                    <ul id="paginationList" class="pagination pagination-sm justify-content-center mb-0"></ul>
+                </nav>
             </div>
 
         </div>

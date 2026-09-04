@@ -3,6 +3,13 @@ let detailModalInstance = null;
 let evalModalInstance = null;
 let currentAlgo = 'hdbscan';
 
+let currentPage = 1;
+const perPage = 50;
+let totalPages = 0;
+let totalAnomaliesCount = 0;
+let isLoadingAnomalies = false;
+let searchDebounceTimer = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     const modalEl = document.getElementById('detailModal');
     if (modalEl) {
@@ -23,9 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         loadDashboard();
     });
-    document.getElementById("sortSelect").addEventListener("change", loadDashboard);
-    document.getElementById("prioritySelect").addEventListener("change", loadDashboard);
-    document.getElementById("searchInput").addEventListener("input", loadDashboard);
+    document.getElementById("sortSelect").addEventListener("change", () => {
+        resetAndLoadAnomalies();
+    });
+    document.getElementById("prioritySelect").addEventListener("change", () => {
+        resetAndLoadAnomalies();
+    });
+    document.getElementById("searchInput").addEventListener("input", () => {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+            resetAndLoadAnomalies();
+        }, 300);
+    });
 
     loadDashboard();
 });
@@ -152,8 +168,11 @@ async function loadDashboard() {
             if(data.points && data.points.length > 0) {
                 const point = data.points.find(p => p.curveNumber === 0);
                 if(point && point.customdata) {
-                    // 1. Sol paneli aç
-                    openSidePanel(point.customdata);
+                    // 1. Tıklanan noktadan yalnızca external_id alınır ve lazy API ile detaylar yüklenir
+                    const externalId = point.customdata.external_id || (typeof point.customdata === 'string' ? point.customdata : null);
+                    if (externalId) {
+                        loadArticleDetails(externalId);
+                    }
                     
                     // 2. Haritada tıklanan noktayı sabit renkli büyük katmana taşı
                     Plotly.restyle(
@@ -172,78 +191,314 @@ async function loadDashboard() {
         console.error("Grafik çizilirken hata oluştu:", err);
     }
 
-    // 2. ANOMALİ KARTLARINI YÜKLE
+    // 2. ANOMALİ KARTLARINI YÜKLE (Sayfalı / Lazy)
+    await resetAndLoadAnomalies();
+}
+
+// Sayfalamayı 1'e sıfırlayıp anomali kartlarını yeniden yükleyen fonksiyon
+async function resetAndLoadAnomalies() {
+    currentPage = 1;
+    await loadAnomalies(1);
+}
+
+// Sayfalı anomali verisini çeken ve DOM kartlarını oluşturan fonksiyon
+async function loadAnomalies(page = 1) {
+    if (isLoadingAnomalies) return;
+    isLoadingAnomalies = true;
+
+    const algo = document.getElementById("algoSelect").value;
+    currentAlgo = algo;
+    const sort = document.getElementById("sortSelect").value;
+    const priority = document.getElementById("prioritySelect").value;
+    const search = document.getElementById("searchInput").value;
+    const container = document.getElementById("cardContainer");
+    const countText = document.getElementById("poolCountText");
+
+    if (container) {
+        container.innerHTML = '<div class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Kayıtlar yükleniyor...</div>';
+    }
+
     try {
-        const res = await fetch(`/api/anomalies?algorithm=${algo}&sort=${sort}&priority=${priority}&search=${encodeURIComponent(search)}`);
+        const res = await fetch(`/api/anomalies?algorithm=${algo}&sort=${sort}&priority=${priority}&search=${encodeURIComponent(search)}&page=${page}&per_page=${perPage}`);
         const json = await res.json();
-        currentAnomalies = json.data || [];
 
-        // İstatistik Sayaçları
-        document.getElementById("statTotal").innerText = json.stats.total_anomalies || 0;
-        document.getElementById("statRisk").innerText = (json.stats.avg_risk || 0).toFixed(3);
-        document.getElementById("statCritical").innerText = json.stats.critical_count || 0;
+        const items = json.items || json.data || [];
+        totalAnomaliesCount = json.total !== undefined ? json.total : (json.stats?.total_anomalies || 0);
+        totalPages = json.total_pages || (totalAnomaliesCount > 0 ? Math.ceil(totalAnomaliesCount / perPage) : 0);
+        currentPage = page;
 
-        const infoText = document.getElementById("systemInfoText");
-        if (infoText) {
-            infoText.innerText = json.stats.system_info || `${algo.toUpperCase()} Modülü`;
+        // İstatistik Sayaçları (her zaman toplam filtrelenmiş veriden gelir)
+        if (json.stats) {
+            const statTotal = document.getElementById("statTotal");
+            if (statTotal) statTotal.innerText = json.stats.total_anomalies || 0;
+
+            const statRisk = document.getElementById("statRisk");
+            if (statRisk) statRisk.innerText = (json.stats.avg_risk || 0).toFixed(3);
+
+            const statCritical = document.getElementById("statCritical");
+            if (statCritical) statCritical.innerText = json.stats.critical_count || 0;
+
+            const infoText = document.getElementById("systemInfoText");
+            if (infoText) {
+                infoText.innerText = json.stats.system_info || `${algo.toUpperCase()} Modülü`;
+            }
         }
 
-        const container = document.getElementById("cardContainer");
-        container.innerHTML = "";
+        if (container) {
+            container.innerHTML = "";
+            container.scrollTop = 0;
+        }
+        currentAnomalies = [...items];
 
         if (currentAnomalies.length === 0) {
-            container.innerHTML = `<div class="alert alert-light text-center border p-3">Filtrelere uygun anomali kaydı bulunamadı.</div>`;
+            if (container) {
+                container.innerHTML = `<div class="alert alert-light text-center border p-3">Filtrelere uygun anomali kaydı bulunamadı.</div>`;
+            }
+            if (countText) {
+                countText.innerText = "0 anomali";
+            }
+            renderPagination(1, 0);
             return;
         }
 
-        const scoreLabel = algo === "hdbscan" ? "GLOSH" : "Aykırılık";
+        // Sayaç metni
+        if (countText) {
+            countText.innerText = `Sayfa ${currentPage} / ${totalPages} (${totalAnomaliesCount} anomali)`;
+        }
 
-        // Kartları listeye ekle
-        currentAnomalies.forEach((item) => {
-            const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
-            const badgeClass = isCritical ? "badge-critical" : "badge-high";
-
-            const card = document.createElement("div");
-            card.className = "card card-custom p-3";
-            card.style.cursor = "pointer";
-            // Karta tıklandığında hem yan paneli hem modalı açabilirsin
-            card.onclick = () => openSidePanel(item);
-
-            const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
-            const riskVal = Number(item.risk_skoru || 0).toFixed(3);
-            const kumeVal = item.kume !== undefined && item.kume !== -1 ? `#${item.kume}` : (item.kmeans_kume !== undefined && item.kmeans_kume !== -1 ? `#${item.kmeans_kume}` : 'Aykırı / -1');
-
-            card.innerHTML = `
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="badge ${badgeClass} badge-risk">${item.oncelik || 'BELİRTİLMEDİ'}</span>
-                    <div class="d-flex gap-2">
-                        <span class="score-pill score-pill-danger">Bileşik Risk: <strong>${riskVal}</strong></span>
-                        <span class="score-pill score-pill-info">${scoreLabel}: <strong>${scoreVal}</strong></span>
-                        <span class="score-pill">Küme: <strong>${kumeVal}</strong></span>
-                    </div>
-                </div>
-                <h6 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 0.95rem;">${item.baslik || 'Başlık Belirtilmemiş'}</h6>
-                <p class="small text-secondary mb-3">${item.ozet && item.ozet !== 'Özet metni veri tabanında bulunmuyor.' && item.ozet !== 'Özet metni bulunmuyor.' ? item.ozet.substring(0, 180) + '...' : 'Detayları ve tam analizi görmek için tıklayın.'}</p>
-                
-                <div class="row g-2 pt-2 border-top" style="border-color: #f1f5f9 !important;">
-                    <div class="col-md-4">
-                        <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">MEVCUT KATEGORİ</small>
-                        <span class="small fw-semibold" style="color: var(--pastel-rose-text);">${item.mevcut_kategori || '-'}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">MODEL ÖNERİSİ</small>
-                        <span class="small fw-semibold" style="color: var(--pastel-sage-text);">${item.oneri_kategori || '-'}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN YEREL ÖNERİ</small>
-                        <span class="small fw-semibold" style="color: var(--pastel-amber-text);">${item.knn_oneri || '-'}</span>
-                    </div>
-                </div>
-            `;
-            container.appendChild(card);
+        // Kartları listeye ekle (yalnızca mevcut sayfanın kayıtları)
+        items.forEach((item) => {
+            renderAnomalyCard(item, container, algo);
         });
+
+        // Sayfalama bileşenini render et
+        renderPagination(currentPage, totalPages);
+
     } catch (err) {
         console.error("Anomali verisi çekilirken hata:", err);
+        if (container) {
+            container.innerHTML = `<div class="alert alert-danger text-center p-3">Anomali verisi yüklenirken bir hata oluştu.</div>`;
+        }
+        renderPagination(1, 0);
+    } finally {
+        isLoadingAnomalies = false;
+    }
+}
+
+// Tekil anomali kartını DOM'a oluşturan fonksiyon
+function renderAnomalyCard(item, container, algo) {
+    const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
+    const badgeClass = isCritical ? "badge-critical" : "badge-high";
+
+    const card = document.createElement("div");
+    card.className = "card card-custom p-3";
+    card.style.cursor = "pointer";
+    // Karta tıklandığında sol paneli aç
+    card.onclick = () => {
+        if (item.external_id) {
+            loadArticleDetails(item.external_id);
+        } else {
+            openSidePanel(item);
+        }
+    };
+
+    const scoreLabel = algo === "hdbscan" ? "GLOSH" : "Aykırılık";
+    const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
+    const riskVal = Number(item.risk_skoru || 0).toFixed(3);
+    const kumeVal = item.kume !== undefined && item.kume !== -1 ? `#${item.kume}` : (item.kmeans_kume !== undefined && item.kmeans_kume !== -1 ? `#${item.kmeans_kume}` : 'Aykırı / -1');
+
+    card.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <span class="badge ${badgeClass} badge-risk">${item.oncelik || 'BELİRTİLMEDİ'}</span>
+            <div class="d-flex gap-2">
+                <span class="score-pill score-pill-danger">Bileşik Risk: <strong>${riskVal}</strong></span>
+                <span class="score-pill score-pill-info">${scoreLabel}: <strong>${scoreVal}</strong></span>
+                <span class="score-pill">Küme: <strong>${kumeVal}</strong></span>
+            </div>
+        </div>
+        <h6 class="fw-bold mb-1" style="color: var(--text-primary); font-size: 0.95rem;">${item.baslik || 'Başlık Belirtilmemiş'}</h6>
+        <p class="small text-secondary mb-3">${item.ozet && item.ozet !== 'Özet metni veri tabanında bulunmuyor.' && item.ozet !== 'Özet metni bulunmuyor.' ? item.ozet.substring(0, 180) + '...' : 'Detayları ve tam analizi görmek için tıklayın.'}</p>
+        
+        <div class="row g-2 pt-2 border-top" style="border-color: #f1f5f9 !important;">
+            <div class="col-md-4">
+                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">MEVCUT KATEGORİ</small>
+                <span class="small fw-semibold" style="color: var(--pastel-rose-text);">${item.mevcut_kategori || '-'}</span>
+            </div>
+            <div class="col-md-4">
+                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">MODEL ÖNERİSİ</small>
+                <span class="small fw-semibold" style="color: var(--pastel-sage-text);">${item.oneri_kategori || '-'}</span>
+            </div>
+            <div class="col-md-4">
+                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN YEREL ÖNERİ</small>
+                <span class="small fw-semibold" style="color: var(--pastel-amber-text);">${item.knn_oneri || '-'}</span>
+            </div>
+        </div>
+    `;
+    container.appendChild(card);
+}
+
+// Bootstrap 5 Sayfalama Bileşenini Render Eden Fonksiyon
+function renderPagination(page, total) {
+    const nav = document.getElementById("paginationNav");
+    const list = document.getElementById("paginationList");
+    if (!nav || !list) return;
+
+    if (total <= 1) {
+        nav.style.display = "none";
+        list.innerHTML = "";
+        return;
+    }
+
+    nav.style.display = "block";
+    list.innerHTML = "";
+
+    // ← Önceki
+    const prevLi = document.createElement("li");
+    prevLi.className = `page-item ${page <= 1 ? "disabled" : ""}`;
+    prevLi.innerHTML = `<a class="page-link" href="javascript:void(0)" ${page <= 1 ? 'tabindex="-1" aria-disabled="true"' : `onclick="goToPage(${page - 1})"`}>&larr; Önceki</a>`;
+    list.appendChild(prevLi);
+
+    // Sayfa numaraları
+    const pages = getPageNumbers(page, total);
+    pages.forEach((p) => {
+        const li = document.createElement("li");
+        if (p === "...") {
+            li.className = "page-item disabled";
+            li.innerHTML = `<span class="page-link">&hellip;</span>`;
+        } else if (p === page) {
+            li.className = "page-item active";
+            li.setAttribute("aria-current", "page");
+            li.innerHTML = `<span class="page-link">${p}</span>`;
+        } else {
+            li.className = "page-item";
+            li.innerHTML = `<a class="page-link" href="javascript:void(0)" onclick="goToPage(${p})">${p}</a>`;
+        }
+        list.appendChild(li);
+    });
+
+    // Sonraki →
+    const nextLi = document.createElement("li");
+    nextLi.className = `page-item ${page >= total ? "disabled" : ""}`;
+    nextLi.innerHTML = `<a class="page-link" href="javascript:void(0)" ${page >= total ? 'tabindex="-1" aria-disabled="true"' : `onclick="goToPage(${page + 1})"`}>Sonraki &rarr;</a>`;
+    list.appendChild(nextLi);
+}
+
+// Sayfa numaralarını belirleyen yardımcı fonksiyon
+function getPageNumbers(current, total) {
+    if (total <= 8) {
+        const pages = [];
+        for (let i = 1; i <= total; i++) {
+            pages.push(i);
+        }
+        return pages;
+    }
+
+    const pages = [];
+    if (current <= 4) {
+        for (let i = 1; i <= 5; i++) {
+            pages.push(i);
+        }
+        pages.push("...");
+        pages.push(total);
+    } else if (current >= total - 3) {
+        pages.push(1);
+        pages.push("...");
+        for (let i = total - 4; i <= total; i++) {
+            pages.push(i);
+        }
+    } else {
+        pages.push(1);
+        pages.push("...");
+        pages.push(current - 1);
+        pages.push(current);
+        pages.push(current + 1);
+        pages.push("...");
+        pages.push(total);
+    }
+    return pages;
+}
+
+// Belirtilen sayfaya geçişi sağlayan fonksiyon
+function goToPage(targetPage) {
+    if (targetPage < 1 || targetPage > totalPages || targetPage === currentPage || isLoadingAnomalies) {
+        return;
+    }
+    loadAnomalies(targetPage);
+}
+window.goToPage = goToPage;
+
+let currentLoadingArticleId = null;
+
+// Tıklanan makalenin detaylarını lazy loading ile API'den çeken fonksiyon
+async function loadArticleDetails(externalId) {
+    if (!externalId) return;
+
+    const targetId = String(externalId).trim();
+    currentLoadingArticleId = targetId;
+
+    // Rehber ekranını gizle, aktif içerik alanını aç
+    const welcomeWrapper = document.getElementById('panel-content-wrapper');
+    const activeContent = document.getElementById('panel-active-content');
+    if (welcomeWrapper) welcomeWrapper.style.display = 'none';
+    if (activeContent) activeContent.style.display = 'block';
+
+    // Panelde loading durumu göster
+    const extIdElem = document.getElementById('panel-id');
+    if (extIdElem) extIdElem.innerText = `(ID: ${targetId})`;
+
+    const titleElem = document.getElementById('panel-title');
+    if (titleElem) {
+        titleElem.innerHTML = '<span class="spinner-border spinner-border-sm text-secondary me-2" role="status"></span>Yükleniyor...';
+    }
+
+    const abstractElem = document.getElementById('panel-abstract');
+    if (abstractElem) {
+        abstractElem.innerText = 'Makale detayları sunucudan getiriliyor, lütfen bekleyin...';
+    }
+
+    const riskElem = document.getElementById('panel-risk');
+    if (riskElem) riskElem.innerText = '...';
+
+    const catElem = document.getElementById('panel-cat');
+    if (catElem) catElem.innerText = '...';
+
+    const sugElem = document.getElementById('panel-suggestion');
+    if (sugElem) sugElem.innerText = '...';
+
+    try {
+        const res = await fetch(`/api/article/${encodeURIComponent(targetId)}`);
+
+        // Kullanıcı başka bir noktaya tıkladıysa eski isteğin sonucunu yoksay
+        if (currentLoadingArticleId !== targetId) return;
+
+        if (res.status === 404) {
+            if (titleElem) titleElem.innerText = 'Makale Bulunamadı';
+            if (abstractElem) abstractElem.innerText = `ID: ${targetId} olan makalenin detay kaydı veri tabanında bulunamadı.`;
+            if (riskElem) riskElem.innerText = '-';
+            if (catElem) catElem.innerText = '-';
+            if (sugElem) sugElem.innerText = '-';
+            return;
+        }
+
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        // Yanıt geldiğinde hala bu makale mi aktif kontrolü
+        if (currentLoadingArticleId !== targetId) return;
+
+        openSidePanel(data);
+    } catch (err) {
+        console.error("Makale detayı yüklenirken hata:", err);
+        if (currentLoadingArticleId !== targetId) return;
+
+        if (titleElem) titleElem.innerText = 'Yükleme Hatası';
+        if (abstractElem) abstractElem.innerText = 'Makale detayları sunucudan alınırken bir hata oluştu. Lütfen tekrar deneyin.';
+        if (riskElem) riskElem.innerText = '-';
+        if (catElem) catElem.innerText = '-';
+        if (sugElem) sugElem.innerText = '-';
     }
 }
 

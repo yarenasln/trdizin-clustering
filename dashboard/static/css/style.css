@@ -209,3 +209,35 @@ body {
   .km-detail { min-height:600px; }
   .km-umap-frame { height:560px; }
 }
+
+/* Anomali Sayfalama (Pagination) */
+.pagination .page-link {
+    color: var(--text-primary);
+    background-color: #ffffff;
+    border-color: var(--border-color);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 5px 11px;
+    box-shadow: none;
+    transition: all 0.15s ease;
+}
+
+.pagination .page-link:hover {
+    color: var(--tubitak-dark);
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-subtle);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--tubitak-dark);
+    border-color: var(--tubitak-dark);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--text-muted);
+    background-color: #f8fafc;
+    border-color: var(--border-color);
+    opacity: 0.7;
+}

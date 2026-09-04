@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import plotly.utils
 from flask import Flask, Response, jsonify, render_template, request, send_file
 
-from data_loader import load_algorithm_data, BASE_DIR, RESULTS_DIR
+from data_loader import load_algorithm_data, load_article_detail, BASE_DIR, RESULTS_DIR
 
 app = Flask(__name__)
 
@@ -22,6 +22,16 @@ def get_anomalies():
   sort_order = request.args.get('sort', 'desc')
   priority_filter = request.args.get('priority', 'ALL')
   search_query = request.args.get('search', '').lower().strip()
+
+  try:
+    page = max(1, int(request.args.get('page', 1)))
+  except (ValueError, TypeError):
+    page = 1
+
+  try:
+    per_page = max(1, min(200, int(request.args.get('per_page', 50))))
+  except (ValueError, TypeError):
+    per_page = 50
 
   df = load_algorithm_data(algorithm)
 
@@ -49,13 +59,38 @@ def get_anomalies():
   if df.empty:
     return jsonify({
         'data': [],
+        'items': [],
         'stats': {
             'total_anomalies': 0,
             'avg_risk': 0,
             'critical_count': 0,
             'system_info': f'{algorithm.upper()} sonuç dosyası bulunamadı.',
         },
+        'page': page,
+        'per_page': per_page,
+        'total': 0,
+        'total_pages': 0,
     })
+
+  # HDBSCAN Anomali Filtreleme (Yalnızca pipeline tarafından tespit edilen 388 anomali)
+  if algorithm == 'hdbscan' and not df.empty:
+    anom_file = os.path.join(RESULTS_DIR, 'hdbscan_anomaliler.csv')
+    if os.path.exists(anom_file):
+      anom_ids = pd.read_csv(anom_file, dtype={'external_id': str}, usecols=['external_id'])['external_id'].astype(str).str.strip()
+      df = df[df['external_id'].astype(str).str.strip().isin(set(anom_ids))]
+    elif 'supheli_mi' in df.columns:
+      mask_ana = (df.get('ortak_agac_derinligi') == 0) & (df.get('knn_baskinlik', 0) >= 0.30)
+      mask_alt = (df.get('ortak_agac_derinligi') == 1) & (
+          (df.get('oneri_kategori') == df.get('knn_oneri'))
+          | (df.get('knn_baskinlik', 0) >= 0.40)
+      )
+      df = df[
+          (df['supheli_mi'] == 1)
+          & (df.get('label_sim_fark', 0) >= 0.09)
+          & (mask_ana | mask_alt)
+          & (~df['baslik'].astype(str).str.strip().isin(['', '-', 'None', 'nan']))
+          & (df['baslik'].astype(str).str.strip().str.len() > 3)
+      ]
 
   # Filtrelemeler
   if priority_filter != 'ALL':
@@ -74,8 +109,11 @@ def get_anomalies():
   if 'risk_skoru' in df.columns:
     df = df.sort_values(by='risk_skoru', ascending=ascending)
 
+  total_count = len(df)
+  total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 0
+
   stats = {
-      'total_anomalies': len(df),
+      'total_anomalies': total_count,
       'avg_risk': (
           round(float(df['risk_skoru'].mean()), 3)
           if not df.empty and 'risk_skoru' in df.columns
@@ -93,50 +131,52 @@ def get_anomalies():
       ),
   }
 
-  return jsonify({'data': df.to_dict(orient='records'), 'stats': stats})
+  offset = (page - 1) * per_page
+  paginated_df = df.iloc[offset:offset + per_page]
+  paginated_records = paginated_df.to_dict(orient='records')
+
+  return jsonify({
+      'data': paginated_records,
+      'items': paginated_records,
+      'stats': stats,
+      'page': page,
+      'per_page': per_page,
+      'total': total_count,
+      'total_pages': total_pages,
+  })
 
 @app.route('/api/plot', methods=['GET'])
 def get_plot():
   algorithm = request.args.get('algorithm', 'hdbscan').lower()
   df = load_algorithm_data(algorithm)
 
-  # --- EKLENECEK KISIM BURASI ---
-  # Sonuç dosyasındaki sütunları frontend ve hover metinlerinin beklediği isimlere eşleyelim
-  if 'mevcut_kategori' not in df.columns:
-    for c in ['category', 'kategori', 'subject', 'keywords']:
-      if c in df.columns:
-        df['mevcut_kategori'] = df[c]
-        break
-    if 'mevcut_kategori' not in df.columns:
-      df['mevcut_kategori'] = 'Belirtilmemiş'
-
-  if 'oneri_kategori' not in df.columns:
-    for c in ['knn_oneri', 'predicted_category', 'onerilen_kategori']:
-      if c in df.columns:
-        df['oneri_kategori'] = df[c]
-        break
-    if 'oneri_kategori' not in df.columns:
-      df['oneri_kategori'] = 'Uyumlu / Normal'
-
-  if 'baslik' not in df.columns:
-    if 'title' in df.columns:
-      df['baslik'] = df['title']
-    else:
-      df['baslik'] = 'Başlık Belirtilmemiş'
-
-  # İŞTE BURASI: Risk ve GLOSH skorlarının sıfır kalmasını önleyen eşleme
+  # Risk skoru eşleme
   if 'risk_skoru' not in df.columns or df['risk_skoru'].fillna(0).sum() == 0:
     for c in ['risk', 'risk_score', 'anomaly_score', 'outlier_score', 'score']:
       if c in df.columns:
         df['risk_skoru'] = df[c]
         break
 
-  if 'glosh_skoru' not in df.columns or df['glosh_skoru'].fillna(0).sum() == 0:
-    for c in ['glosh', 'glosh_score', 'aykirilik_skoru']:
+  if 'risk_skoru' not in df.columns:
+    df['risk_skoru'] = 0.5
+
+  # Küme eşleme
+  if 'kume' not in df.columns:
+    if 'hdbscan_kume' in df.columns:
+      df['kume'] = df['hdbscan_kume']
+    elif 'kmeans_kume' in df.columns:
+      df['kume'] = df['kmeans_kume']
+    else:
+      df['kume'] = -1
+
+  # External ID eşleme
+  if 'external_id' not in df.columns:
+    for c in ['id', 'ArticleID', 'makale_id']:
       if c in df.columns:
-        df['glosh_skoru'] = df[c]
+        df['external_id'] = df[c]
         break
-  # -----------------------------
+    if 'external_id' not in df.columns:
+      df['external_id'] = df.index.astype(str)
 
   if df.empty:
     fig = go.Figure()
@@ -151,28 +191,32 @@ def get_plot():
       df['umap_x'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
       df['umap_y'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
 
-    records = df.to_dict(orient='records')
-    score_name = 'GLOSH' if algorithm == 'hdbscan' else 'Aykırılık Skoru'
+    # Yalnızca minimum gerekli alanları içeren hafif DataFrame
+    plot_df = pd.DataFrame({
+        'external_id': df['external_id'].astype(str),
+        'umap_x': df['umap_x'].fillna(0.0),
+        'umap_y': df['umap_y'].fillna(0.0),
+        'risk_skoru': df['risk_skoru'].fillna(0.5),
+        'kume': df['kume'].fillna(-1).astype(int),
+    })
 
+    records = plot_df.to_dict(orient='records')
+
+    # Makale detaylarını (başlık, abstract, kategori vb.) İÇERMEYEN hafif hover
     hover_texts = [
-        f"<b>{str(row.get('baslik', ''))[:55]}...</b><br>"
-        f"Mevcut: {row.get('mevcut_kategori', '')}<br>"
-        f"Öneri: {row.get('oneri_kategori', '')}<br>"
-        f"Bileşik Risk: {float(row.get('risk_skoru', 0)):.3f}<br>"
-        f"{score_name}: {float(row.get('glosh_skoru', 0)):.3f}<br>"
-        f"<i>Detaylar için tıklayın</i>"
+        f"ID: {row['external_id']}<br>Risk: {float(row['risk_skoru']):.3f}<br>Küme: {row['kume']}"
         for row in records
     ]
 
-    # 1. Ana Trace: Tüm makaleler (normal halleriyle durur)
+    # 1. Ana Trace: Tüm makaleler (minimum customdata ile)
     main_trace = go.Scattergl(
-        x=df['umap_x'].tolist(),
-        y=df['umap_y'].tolist(),
+        x=plot_df['umap_x'].tolist(),
+        y=plot_df['umap_y'].tolist(),
         mode='markers',
         customdata=records,
         marker=dict(
             size=6,
-            color=df['risk_skoru'].fillna(0.5).tolist(),
+            color=plot_df['risk_skoru'].tolist(),
             colorscale=[
                 [0, '#474747'],
                 [0.5, "#8F5D5D"],
@@ -194,7 +238,7 @@ def get_plot():
         mode='markers',
         marker=dict(
             size=12,               # Boyutu büyük
-            color="#3167A5",       # Doğrudan rengi değişmiş hali (Parlak Turkuaz / Cyan veya istediğin başka bir renk)
+            color="#3167A5",       # Doğrudan rengi değişmiş hali
             opacity=1.0
         ),
         hoverinfo='skip',
@@ -204,7 +248,6 @@ def get_plot():
     # İki trace'i birden grafiğe veriyoruz
     fig = go.Figure(data=[main_trace, selected_trace])
 
-    algo_title = 'HDBSCAN' if algorithm == 'hdbscan' else 'K-MEANS'
     fig.update_layout(
         title=dict(text=''),
         showlegend=False,
@@ -217,12 +260,23 @@ def get_plot():
         dragmode='pan',  
     )
 
-  
   fig_dict = fig.to_dict()
   fig_dict['config'] = {'scrollZoom': True, 'displayModeBar': True}
 
   graph_json = json.dumps(fig_dict, cls=plotly.utils.PlotlyJSONEncoder)
   return Response(graph_json, mimetype='application/json')
+
+
+@app.route('/api/article/<external_id>', methods=['GET'])
+def get_article(external_id):
+  try:
+    article = load_article_detail(external_id)
+    if article is None:
+      return jsonify({'error': 'Makale bulunamadı.'}), 404
+    return jsonify(article)
+  except Exception as e:
+    return jsonify({'error': str(e)}), 500
+
 
 #Küme merkezlerini ve etiketlerini front-end'e sunan route
 @app.route('/api/cluster-summaries', methods=['GET'])
