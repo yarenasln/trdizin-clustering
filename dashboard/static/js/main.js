@@ -15,10 +15,17 @@ let lodDebounceTimer = null;
 let lodRequestId = 0;
 let isLodUpdating = false;
 let lastLodBBox = null;
+let pendingLodBBox = null;
 let lastSelectedPoint = null;
 let currentClusterAnnotations = [];
 let significantClustersData = [];
 let currentLodMeta = null;
+const LOD_DEBOUNCE_MS = 400;
+
+// --- CUSTOM RAF WHEEL ZOOM STATE DEĞİŞKENLERİ ---
+let accumulatedWheelDeltaY = 0;
+let wheelRafId = null;
+let lastWheelCursor = { x: 0, y: 0 };
 
 document.addEventListener("DOMContentLoaded", () => {
     const modalEl = document.getElementById('detailModal');
@@ -102,7 +109,7 @@ async function loadDashboard() {
             responsive: true, 
             displayModeBar: 'hover',
             displaylogo: false,
-            scrollZoom: true
+            scrollZoom: false
         });
 
         // --- SEVİYELİ ATLAS ETİKETLERİ VE DİNAMİK ZOOM ---
@@ -185,6 +192,9 @@ async function loadDashboard() {
                 scheduleLodUpdate({ xmin: b_xmin, xmax: b_xmax, ymin: b_ymin, ymax: b_ymax });
             }
         });
+
+        // Custom rAF Wheel Zoom Entegrasyonu
+        initCustomWheelZoom(plotElement);
         
         // Tıklama olayı: Seçilen noktayı hatırla, detayları yükle, parlat
         plotElement.on('plotly_click', function(data){
@@ -218,6 +228,95 @@ async function loadDashboard() {
 }
 
 // --- LEVEL OF DETAIL (LOD) & VIEWPORT YARDIMCI FONKSİYONLARI ---
+
+// ==============================================================================
+// CUSTOM REQUESTANIMATIONFRAME WHEEL ZOOM ENTEGRASYONU
+// ==============================================================================
+function initCustomWheelZoom(plotElement) {
+    if (!plotElement || plotElement._customWheelAttached) return;
+    plotElement._customWheelAttached = true;
+
+    function processCustomWheelFrame() {
+        wheelRafId = null;
+        if (accumulatedWheelDeltaY === 0) return;
+
+        // Devam eden bir Plotly.react çizimi varsa çakışmayı önlemek için sonraki frame'e ertele
+        if (isLodUpdating) {
+            wheelRafId = requestAnimationFrame(processCustomWheelFrame);
+            return;
+        }
+
+        const delta = accumulatedWheelDeltaY;
+        accumulatedWheelDeltaY = 0;
+
+        if (!plotElement._fullLayout) return;
+        const xa = plotElement._fullLayout.xaxis;
+        const ya = plotElement._fullLayout.yaxis;
+        if (!xa || !ya || !xa.range || !ya.range) return;
+
+        // Plotly benzeri üstel ölçek katsayısı (delta < 0: zoom in, delta > 0: zoom out)
+        const zoomFactor = Math.exp(delta * 0.0015);
+
+        // Veri koordinatlarını içeren çizim alanını (nsewdrag) tespit et
+        const dragBox = plotElement.querySelector('.nsewdrag');
+        const rect = dragBox ? dragBox.getBoundingClientRect() : plotElement.getBoundingClientRect();
+        if (!rect || rect.width <= 0 || rect.height <= 0) return;
+
+        // İmlecin grafik alanındaki oransal konumu [0, 1]
+        const fracX = Math.max(0, Math.min(1, (lastWheelCursor.x - rect.left) / rect.width));
+        const fracY = Math.max(0, Math.min(1, (rect.bottom - lastWheelCursor.y) / rect.height));
+
+        const xRange = xa.range[1] - xa.range[0];
+        const yRange = ya.range[1] - ya.range[0];
+        const xCenter = xa.range[0] + fracX * xRange;
+        const yCenter = ya.range[0] + fracY * yRange;
+
+        const newXmin = xCenter - fracX * (xRange * zoomFactor);
+        const newXmax = xCenter + (1 - fracX) * (xRange * zoomFactor);
+        const newYmin = yCenter - fracY * (yRange * zoomFactor);
+        const newYmax = yCenter + (1 - fracY) * (yRange * zoomFactor);
+
+        // İmleç merkezli tek birleştirilmiş relayout işlet
+        Plotly.relayout(plotElement, {
+            'xaxis.range': [newXmin, newXmax],
+            'yaxis.range': [newYmin, newYmax]
+        });
+    }
+
+    plotElement.addEventListener('wheel', function(e) {
+        // Native sayfa kaydırmasını ve Plotly dahili unthrottled wheel dinleyicisini durdur
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        // deltaMode normalizasyonu (0: pixel, 1: line, 2: page)
+        let rawDelta = e.deltaY;
+        if (e.deltaMode === 1) {
+            rawDelta *= 20;
+        } else if (e.deltaMode === 2) {
+            rawDelta *= 300;
+        }
+
+        // Aşırı ani sıçramaları önlemek için tekil event delta'sını sınırla [-300, 300]
+        const normalizedDelta = Math.max(-300, Math.min(300, rawDelta));
+        accumulatedWheelDeltaY += normalizedDelta;
+        lastWheelCursor = { x: e.clientX, y: e.clientY };
+
+        // Kullanıcı tekerleği çevirdiği sürece LOD debounce timer'ını sıfırla
+        if (lodDebounceTimer) {
+            clearTimeout(lodDebounceTimer);
+            lodDebounceTimer = setTimeout(() => {
+                lodDebounceTimer = null;
+                fetchAndUpdateLodPlot(pendingLodBBox);
+            }, LOD_DEBOUNCE_MS);
+        }
+
+        // Frame başına en fazla 1 zoom güncellemesi için rAF zamanla
+        if (!wheelRafId) {
+            wheelRafId = requestAnimationFrame(processCustomWheelFrame);
+        }
+    }, { passive: false });
+}
 
 function updateLodMetaBadge(lodMeta) {
     currentLodMeta = lodMeta;
@@ -299,7 +398,10 @@ function scheduleLodUpdate(bbox) {
     lodRequestId++;
     if (lodDebounceTimer) {
         clearTimeout(lodDebounceTimer);
+        lodDebounceTimer = null;
     }
+
+    pendingLodBBox = bbox;
 
     // Duplicate BBox kontrolü: Viewport değişmediyse fazladan istek atma
     if (bbox && lastLodBBox &&
@@ -318,10 +420,11 @@ function scheduleLodUpdate(bbox) {
         infoText.innerText = "Güncelleniyor...";
     }
 
-    // 280 ms debounce süresi
+    // 400 ms trailing idle debounce süresi: Kullanıcı zoom yapmayı bıraktıktan 400 ms sonra tek istek
     lodDebounceTimer = setTimeout(() => {
-        fetchAndUpdateLodPlot(bbox);
-    }, 280);
+        lodDebounceTimer = null;
+        fetchAndUpdateLodPlot(pendingLodBBox);
+    }, LOD_DEBOUNCE_MS);
 }
 
 async function fetchAndUpdateLodPlot(bbox) {
@@ -371,11 +474,12 @@ async function fetchAndUpdateLodPlot(bbox) {
             }
         };
 
-        const plotConfig = plotObj.config || {
+        const plotConfig = {
+            ...(plotObj.config || {}),
             responsive: true,
             displayModeBar: 'hover',
             displaylogo: false,
-            scrollZoom: true
+            scrollZoom: false
         };
 
         // Relayout döngüsünü önlemek için kilit bayrağı
