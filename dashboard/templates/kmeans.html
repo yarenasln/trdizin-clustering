@@ -132,14 +132,18 @@
             </div>
         </div>
 
-        <!-- Sağ: Makale Havuzu Detay Paneli (Eskisi gibi havuzun sağındaki boşlukta) -->
+        <!-- Sağ: Makale Havuzu Detay Paneli -->
         <div class="col-12 col-lg-7">
             <div id="kmDetail" class="card card-custom p-4 km-detail">
-                <div class="km-empty text-center text-secondary">
-                    <div class="km-empty-icon">📄</div>
+                <!-- Başlangıç Rehber Durumu (Boş Durum) -->
+                <div id="kmDetailEmpty" class="km-empty text-center text-secondary">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📄</div>
                     <h5 class="fw-bold text-dark">Bir makale seçin</h5>
-                    <p>Soldaki havuzdan bir makaleye tıkladığınızda konu tahminleri ve metrikler burada açılır.</p>
+                    <p class="small text-secondary mb-0">Soldaki havuzdan bir makaleye tıkladığınızda konu tahminleri, eşleşme metrikleri ve özet analizi burada açılır.</p>
                 </div>
+
+                <!-- Seçilen Makale İçeriği -->
+                <div id="kmDetailContent" style="display: none;"></div>
             </div>
         </div>
     </div>

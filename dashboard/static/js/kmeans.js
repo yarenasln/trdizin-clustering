@@ -67,63 +67,149 @@ async function loadKmeansArticle(externalId, selectedCard) {
     }
 
     const detail = km('kmDetail');
-    detail.innerHTML = `
-        <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+    renderKmeansDetail(item);
+}
+
+function renderKmeansDetail(item) {
+    const emptyEl = document.getElementById('kmDetailEmpty');
+    const contentEl = document.getElementById('kmDetailContent');
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (contentEl) contentEl.style.display = 'block';
+
+    const matchPct = Number(item.match_rate || 0) * 100;
+    let badgeClass = 'bg-danger';
+    let badgeText = 'Eşleşme Yok';
+    if (matchPct >= 100) {
+        badgeClass = 'bg-success';
+        badgeText = '%100 Tam Eşleşme';
+    } else if (matchPct >= 50) {
+        badgeClass = 'bg-warning text-dark';
+        badgeText = `%${matchPct.toFixed(0)} Kısmi Eşleşme`;
+    } else if (item.matched_count > 0) {
+        badgeClass = 'bg-secondary';
+        badgeText = `%${matchPct.toFixed(0)} Düşük Eşleşme`;
+    }
+
+    contentEl.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
-                <div class="km-kicker">MAKALE DETAYI</div>
-                <h4 class="fw-bold mt-1 mb-2">${kmEscape(item.title || 'Başlık bilgisi yok')}</h4>
+                <span class="badge ${badgeClass} mb-1">${badgeText}</span>
+                <span class="text-muted ms-2 fw-semibold" style="font-size: 0.85rem; font-family: monospace;">(ID: ${kmEscape(item.external_id)})</span>
             </div>
-            <span class="score-pill score-pill-info">${item.matched_count}/${item.true_count} doğru • ${kmPct(item.match_rate)}</span>
+            <button type="button" class="btn-close btn-sm" onclick="resetKmDetail()" title="Kapat"></button>
         </div>
 
-        <div class="d-flex flex-wrap gap-2 mb-3">
-            <span class="score-pill">External ID: <strong>${kmEscape(item.external_id)}</strong></span>
-            <span class="score-pill">DOI: <strong>${kmEscape(item.doi || 'Yok')}</strong></span>
-            <span class="score-pill">Yıl: <strong>${kmEscape(item.year || 'Yok')}</strong></span>
-            <span class="score-pill">Dil: <strong>${kmEscape(item.language || 'Yok')}</strong></span>
-        </div>
+        <h5 class="fw-bold text-dark mb-3 text-break" style="font-size: 1.05rem;">${kmEscape(item.title || 'Başlık bilgisi yok')}</h5>
 
-        <div class="km-section-title">📄 ÖZET</div>
-        <div class="km-abstract">${kmEscape(item.abstract || 'Özet bilgisi bulunamadı.')}</div>
-
-        <div class="km-section-title">🧭 ANA BAŞLIK TAHMİNİ</div>
-        <div class="km-tags">${kmTags(item.main_topics, 'main')}</div>
-
-        <div class="row g-3 mt-1">
-            <div class="col-md-6">
-                <div class="km-topic-box h-100">
-                    <div class="km-section-title mt-0">GERÇEK TR DİZİN KONULARI</div>
-                    <div class="km-tags">${kmTags(item.true_topics)}</div>
+        <!-- Metrik Kutuları (Ortak 4'lü Şema) -->
+        <div class="row g-2 mb-3">
+            <div class="col-md-3 col-6">
+                <div class="metric-box text-center">
+                    <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">YAKALANMA ORANI</small>
+                    <span class="fw-bold text-success fs-5">${kmPct(item.match_rate)}</span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="km-topic-box h-100">
-                    <div class="km-section-title mt-0">K-MEANS TAHMİNLERİ</div>
-                    <div class="km-tags">${kmTags(item.matched, 'good')}${kmTags(item.wrong, 'bad')}</div>
+            <div class="col-md-3 col-6">
+                <div class="metric-box text-center">
+                    <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">F1 SKORU</small>
+                    <span class="fw-bold text-info fs-5">${Number(item.f1 || 0).toFixed(3)}</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-box text-center">
+                    <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">PRECISION</small>
+                    <span class="fw-bold text-warning fs-5">${kmPct(item.precision)}</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="metric-box text-center">
+                    <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">RECALL</small>
+                    <span class="fw-bold text-primary fs-5">${kmPct(item.recall)}</span>
                 </div>
             </div>
         </div>
 
-        <div class="row g-3 mt-1">
-            <div class="col-md-4"><div class="km-result-box good"><small>✓ Doğru Yakalanan</small><strong>${item.matched_count}</strong><div class="km-tags mt-2">${kmTags(item.matched, 'good')}</div></div></div>
-            <div class="col-md-4"><div class="km-result-box bad"><small>✕ Eşleşmeyen Tahmin</small><strong>${item.wrong_count}</strong><div class="km-tags mt-2">${kmTags(item.wrong, 'bad')}</div></div></div>
-            <div class="col-md-4"><div class="km-result-box missed"><small>! Kaçırılan Gerçek Konu</small><strong>${item.missed_count}</strong><div class="km-tags mt-2">${kmTags(item.missed, 'missed')}</div></div></div>
+        <!-- Sınıflandırma ve Konu Analizi Tablosu (Ortak Tablo Şeması) -->
+        <h6 class="fw-bold text-dark text-uppercase small mb-2">🏷️ Konu Kümeleme ve Eşleşme Analizi</h6>
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered table-sm align-middle mb-0">
+                <tbody>
+                    <tr>
+                        <th class="bg-light text-secondary w-25">Ana Başlık Tahmini:</th>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${kmTags(item.main_topics, 'main')}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light text-secondary">Gerçek TR Dizin Konuları:</th>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${kmTags(item.true_topics)}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light text-secondary">K-Means Tahminleri:</th>
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                ${kmTags(item.matched, 'good')}
+                                ${kmTags(item.wrong, 'bad')}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light text-secondary">Eşleşme Durumu:</th>
+                        <td>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <div class="progress flex-grow-1" style="height: 6px; background-color: #e2e8f0;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: ${Math.min(100, Number(item.match_rate || 0) * 100)}%"></div>
+                                </div>
+                                <span class="small fw-bold text-success" style="font-size: 0.78rem;">${kmPct(item.match_rate)}</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-1 align-items-center">
+                                <span class="badge bg-success" style="font-size: 0.72rem;">✓ ${item.matched_count} Doğru Yakalanan</span>
+                                <span class="badge ${item.wrong_count > 0 ? 'bg-danger' : 'bg-light text-muted border'}" style="font-size: 0.72rem;">✕ ${item.wrong_count} Eşleşmeyen</span>
+                                <span class="badge ${item.missed_count > 0 ? 'bg-warning text-dark' : 'bg-light text-muted border'}" style="font-size: 0.72rem;">! ${item.missed_count} Kaçırılan</span>
+                                <small class="text-muted ms-auto" style="font-size: 0.72rem;">(${item.matched_count} / ${item.true_count} gerçek konu)</small>
+                            </div>
+                        </td>
+                    </tr>
+                    ${(item.doi || item.year || item.language) ? `
+                    <tr>
+                        <th class="bg-light text-secondary">Yayın Bilgisi:</th>
+                        <td class="small text-secondary">
+                            ${item.doi ? `<span class="me-3"><strong>DOI:</strong> ${kmEscape(item.doi)}</span>` : ''}
+                            ${item.year ? `<span class="me-3"><strong>Yıl:</strong> ${kmEscape(item.year)}</span>` : ''}
+                            ${item.language ? `<span><strong>Dil:</strong> ${kmEscape(item.language)}</span>` : ''}
+                        </td>
+                    </tr>` : ''}
+                </tbody>
+            </table>
         </div>
 
-        <div class="km-match-panel mt-3">
-            <div class="d-flex justify-content-between align-items-end gap-3">
-                <div><small class="d-block">GERÇEK KONULARIN YAKALANMA ORANI</small><strong>${item.matched_count} / ${item.true_count} gerçek konu yakalandı</strong></div>
-                <div class="km-match-big">${kmPct(item.match_rate)}</div>
-            </div>
-            <div class="km-progress light mt-2"><span style="width:${Math.min(100, Number(item.match_rate || 0) * 100)}%"></span></div>
-            <div class="row g-2 mt-2">
-                <div class="col-4"><div class="km-mini-metric"><small>PRECISION</small><strong>${kmPct(item.precision)}</strong></div></div>
-                <div class="col-4"><div class="km-mini-metric"><small>RECALL</small><strong>${kmPct(item.recall)}</strong></div></div>
-                <div class="col-4"><div class="km-mini-metric"><small>F1</small><strong>${kmPct(item.f1)}</strong></div></div>
-            </div>
+        <!-- Özet Metni (Ortak Kutu Şeması) -->
+        <h6 class="fw-bold text-dark text-uppercase small mb-2">📄 Özet Metni</h6>
+        <div class="p-3 bg-light border rounded mb-2">
+            <p class="small mb-0 text-secondary" style="line-height: 1.6; text-align: justify;">
+                ${kmEscape(item.abstract || 'Özet metni bulunmuyor.')}
+            </p>
         </div>
     `;
 }
+
+function resetKmDetail() {
+    const emptyEl = document.getElementById('kmDetailEmpty');
+    const contentEl = document.getElementById('kmDetailContent');
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (contentEl) contentEl.style.display = 'none';
+
+    document.querySelectorAll('.km-article-item').forEach((el) => {
+        el.classList.remove('active');
+    });
+}
+window.resetKmDetail = resetKmDetail;
 
 // UMAP noktasından tıklandığında üst sol paneli (#article-detail-panel) dolduran fonksiyon
 async function loadUmapPointDetails(externalId) {
