@@ -56,6 +56,23 @@ body {
     font-weight: 700;
 }
 
+.navbar-logo {
+    height: 42px;
+    width: auto;
+    max-width: 100%;
+}
+
+.navbar-select {
+    width: 140px;
+}
+
+#algoBadge,
+.navbar-badge {
+    font-size: 0.8rem;
+    background-color: var(--tubitak-red) !important;
+    color: #ffffff !important;
+}
+
 .sidebar {
     background-color: var(--bg-surface);
     border-right: 1px solid var(--border-color);

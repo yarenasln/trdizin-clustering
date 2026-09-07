@@ -1,0 +1,24 @@
+{% set current_algo = active_algo | default('kmeans' if request.path.startswith('/kmeans') else 'hdbscan') %}
+<nav class="navbar navbar-expand-lg px-4 py-2">
+    <a href="{{ url_for('home') }}" class="navbar-brand d-flex align-items-center">
+        <img src="{{ url_for('static', filename='images/ULAKBIM-Yatay.png') }}" alt="TÜBİTAK ULAKBİM" class="navbar-logo">
+    </a>
+    <a href="{{ url_for('home') }}" class="navbar-brand ms-2 text-decoration-none">
+        <strong>TR Dizin</strong> Anomali ve Kümeleme Portalı
+    </a>
+    <div class="ms-auto d-flex align-items-center gap-3">
+        {% if current_algo == 'hdbscan' %}
+        <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#evalModal" id="btnMetrics" title="Model Karşılaştırma ve Metrikler">
+            Model Metrikleri
+        </button>
+        {% endif %}
+        <span class="text-secondary small fw-medium">Algoritma:</span>
+        <select id="{{ 'algoSelect' if current_algo == 'hdbscan' else 'kmeansAlgoSelect' }}" class="form-select form-select-sm navbar-select">
+            <option value="hdbscan" {{ 'selected' if current_algo == 'hdbscan' else '' }}>HDBSCAN</option>
+            <option value="kmeans" {{ 'selected' if current_algo == 'kmeans' else '' }}>K-Means</option>
+        </select>
+        <span {% if current_algo == 'hdbscan' %}id="algoBadge"{% endif %} class="badge navbar-badge">
+            {{ 'HDBSCAN' if current_algo == 'hdbscan' else 'K-MEANS' }}
+        </span>
+    </div>
+</nav>
