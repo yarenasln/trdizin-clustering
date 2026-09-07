@@ -639,15 +639,31 @@ body {
 }
 
 .km-browser {
-    height: auto;
-    min-height: 480px;
+    height: 640px;
     background: var(--bg-card);
+    display: flex;
+    flex-direction: column;
 }
 
 .km-browser .km-article-list {
-    max-height: 420px;
-    min-height: 320px;
+    flex: 1;
     overflow-y: auto;
+    padding-right: 3px;
+}
+
+.km-detail {
+    height: 640px;
+    min-height: 640px;
+    overflow-y: auto;
+    background: var(--bg-card);
+}
+
+.km-empty {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (max-width: 991px) {
@@ -660,5 +676,16 @@ body {
     }
     .km-umap-workspace .km-umap-frame {
         height: 560px;
+    }
+    .km-browser {
+        height: auto;
+        min-height: 500px;
+    }
+    .km-browser .km-article-list {
+        max-height: 420px;
+    }
+    .km-detail {
+        height: auto;
+        min-height: 500px;
     }
 }

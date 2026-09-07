@@ -322,6 +322,45 @@ fig.write_html(
     full_html=True
 )
 
+# Parent dashboard iletişimi için plotly_click postMessage dinleyicisi ekle
+click_listener_script = """<script>
+(function() {
+    function setupPlotlyClick() {
+        var plotEl = document.querySelector('.plotly-graph-div');
+        if (!plotEl || !window.Plotly) {
+            setTimeout(setupPlotlyClick, 100);
+            return;
+        }
+        plotEl.on('plotly_click', function(data) {
+            if (data && data.points && data.points.length > 0) {
+                var pt = data.points[0];
+                var extId = null;
+                if (pt.customdata && pt.customdata.length > 0) {
+                    extId = pt.customdata[0];
+                }
+                if (extId) {
+                    try {
+                        window.parent.postMessage({ type: 'KMEANS_POINT_CLICK', externalId: String(extId) }, '*');
+                    } catch (e) {
+                        console.warn('postMessage error:', e);
+                    }
+                }
+            }
+        });
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupPlotlyClick);
+    } else {
+        setupPlotlyClick();
+    }
+})();
+</script>
+</body>"""
+
+raw_html = HTML_OUTPUT.read_text(encoding="utf-8")
+if "KMEANS_POINT_CLICK" not in raw_html:
+    HTML_OUTPUT.write_text(raw_html.replace("</body>", click_listener_script), encoding="utf-8")
+
 print(
     "Interaktif HTML:",
     HTML_OUTPUT

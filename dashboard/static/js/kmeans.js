@@ -125,6 +125,102 @@ async function loadKmeansArticle(externalId, selectedCard) {
     `;
 }
 
+// UMAP noktasından tıklandığında üst sol paneli (#article-detail-panel) dolduran fonksiyon
+async function loadUmapPointDetails(externalId) {
+    if (!externalId) return;
+
+    const welcomeWrapper = document.getElementById('panel-content-wrapper');
+    const activeContent = document.getElementById('panel-active-content');
+    const titleElem = document.getElementById('panel-title');
+    const abstractElem = document.getElementById('panel-abstract');
+    const riskElem = document.getElementById('panel-risk');
+    const catElem = document.getElementById('panel-cat');
+    const sugElem = document.getElementById('panel-suggestion');
+    const idElem = document.getElementById('panel-id');
+
+    if (welcomeWrapper) welcomeWrapper.style.display = 'none';
+    if (activeContent) activeContent.style.display = 'block';
+
+    if (idElem) idElem.innerText = `(ID: ${kmEscape(externalId)})`;
+    if (titleElem) titleElem.innerHTML = '<span class="spinner-border spinner-border-sm text-secondary me-2"></span>Yükleniyor...';
+    if (abstractElem) abstractElem.innerText = 'Makale detayları sunucudan getiriliyor, lütfen bekleyin...';
+    if (riskElem) riskElem.innerText = '...';
+    if (catElem) catElem.innerText = '...';
+    if (sugElem) sugElem.innerText = '...';
+
+    try {
+        const res = await fetch(`/api/kmeans/article/${encodeURIComponent(externalId)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const item = await res.json();
+
+        if (titleElem) titleElem.innerText = item.title || 'Başlık bilgisi yok';
+        if (abstractElem) abstractElem.innerText = item.abstract || 'Özet bilgisi bulunamadı.';
+        
+        const rate = item.match_rate !== undefined ? item.match_rate : (item.f1 || 0);
+        if (riskElem) riskElem.innerText = `%${(Number(rate) * 100).toFixed(1)}`;
+        
+        if (catElem) {
+            catElem.innerText = Array.isArray(item.true_topics) && item.true_topics.length > 0 
+                ? item.true_topics.join(' || ') 
+                : (item.true_topics || '-');
+        }
+        
+        if (sugElem) {
+            sugElem.innerText = Array.isArray(item.predicted_topics) && item.predicted_topics.length > 0 
+                ? item.predicted_topics.join(' || ') 
+                : (item.predicted_topics || '-');
+        }
+    } catch (err) {
+        console.error('UMAP makale detayı yüklenirken hata:', err);
+        if (titleElem) titleElem.innerText = 'Yükleme Hatası';
+        if (abstractElem) abstractElem.innerText = `ID: ${externalId} olan makalenin detayları getirilemedi.`;
+    }
+}
+
+// Üst sol paneli başlangıç rehber durumuna döndüren fonksiyon
+function resetSidePanel() {
+    const welcomeWrapper = document.getElementById('panel-content-wrapper');
+    const activeContent = document.getElementById('panel-active-content');
+    if (welcomeWrapper) welcomeWrapper.style.display = 'block';
+    if (activeContent) activeContent.style.display = 'none';
+}
+
+// UMAP iframe'i ve postMessage ile tıklama dinleyicisini kuran fonksiyon
+function setupUmapInteraction() {
+    window.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'KMEANS_POINT_CLICK' && event.data.externalId) {
+            loadUmapPointDetails(event.data.externalId);
+        }
+    });
+
+    const iframe = document.getElementById('kmeansUmapFrame') || document.querySelector('.km-umap-frame');
+    if (iframe) {
+        const attachDirect = () => {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow?.document;
+                if (!doc) return;
+                const plotEl = doc.querySelector('.plotly-graph-div');
+                if (plotEl && iframe.contentWindow?.Plotly) {
+                    plotEl.on('plotly_click', (data) => {
+                        if (data && data.points && data.points.length > 0) {
+                            const pt = data.points[0];
+                            const extId = (pt.customdata && pt.customdata.length > 0) ? pt.customdata[0] : null;
+                            if (extId) {
+                                loadUmapPointDetails(extId);
+                            }
+                        }
+                    });
+                }
+            } catch (err) {
+                // postMessage yedek olarak çalışır
+            }
+        };
+
+        iframe.addEventListener('load', attachDirect);
+        attachDirect();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     km('kmeansAlgoSelect').addEventListener('change', (event) => {
         if (event.target.value === 'hdbscan') window.location.href = '/';
@@ -137,4 +233,5 @@ document.addEventListener('DOMContentLoaded', () => {
         km(id).addEventListener('change', loadKmeansArticles);
     });
     loadKmeansArticles();
+    setupUmapInteraction();
 });
