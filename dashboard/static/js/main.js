@@ -291,15 +291,15 @@ function renderAnomalyCard(item, container, algo) {
     const badgeClass = isCritical ? "badge-critical" : "badge-high";
 
     const card = document.createElement("div");
-    card.className = "card card-custom p-3";
+    card.className = "card card-custom p-3 anomaly-card-item";
     card.style.cursor = "pointer";
-    // Karta tıklandığında sol paneli aç
+    // Karta tıklandığında sağdaki anomali detay panelini aç
     card.onclick = () => {
-        if (item.external_id) {
-            loadArticleDetails(item.external_id);
-        } else {
-            openSidePanel(item);
-        }
+        document.querySelectorAll('.anomaly-card-item').forEach(el => {
+            el.classList.remove('card-anomaly-active');
+        });
+        card.classList.add('card-anomaly-active');
+        showHdbscanCardDetail(item);
     };
 
     const scoreLabel = algo === "hdbscan" ? "GLOSH" : "Aykırılık";
@@ -336,6 +336,115 @@ function renderAnomalyCard(item, container, algo) {
     `;
     container.appendChild(card);
 }
+
+// Sağdaki Anomali Detay Panelini Dolduran Fonksiyon
+function showHdbscanCardDetail(item) {
+    if (!item) return;
+
+    const emptyEl = document.getElementById('hdbscanDetailEmpty');
+    const contentEl = document.getElementById('hdbscanDetailContent');
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (contentEl) contentEl.style.display = 'block';
+
+    const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
+    const pBadge = document.getElementById("hdbscanDetailPriority");
+    if (pBadge) {
+        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : "badge-high"} mb-1`;
+        pBadge.innerText = item.oncelik || 'BELİRTİLMEDİ';
+    }
+
+    const idElem = document.getElementById("hdbscanDetailId");
+    if (idElem) {
+        idElem.innerText = item.external_id ? `(ID: ${item.external_id})` : '';
+    }
+
+    const titleElem = document.getElementById("hdbscanDetailTitle");
+    if (titleElem) {
+        titleElem.innerText = item.baslik || item.title || (item.external_id ? `Makale ID: ${item.external_id}` : 'Başlık Belirtilmemiş');
+    }
+
+    const riskVal = item.risk_skoru !== undefined ? Number(item.risk_skoru).toFixed(3) : '-';
+    const riskElem = document.getElementById("hdbscanDetailRisk");
+    if (riskElem) riskElem.innerText = riskVal;
+
+    const scoreLabel = currentAlgo === "hdbscan" ? "GLOSH SKORU" : "AYKIRILIK SKORU";
+    const lblElem = document.getElementById("hdbscanDetailScoreLabel");
+    if (lblElem) lblElem.innerText = scoreLabel;
+
+    const scoreVal = item.glosh_skoru !== undefined || item.aykirilik_skoru !== undefined 
+        ? Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3) 
+        : '-';
+    const gloshElem = document.getElementById("hdbscanDetailGlosh");
+    if (gloshElem) gloshElem.innerText = scoreVal;
+
+    const knnBaskinlikVal = item.knn_baskinlik !== undefined 
+        ? `%${(Number(item.knn_baskinlik) * 100).toFixed(1)}`
+        : '-';
+    const knnBaskinlikElem = document.getElementById("hdbscanDetailKnnBaskinlik");
+    if (knnBaskinlikElem) knnBaskinlikElem.innerText = knnBaskinlikVal;
+
+    const kumeVal = item.kume !== undefined && item.kume !== -1 
+        ? `#${item.kume}` 
+        : (item.hdbscan_kume !== undefined && item.hdbscan_kume !== -1 ? `#${item.hdbscan_kume}` : 'Aykırı / -1');
+    const kumeElem = document.getElementById("hdbscanDetailKume");
+    if (kumeElem) kumeElem.innerText = kumeVal;
+
+    const mevcutKatElem = document.getElementById("hdbscanDetailMevcutKat");
+    if (mevcutKatElem) mevcutKatElem.innerText = item.mevcut_kategori || item.gercek_kategori || item.kategori || '-';
+
+    const oneriKatElem = document.getElementById("hdbscanDetailOneriKat");
+    if (oneriKatElem) oneriKatElem.innerText = item.oneri_kategori || item.model_onerisi || '-';
+
+    const knoneriElem = document.getElementById("hdbscanDetailKnnOneri");
+    if (knoneriElem) knoneriElem.innerText = item.knn_oneri || '-';
+
+    const kararElem = document.getElementById("hdbscanDetailKararTipi");
+    if (kararElem) {
+        if (item.karar_tipi) {
+            const badgeClass = item.karar_tipi === 'TP-1' ? 'bg-danger' : (item.karar_tipi === 'TP-2' ? 'bg-warning text-dark' : 'bg-secondary');
+            kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${item.karar_tipi}</span> <small class="text-secondary">${item.filtre_aciklamasi || ''}</small>`;
+        } else {
+            kararElem.innerText = '-';
+        }
+    }
+
+    const ozetElem = document.getElementById("hdbscanDetailOzet");
+    if (ozetElem) {
+        ozetElem.innerText = item.ozet || item.abstract || 'Özet metni veri kümesinde bulunamadı.';
+    }
+
+    // Lazy tam detay getirme (tam özet ve karar bilgisi için)
+    if (item.external_id) {
+        fetch(`/api/article/${encodeURIComponent(item.external_id)}`)
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (!data) return;
+                if (document.getElementById("hdbscanDetailId")?.innerText.includes(item.external_id)) {
+                    if (data.ozet && ozetElem) ozetElem.innerText = data.ozet;
+                    if (data.karar_tipi && kararElem) {
+                        const badgeClass = data.karar_tipi === 'TP-1' ? 'bg-danger' : (data.karar_tipi === 'TP-2' ? 'bg-warning text-dark' : 'bg-secondary');
+                        kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${data.karar_tipi}</span> <small class="text-secondary">${data.filtre_aciklamasi || ''}</small>`;
+                    }
+                    if (data.knn_baskinlik !== undefined && knnBaskinlikElem) {
+                        knnBaskinlikElem.innerText = `%${(Number(data.knn_baskinlik) * 100).toFixed(1)}`;
+                    }
+                }
+            })
+            .catch(() => {});
+    }
+}
+
+function resetHdbscanDetail() {
+    const emptyEl = document.getElementById('hdbscanDetailEmpty');
+    const contentEl = document.getElementById('hdbscanDetailContent');
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (contentEl) contentEl.style.display = 'none';
+
+    document.querySelectorAll('.anomaly-card-item').forEach(el => {
+        el.classList.remove('card-anomaly-active');
+    });
+}
+window.resetHdbscanDetail = resetHdbscanDetail;
 
 // Bootstrap 5 Sayfalama Bileşenini Render Eden Fonksiyon
 function renderPagination(page, total) {
@@ -543,6 +652,7 @@ function resetSidePanel() {
     if (welcomeWrapper) welcomeWrapper.style.display = 'block';
     if (activeContent) activeContent.style.display = 'none';
 }
+window.resetSidePanel = resetSidePanel;
 
 // Sağdaki Paneli Kapatma Fonksiyonu
 function closeDetailPanel() {

@@ -688,4 +688,63 @@ body {
         height: auto;
         min-height: 500px;
     }
-}
+}
+
+/* ==========================================================================
+   HDBSCAN WORKSPACE GRID LAYOUT (İki sayfa arasında bütünlük)
+   ========================================================================== */
+.hdbscan-umap-card {
+    height: 590px;
+}
+
+.hdbscan-pool-card {
+    height: 640px;
+    background: var(--bg-card);
+    display: flex;
+    flex-direction: column;
+}
+
+.hdbscan-card-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.hdbscan-detail {
+    height: 640px;
+    min-height: 640px;
+    overflow-y: auto;
+    background: var(--bg-card);
+}
+
+.hdbscan-empty {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-anomaly-active {
+    border-color: var(--tubitak-dark, #1e293b) !important;
+    background-color: #f1f5f9 !important;
+    box-shadow: 0 0 0 1px var(--tubitak-dark, #1e293b);
+}
+
+@media (max-width: 991px) {
+    .hdbscan-umap-card {
+        height: auto;
+    }
+    .hdbscan-pool-card {
+        height: auto;
+        min-height: 500px;
+    }
+    .hdbscan-card-container {
+        max-height: 420px;
+    }
+    .hdbscan-detail {
+        height: auto;
+        min-height: 500px;
+    }
+}
+
