@@ -197,6 +197,13 @@ def load_algorithm_data(algorithm="hdbscan", reload=False):
 
   df["ozet"] = df["ozet"].fillna("Özet metni veri tabanında bulunmuyor.")
 
+  # HDBSCAN anomali maskesini önbelleğe al (Hızlı LOD filtreleme için)
+  if algo_lower == "hdbscan":
+    anom_ids = load_hdbscan_anomaly_ids()
+    df["is_hdbscan_anomaly"] = df["external_id"].astype(str).str.strip().isin(anom_ids)
+  else:
+    df["is_hdbscan_anomaly"] = False
+
   _DATA_CACHE[algo_lower] = df
   return df.copy()
 

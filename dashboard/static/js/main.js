@@ -10,6 +10,16 @@ let totalAnomaliesCount = 0;
 let isLoadingAnomalies = false;
 let searchDebounceTimer = null;
 
+// --- LEVEL OF DETAIL (LOD) STATE DEĞİŞKENLERİ ---
+let lodDebounceTimer = null;
+let lodRequestId = 0;
+let isLodUpdating = false;
+let lastLodBBox = null;
+let lastSelectedPoint = null;
+let currentClusterAnnotations = [];
+let significantClustersData = [];
+let currentLodMeta = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     const modalEl = document.getElementById('detailModal');
     if (modalEl) {
@@ -53,6 +63,16 @@ async function loadDashboard() {
     const priority = document.getElementById("prioritySelect").value;
     const search = document.getElementById("searchInput").value;
 
+    // Reset LOD & Viewport State on Dashboard Load
+    if (lodDebounceTimer) {
+        clearTimeout(lodDebounceTimer);
+        lodDebounceTimer = null;
+    }
+    lodRequestId++;
+    lastLodBBox = null;
+    lastSelectedPoint = null;
+    currentLodMeta = null;
+
     // Badge güncelle
     const badgeEl = document.getElementById("algoBadge");
     if (badgeEl) {
@@ -70,7 +90,15 @@ async function loadDashboard() {
         const plotRes = await fetch(`/api/plot?algorithm=${algo}`);
         const plotObj = await plotRes.json();
 
-        Plotly.newPlot('clusterPlot', plotObj.data, plotObj.layout, { 
+        // LOD metadata rozetini göster
+        updateLodMetaBadge(plotObj.lod_meta);
+
+        // Küme görünümü aktifse ilk çizimde de renkleri uygula
+        if (currentView === 'cluster' && plotObj.data && plotObj.data[0]) {
+            applyClusterColoring(plotObj.data[0]);
+        }
+
+        await Plotly.newPlot('clusterPlot', plotObj.data, plotObj.layout, { 
             responsive: true, 
             displayModeBar: 'hover',
             displaylogo: false,
@@ -81,100 +109,94 @@ async function loadDashboard() {
         fetch('/api/cluster-summaries')
             .then(response => response.json())
             .then(clusters => {
-                // Kalabalığı önlemek için boyutu 3 ve üzeri olan kümeleri filtrele
-                const significantClusters = clusters.filter(c => c.size >= 3);
-
-                // Etiketleri oluşturan yardımcı fonksiyon (Zoom seviyesine göre metin seçer)
-                function updateAnnotations(zoomLevel = 'level_1') {
-                    const annotations = significantClusters.map(c => {
-                        let displayText = c.display_name_level_1; // Varsayılan en genel
-
-                        if (zoomLevel === 'level_3') {
-                            displayText = c.display_name_level_3 || c.display_name_level_2 || c.display_name_level_1;
-                        } else if (zoomLevel === 'level_2') {
-                            displayText = c.display_name_level_2 || c.display_name_level_1;
-                        } else {
-                            displayText = c.display_name_level_1;
-                        }
-
-                        return {
-                            x: c.x_center,
-                            y: c.y_center,
-                            text: `<b>${displayText}</b>`,
-                            showarrow: false,
-                            xanchor: 'center',
-                            yanchor: 'middle',
-                            bgcolor: 'rgba(255, 255, 255, 0.75)', 
-                            bordercolor: 'rgba(203, 213, 225, 0.8)', 
-                            borderwidth: 1,
-                            borderpad: 4,                       
-                            font: {
-                                family: 'Arial, sans-serif',
-                                size: zoomLevel === 'level_3' ? 10 : 11, // Yaklaştıkça fontu hafif küçültebiliriz
-                                color: '#0f172a'                
-                            }
-                        };
-                    });
-
-                    Plotly.relayout('clusterPlot', { annotations: annotations });
-                }
-
-                // 1. İlk açılışta en genel katmanla (Level 1) başlat
-                updateAnnotations('level_1');
-
-                // 2. Kullanıcı haritada zoom yaptıkça veya kaydırdıkça tetiklenen olay
-                const plotElement = document.getElementById('clusterPlot');
-                if (plotElement && plotElement.on) {
-                    plotElement.on('plotly_relayout', function(eventData) {
-                        // Eğer olay bir zoom veya range (eksen) değişimi ise
-                        if (eventData['xaxis.range[0]'] || eventData['xaxis.autorange']) {
-                            let xRange, yRange;
-
-                            if (eventData['xaxis.autorange']) {
-                                // Tamamen uzaklaşma (Reset zoom)
-                                updateAnnotations('level_1');
-                                return;
-                            }
-
-                            xRange = eventData['xaxis.range[1]'] - eventData['xaxis.range[0]'];
-                            yRange = eventData['yaxis.range[1]'] - eventData['yaxis.range[0]'];
-                            
-                            // Eksen aralığının büyüklüğüne göre zoom derinliğini seç
-                            // (Bu eşik değerlerini haritanın boyutuna göre ufakça revize edebilirsin)
-                            if (xRange < 3.0) {
-                                updateAnnotations('level_3'); // Çok yakın plan -> Spesifik konular
-                            } else if (xRange < 7.0) {
-                                updateAnnotations('level_2'); // Orta zoom -> Alt alanlar
-                            } else {
-                                updateAnnotations('level_1'); // Kuşbakışı -> Ana disiplinler
-                            }
-                        }
-                    });
-                }
+                significantClustersData = clusters.filter(c => c.size >= 3);
+                updateClusterAnnotations('level_1', true);
             })
             .catch(error => console.error('Küme etiketleri yüklenirken hata oluştu:', error));
-        // -------------------------------------------------------------
 
-        //Grafikteki noktaya tıklama olayı (Güncellendi)
         const plotElement = document.getElementById('clusterPlot');
         
         // Eski dinleyicileri temizle
         plotElement.removeAllListeners?.('plotly_click');
+        plotElement.removeAllListeners?.('plotly_relayout');
         plotElement.removeAllListeners?.('plotly_hover');
         plotElement.removeAllListeners?.('plotly_unhover');
+
+        // Zoom / Pan sonrası BBox + LOD Dinleyicisi
+        plotElement.on('plotly_relayout', function(eventData) {
+            if (isLodUpdating || !eventData) {
+                return;
+            }
+
+            // Reset zoom / autorange kontrolü
+            const isAutorange = eventData['xaxis.autorange'] || eventData['yaxis.autorange'] || eventData['autosize'];
+            if (isAutorange) {
+                updateClusterAnnotations('level_1', false);
+                scheduleLodUpdate(null);
+                return;
+            }
+
+            // Koordinatları ayıkla
+            let xmin = null, xmax = null, ymin = null, ymax = null;
+
+            if (eventData['xaxis.range[0]'] !== undefined && eventData['xaxis.range[1]'] !== undefined) {
+                xmin = Number(eventData['xaxis.range[0]']);
+                xmax = Number(eventData['xaxis.range[1]']);
+            } else if (Array.isArray(eventData['xaxis.range'])) {
+                xmin = Number(eventData['xaxis.range'][0]);
+                xmax = Number(eventData['xaxis.range'][1]);
+            }
+
+            if (eventData['yaxis.range[0]'] !== undefined && eventData['yaxis.range[1]'] !== undefined) {
+                ymin = Number(eventData['yaxis.range[0]']);
+                ymax = Number(eventData['yaxis.range[1]']);
+            } else if (Array.isArray(eventData['yaxis.range'])) {
+                ymin = Number(eventData['yaxis.range'][0]);
+                ymax = Number(eventData['yaxis.range'][1]);
+            }
+
+            if (xmin === null || ymin === null) {
+                const hasAxisKey = Object.keys(eventData).some(k => k.startsWith('xaxis') || k.startsWith('yaxis'));
+                if (hasAxisKey && plotElement._fullLayout?.xaxis?.range && plotElement._fullLayout?.yaxis?.range) {
+                    xmin = Number(plotElement._fullLayout.xaxis.range[0]);
+                    xmax = Number(plotElement._fullLayout.xaxis.range[1]);
+                    ymin = Number(plotElement._fullLayout.yaxis.range[0]);
+                    ymax = Number(plotElement._fullLayout.yaxis.range[1]);
+                }
+            }
+
+            if (xmin !== null && xmax !== null && ymin !== null && ymax !== null && !isNaN(xmin) && !isNaN(xmax) && !isNaN(ymin) && !isNaN(ymax)) {
+                const b_xmin = Math.min(xmin, xmax);
+                const b_xmax = Math.max(xmin, xmax);
+                const b_ymin = Math.min(ymin, ymax);
+                const b_ymax = Math.max(ymin, ymax);
+
+                // Zoom seviyesine göre küme etiket derinliği
+                const xRange = b_xmax - b_xmin;
+                if (xRange < 3.0) {
+                    updateClusterAnnotations('level_3', false);
+                } else if (xRange < 7.0) {
+                    updateClusterAnnotations('level_2', false);
+                } else {
+                    updateClusterAnnotations('level_1', false);
+                }
+
+                // Debounced LOD güncellemesi
+                scheduleLodUpdate({ xmin: b_xmin, xmax: b_xmax, ymin: b_ymin, ymax: b_ymax });
+            }
+        });
         
-        // Tıklama olayı hem sol paneli açar hem de haritada noktayı büyütüp parletir
+        // Tıklama olayı: Seçilen noktayı hatırla, detayları yükle, parlat
         plotElement.on('plotly_click', function(data){
             if(data.points && data.points.length > 0) {
                 const point = data.points.find(p => p.curveNumber === 0);
                 if(point && point.customdata) {
-                    // 1. Tıklanan noktadan yalnızca external_id alınır ve lazy API ile detaylar yüklenir
                     const externalId = point.customdata.external_id || (typeof point.customdata === 'string' ? point.customdata : null);
                     if (externalId) {
+                        lastSelectedPoint = { x: point.x, y: point.y, externalId: externalId };
                         loadArticleDetails(externalId);
                     }
                     
-                    // 2. Haritada tıklanan noktayı sabit renkli büyük katmana taşı
                     Plotly.restyle(
                         plotElement,
                         {
@@ -193,6 +215,189 @@ async function loadDashboard() {
 
     // 2. ANOMALİ KARTLARINI YÜKLE (Sayfalı / Lazy)
     await resetAndLoadAnomalies();
+}
+
+// --- LEVEL OF DETAIL (LOD) & VIEWPORT YARDIMCI FONKSİYONLARI ---
+
+function updateLodMetaBadge(lodMeta) {
+    currentLodMeta = lodMeta;
+    const infoText = document.getElementById("systemInfoText");
+    if (!infoText) return;
+    if (!lodMeta) {
+        infoText.innerText = `${currentAlgo.toUpperCase()} Modülü`;
+        return;
+    }
+
+    const disp = lodMeta.displayed_count !== undefined ? lodMeta.displayed_count.toLocaleString('tr-TR') : '0';
+    const bboxTotal = lodMeta.bbox_count !== undefined ? lodMeta.bbox_count.toLocaleString('tr-TR') : '0';
+    const level = lodMeta.lod_level !== undefined ? lodMeta.lod_level : 0;
+
+    if (level === 0) {
+        infoText.innerText = `${disp} makale (LOD 0 - Tam Detay)`;
+    } else {
+        infoText.innerText = `${disp} / ${bboxTotal} makale (LOD ${level})`;
+    }
+}
+
+function updateClusterAnnotations(zoomLevel = 'level_1', triggerRelayout = true) {
+    if (!significantClustersData || significantClustersData.length === 0) return;
+
+    currentClusterAnnotations = significantClustersData.map(c => {
+        let displayText = c.display_name_level_1;
+        if (zoomLevel === 'level_3') {
+            displayText = c.display_name_level_3 || c.display_name_level_2 || c.display_name_level_1;
+        } else if (zoomLevel === 'level_2') {
+            displayText = c.display_name_level_2 || c.display_name_level_1;
+        } else {
+            displayText = c.display_name_level_1;
+        }
+
+        return {
+            x: c.x_center,
+            y: c.y_center,
+            text: `<b>${displayText}</b>`,
+            showarrow: false,
+            xanchor: 'center',
+            yanchor: 'middle',
+            bgcolor: 'rgba(255, 255, 255, 0.75)',
+            bordercolor: 'rgba(203, 213, 225, 0.8)',
+            borderwidth: 1,
+            borderpad: 4,
+            font: {
+                family: 'Arial, sans-serif',
+                size: zoomLevel === 'level_3' ? 10 : 11,
+                color: '#0f172a'
+            }
+        };
+    });
+
+    if (triggerRelayout && !isLodUpdating) {
+        Plotly.relayout('clusterPlot', { annotations: currentClusterAnnotations });
+    }
+}
+
+function applyClusterColoring(trace) {
+    if (!trace || !trace.customdata) return;
+    const palette = [
+        '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', 
+        '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#374983'
+    ];
+    const records = trace.customdata;
+    const colorData = records.map(d => {
+        const kid = d.kume !== undefined ? d.kume : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
+        if (kid === -1) return '#d3d3d3';
+        return palette[Math.abs(kid) % palette.length];
+    });
+    if (!trace.marker) trace.marker = {};
+    trace.marker.color = colorData;
+    trace.marker.colorscale = null;
+    trace.marker.showscale = false;
+}
+
+function scheduleLodUpdate(bbox) {
+    // Devam eden önceki istekleri ve timer'ı geçersiz kıl
+    lodRequestId++;
+    if (lodDebounceTimer) {
+        clearTimeout(lodDebounceTimer);
+    }
+
+    // Duplicate BBox kontrolü: Viewport değişmediyse fazladan istek atma
+    if (bbox && lastLodBBox &&
+        Math.abs(bbox.xmin - lastLodBBox.xmin) < 1e-4 &&
+        Math.abs(bbox.xmax - lastLodBBox.xmax) < 1e-4 &&
+        Math.abs(bbox.ymin - lastLodBBox.ymin) < 1e-4 &&
+        Math.abs(bbox.ymax - lastLodBBox.ymax) < 1e-4) {
+        return;
+    }
+    if (!bbox && lastLodBBox === null) {
+        return;
+    }
+
+    const infoText = document.getElementById("systemInfoText");
+    if (infoText) {
+        infoText.innerText = "Güncelleniyor...";
+    }
+
+    // 280 ms debounce süresi
+    lodDebounceTimer = setTimeout(() => {
+        fetchAndUpdateLodPlot(bbox);
+    }, 280);
+}
+
+async function fetchAndUpdateLodPlot(bbox) {
+    const reqId = lodRequestId;
+    const plotElement = document.getElementById('clusterPlot');
+    if (!plotElement) return;
+
+    let url = `/api/plot?algorithm=${currentAlgo}`;
+    if (bbox) {
+        url += `&xmin=${bbox.xmin.toFixed(6)}&xmax=${bbox.xmax.toFixed(6)}&ymin=${bbox.ymin.toFixed(6)}&ymax=${bbox.ymax.toFixed(6)}`;
+    }
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const plotObj = await res.json();
+
+        // Race condition: Yeni bir zoom/pan geldiyse bu eski cevabı çöpe at
+        if (reqId !== lodRequestId) {
+            return;
+        }
+
+        lastLodBBox = bbox ? { ...bbox } : null;
+
+        // Küme Görünümü aktifse kategorik renkleri uygula
+        if (currentView === 'cluster' && plotObj.data && plotObj.data[0]) {
+            applyClusterColoring(plotObj.data[0]);
+        }
+
+        // Tıklanan seçili makale noktasını koru (trace 1)
+        if (lastSelectedPoint && plotObj.data && plotObj.data.length > 1) {
+            plotObj.data[1].x = [lastSelectedPoint.x];
+            plotObj.data[1].y = [lastSelectedPoint.y];
+        }
+
+        // Mevcut görünüm sınırlarını ve annotation'ları koru
+        const targetLayout = {
+            ...plotObj.layout,
+            annotations: currentClusterAnnotations || [],
+            xaxis: {
+                ...plotObj.layout.xaxis,
+                ...(bbox ? { range: [bbox.xmin, bbox.xmax], autorange: false } : { autorange: true })
+            },
+            yaxis: {
+                ...plotObj.layout.yaxis,
+                ...(bbox ? { range: [bbox.ymin, bbox.ymax], autorange: false } : { autorange: true })
+            }
+        };
+
+        const plotConfig = plotObj.config || {
+            responsive: true,
+            displayModeBar: 'hover',
+            displaylogo: false,
+            scrollZoom: true
+        };
+
+        // Relayout döngüsünü önlemek için kilit bayrağı
+        isLodUpdating = true;
+        try {
+            await Plotly.react('clusterPlot', plotObj.data, targetLayout, plotConfig);
+        } finally {
+            setTimeout(() => {
+                isLodUpdating = false;
+            }, 60);
+        }
+
+        // LOD metadata rozetini güncelle
+        updateLodMetaBadge(plotObj.lod_meta);
+
+    } catch (err) {
+        console.error("LOD verisi güncellenirken hata:", err);
+        const infoText = document.getElementById("systemInfoText");
+        if (infoText) {
+            infoText.innerText = `${currentAlgo.toUpperCase()} Modülü`;
+        }
+    }
 }
 
 // Sayfalamayı 1'e sıfırlayıp anomali kartlarını yeniden yükleyen fonksiyon
@@ -239,7 +444,7 @@ async function loadAnomalies(page = 1) {
             if (statCritical) statCritical.innerText = json.stats.critical_count || 0;
 
             const infoText = document.getElementById("systemInfoText");
-            if (infoText) {
+            if (infoText && !currentLodMeta) {
                 infoText.innerText = json.stats.system_info || `${algo.toUpperCase()} Modülü`;
             }
         }

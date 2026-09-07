@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import numpy as np
 import pandas as pd
@@ -150,10 +151,222 @@ def get_anomalies():
       'total_pages': total_pages,
   })
 
+# ==============================================================================
+# LEVEL OF DETAIL (LOD) KONFİGÜRASYONU VE YARDIMCI FONKSİYONLAR
+# ==============================================================================
+LOD_CONFIG = {
+    0: {'max_points': 3500,  'target': None, 'is_sampled': False},
+    1: {'max_points': 7500,  'target': 3250, 'is_sampled': True},
+    2: {'max_points': 14000, 'target': 2750, 'is_sampled': True},
+    3: {'max_points': float('inf'), 'target': 2500, 'is_sampled': True},
+}
+
+
+def determine_lod_level(count: int):
+  """BBox içindeki nokta sayısına göre LOD seviyesini ve hedef nokta sayısını belirler."""
+  if count <= LOD_CONFIG[0]['max_points']:
+    return 0, count, LOD_CONFIG[0]['is_sampled']
+  elif count <= LOD_CONFIG[1]['max_points']:
+    return 1, LOD_CONFIG[1]['target'], LOD_CONFIG[1]['is_sampled']
+  elif count <= LOD_CONFIG[2]['max_points']:
+    return 2, LOD_CONFIG[2]['target'], LOD_CONFIG[2]['is_sampled']
+  else:
+    return 3, LOD_CONFIG[3]['target'], LOD_CONFIG[3]['is_sampled']
+
+
+def apply_lod_sampling(
+    df_bbox: pd.DataFrame,
+    b_xmin: float,
+    b_xmax: float,
+    b_ymin: float,
+    b_ymax: float,
+    anom_ids: set,
+    total_dataset_count: int,
+):
+  """Grid tabanlı deterministik LOD sampling ve anomali koruması uygular."""
+  bbox_count = len(df_bbox)
+  if bbox_count == 0:
+    meta = {
+        'total_dataset_count': total_dataset_count,
+        'bbox_count': 0,
+        'displayed_count': 0,
+        'lod_level': 0,
+        'is_sampled': False,
+        'anomalies_in_bbox': 0,
+        'anomalies_displayed': 0,
+    }
+    return df_bbox, meta
+
+  lod_level, target_count, is_sampled = determine_lod_level(bbox_count)
+
+  # BBox içindeki anomalileri tespit et
+  if anom_ids:
+    if 'is_hdbscan_anomaly' in df_bbox.columns:
+      anom_mask = df_bbox['is_hdbscan_anomaly'].fillna(False).astype(bool)
+    else:
+      anom_mask = df_bbox['external_id'].astype(str).str.strip().isin(anom_ids)
+  else:
+    anom_mask = pd.Series(False, index=df_bbox.index)
+
+  df_anom = df_bbox[anom_mask]
+  df_norm = df_bbox[~anom_mask]
+  anomalies_in_bbox = len(df_anom)
+
+  # LOD 0 veya veri target'tan az ise örnekleme yapma
+  if not is_sampled or bbox_count <= target_count:
+    meta = {
+        'total_dataset_count': total_dataset_count,
+        'bbox_count': bbox_count,
+        'displayed_count': bbox_count,
+        'lod_level': 0,
+        'is_sampled': False,
+        'anomalies_in_bbox': anomalies_in_bbox,
+        'anomalies_displayed': anomalies_in_bbox,
+    }
+    return df_bbox, meta
+
+  # Anomali Koruması ve Normal Kota Hesabı:
+  # Anomaliler hedefi aşıyorsa tamamı korunur, normal nokta eklenmez
+  if anomalies_in_bbox >= target_count:
+    df_sampled = df_anom.copy()
+    meta = {
+        'total_dataset_count': total_dataset_count,
+        'bbox_count': bbox_count,
+        'displayed_count': len(df_sampled),
+        'lod_level': lod_level,
+        'is_sampled': True,
+        'anomalies_in_bbox': anomalies_in_bbox,
+        'anomalies_displayed': anomalies_in_bbox,
+    }
+    return df_sampled, meta
+
+  normal_quota = target_count - anomalies_in_bbox
+
+  if len(df_norm) <= normal_quota:
+    df_sampled = pd.concat([df_anom, df_norm])
+    meta = {
+        'total_dataset_count': total_dataset_count,
+        'bbox_count': bbox_count,
+        'displayed_count': len(df_sampled),
+        'lod_level': lod_level,
+        'is_sampled': True,
+        'anomalies_in_bbox': anomalies_in_bbox,
+        'anomalies_displayed': anomalies_in_bbox,
+    }
+    return df_sampled, meta
+
+  # Grid-Based Deterministik Normal Örnekleme
+  x_span = max(float(b_xmax - b_xmin), 1e-6)
+  y_span = max(float(b_ymax - b_ymin), 1e-6)
+
+  # Adaptif grid çözünürlüğü
+  G = max(30, min(75, int(np.sqrt(normal_quota * 1.35))))
+
+  norm_x = df_norm['umap_x'].to_numpy(dtype=float)
+  norm_y = df_norm['umap_y'].to_numpy(dtype=float)
+
+  gx = np.clip(np.floor((norm_x - b_xmin) / x_span * G).astype(int), 0, G - 1)
+  gy = np.clip(np.floor((norm_y - b_ymin) / y_span * G).astype(int), 0, G - 1)
+
+  df_norm_work = df_norm.assign(gx=gx, gy=gy)
+  kume_counts = df_norm_work['kume'].value_counts()
+  df_norm_work['kume_size'] = df_norm_work['kume'].map(kume_counts)
+
+  # Aşama 1: Grid adayları üretme (Her hücre ve küme için en riskli deterministik aday)
+  cand = df_norm_work.sort_values(
+      by=['risk_skoru', 'external_id'], ascending=[False, True]
+  ).drop_duplicates(subset=['gx', 'gy', 'kume']).copy()
+
+  # Aşama 2: Hücre birincilleri (Primary representatives - mekânsal omurga)
+  primary = cand.sort_values(
+      by=['gx', 'gy', 'risk_skoru', 'external_id'],
+      ascending=[True, True, False, True]
+  ).drop_duplicates(subset=['gx', 'gy'])
+
+  secondary = cand.loc[~cand.index.isin(primary.index)]
+
+  # Aşama 3: Target count kontrolü ve ikinci deterministik seçim
+  if len(cand) <= normal_quota:
+    final_norm = cand
+  elif len(primary) >= normal_quota:
+    step = len(primary) / normal_quota
+    indices = [int(i * step) for i in range(normal_quota)]
+    final_norm = primary.iloc[indices]
+  else:
+    needed = normal_quota - len(primary)
+    secondary_sorted = secondary.sort_values(
+        by=['kume_size', 'risk_skoru', 'external_id'],
+        ascending=[True, False, True]
+    )
+    chosen_secondary = secondary_sorted.iloc[:needed]
+    final_norm = pd.concat([primary, chosen_secondary])
+
+  cols_to_drop = [c for c in ['gx', 'gy', 'kume_size'] if c in final_norm.columns]
+  if cols_to_drop:
+    final_norm = final_norm.drop(columns=cols_to_drop)
+
+  df_sampled = pd.concat([df_anom, final_norm])
+
+  if anom_ids:
+    if 'is_hdbscan_anomaly' in df_sampled.columns:
+      anom_disp = int(df_sampled['is_hdbscan_anomaly'].fillna(False).astype(bool).sum())
+    else:
+      anom_disp = int(df_sampled['external_id'].astype(str).str.strip().isin(anom_ids).sum())
+  else:
+    anom_disp = 0
+
+  meta = {
+      'total_dataset_count': total_dataset_count,
+      'bbox_count': bbox_count,
+      'displayed_count': len(df_sampled),
+      'lod_level': lod_level,
+      'is_sampled': True,
+      'anomalies_in_bbox': anomalies_in_bbox,
+      'anomalies_displayed': anom_disp,
+  }
+  return df_sampled, meta
+
+
 @app.route('/api/plot', methods=['GET'])
 def get_plot():
   algorithm = request.args.get('algorithm', 'hdbscan').lower()
+
+  # Opsiyonel BBox (Bounding Box) filtre parametreleri
+  raw_xmin = request.args.get('xmin')
+  raw_xmax = request.args.get('xmax')
+  raw_ymin = request.args.get('ymin')
+  raw_ymax = request.args.get('ymax')
+
+  raw_bbox = [raw_xmin, raw_xmax, raw_ymin, raw_ymax]
+  clean_bbox = [p.strip() if p is not None and p.strip() != '' else None for p in raw_bbox]
+  has_any_bbox = any(p is not None for p in clean_bbox)
+  has_all_bbox = all(p is not None for p in clean_bbox)
+
+  bbox_filter = None
+  if has_any_bbox:
+    if not has_all_bbox:
+      return jsonify({'error': 'BBox filtreleme için xmin, xmax, ymin ve ymax parametrelerinin tümü verilmelidir.'}), 400
+    try:
+      xmin = float(clean_bbox[0])
+      xmax = float(clean_bbox[1])
+      ymin = float(clean_bbox[2])
+      ymax = float(clean_bbox[3])
+    except (ValueError, TypeError):
+      return jsonify({'error': 'BBox parametreleri geçerli sayısal (float) değerler olmalıdır.'}), 400
+
+    if (
+        math.isnan(xmin) or math.isnan(xmax) or math.isnan(ymin) or math.isnan(ymax)
+        or math.isinf(xmin) or math.isinf(xmax) or math.isinf(ymin) or math.isinf(ymax)
+    ):
+      return jsonify({'error': 'BBox parametreleri sonlu sayısal değerler olmalıdır.'}), 400
+
+    if xmin > xmax or ymin > ymax:
+      return jsonify({'error': f'Geçersiz BBox aralığı: xmin ({xmin}) > xmax ({xmax}) veya ymin ({ymin}) > ymax ({ymax}) olamaz.'}), 400
+
+    bbox_filter = (xmin, xmax, ymin, ymax)
+
   df = load_algorithm_data(algorithm)
+  total_dataset_count = len(df)
 
   # Risk skoru eşleme
   if 'risk_skoru' not in df.columns or df['risk_skoru'].fillna(0).sum() == 0:
@@ -186,6 +399,15 @@ def get_plot():
   if df.empty:
     fig = go.Figure()
     fig.update_layout(title='Görüntülenecek veri bulunamadı.')
+    lod_meta = {
+        'total_dataset_count': 0,
+        'bbox_count': 0,
+        'displayed_count': 0,
+        'lod_level': 0,
+        'is_sampled': False,
+        'anomalies_in_bbox': 0,
+        'anomalies_displayed': 0,
+    }
   else:
     if (
         'umap_x' not in df.columns
@@ -196,13 +418,47 @@ def get_plot():
       df['umap_x'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
       df['umap_y'] = np.random.normal(loc=15.0, scale=8.0, size=len(df))
 
+    # BBox filtreleme uygulama (xmin <= umap_x <= xmax ve ymin <= umap_y <= ymax)
+    if bbox_filter is not None:
+      b_xmin, b_xmax, b_ymin, b_ymax = bbox_filter
+      mask = (
+          (df['umap_x'] >= b_xmin)
+          & (df['umap_x'] <= b_xmax)
+          & (df['umap_y'] >= b_ymin)
+          & (df['umap_y'] <= b_ymax)
+      )
+      df_bbox = df[mask]
+    else:
+      df_bbox = df
+      b_xmin = float(df['umap_x'].min()) if not df.empty else 0.0
+      b_xmax = float(df['umap_x'].max()) if not df.empty else 1.0
+      b_ymin = float(df['umap_y'].min()) if not df.empty else 0.0
+      b_ymax = float(df['umap_y'].max()) if not df.empty else 1.0
+
+    # HDBSCAN anomali ID'lerini al
+    if algorithm == 'hdbscan':
+      anom_ids = load_hdbscan_anomaly_ids()
+    else:
+      anom_ids = set()
+
+    # Level of Detail (LOD) Deterministik Örnekleme
+    df_sampled, lod_meta = apply_lod_sampling(
+        df_bbox=df_bbox,
+        b_xmin=b_xmin,
+        b_xmax=b_xmax,
+        b_ymin=b_ymin,
+        b_ymax=b_ymax,
+        anom_ids=anom_ids,
+        total_dataset_count=total_dataset_count,
+    )
+
     # Yalnızca minimum gerekli alanları içeren hafif DataFrame
     plot_df = pd.DataFrame({
-        'external_id': df['external_id'].astype(str),
-        'umap_x': df['umap_x'].fillna(0.0),
-        'umap_y': df['umap_y'].fillna(0.0),
-        'risk_skoru': df['risk_skoru'].fillna(0.5),
-        'kume': df['kume'].fillna(-1).astype(int),
+        'external_id': df_sampled['external_id'].astype(str),
+        'umap_x': df_sampled['umap_x'].fillna(0.0),
+        'umap_y': df_sampled['umap_y'].fillna(0.0),
+        'risk_skoru': df_sampled['risk_skoru'].fillna(0.5),
+        'kume': df_sampled['kume'].fillna(-1).astype(int),
     })
 
     records = plot_df.to_dict(orient='records')
@@ -267,6 +523,7 @@ def get_plot():
 
   fig_dict = fig.to_dict()
   fig_dict['config'] = {'scrollZoom': True, 'displayModeBar': True}
+  fig_dict['lod_meta'] = lod_meta
 
   graph_json = json.dumps(fig_dict, cls=plotly.utils.PlotlyJSONEncoder)
   return Response(graph_json, mimetype='application/json')
