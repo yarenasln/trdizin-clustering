@@ -287,7 +287,6 @@ fig = px.scatter(
         "UMAP_1": False,
         "UMAP_2": False
     },
-    title="K-Means 2D Konu Kümeleme Uzayı (UMAP)"
 )
 
 fig.update_traces(

@@ -616,4 +616,49 @@ body {
     border: 1px solid var(--border-color, #e2e8f0);
     border-radius: var(--radius-lg, 10px);
     padding: 10px;
+}
+
+/* ==========================================================================
+   K-MEANS WORKSPACE GRID LAYOUT
+   ========================================================================== */
+#article-detail-panel {
+    height: 590px;
+    overflow-y: auto;
+    background-color: var(--bg-main, #f8fafc);
+    border-left: 4px solid var(--tubitak-red, #dc2626) !important;
+}
+
+.km-umap-workspace {
+    height: 590px;
+}
+
+.km-umap-workspace .km-umap-frame {
+    height: calc(590px - 95px);
+    width: 100%;
+    margin-top: 6px;
+}
+
+.km-browser {
+    height: auto;
+    min-height: 480px;
+    background: var(--bg-card);
+}
+
+.km-browser .km-article-list {
+    max-height: 420px;
+    min-height: 320px;
+    overflow-y: auto;
+}
+
+@media (max-width: 991px) {
+    #article-detail-panel {
+        height: auto;
+        min-height: 500px;
+    }
+    .km-umap-workspace {
+        height: auto;
+    }
+    .km-umap-workspace .km-umap-frame {
+        height: 560px;
+    }
 }
