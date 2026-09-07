@@ -115,6 +115,309 @@ body {
     min-height: calc(100vh - 56px);
 }
 
+/* ==========================================================================
+   SHARED PORTAL COMPONENTS (Step 2.2 Infrastructure)
+   ========================================================================== */
+
+/* Sayfa Başlığı (Hero & Kicker) */
+.portal-hero {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--tubitak-dark);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.portal-kicker {
+    font-size: var(--font-xs);
+    letter-spacing: 0.12rem;
+    font-weight: 800;
+    color: var(--tubitak-red);
+    text-transform: uppercase;
+    margin-bottom: var(--space-1);
+}
+
+/* Standart KPI / Metrik Kartı */
+.portal-stat {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-2);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.portal-stat:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-subtle);
+}
+
+.portal-stat-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04rem;
+    margin-bottom: var(--space-1);
+}
+
+.portal-stat-value {
+    color: var(--text-primary);
+    font-size: var(--font-xl);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: var(--space-1);
+}
+
+.portal-stat-desc {
+    display: block;
+    color: var(--text-muted);
+    font-size: var(--font-xs);
+}
+
+/* Genel Portal Kartı */
+.portal-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.portal-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-subtle);
+}
+
+.portal-card-header {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.portal-card-body {
+    padding: var(--space-4);
+}
+
+/* Liste / Makale Kartı */
+.portal-item-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    margin-bottom: var(--space-2);
+    cursor: pointer;
+    transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.portal-item-card:hover,
+.portal-item-card.active {
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-subtle);
+    transform: translateY(-1px);
+}
+
+.portal-item-id {
+    color: var(--text-muted);
+    font-size: var(--font-xs);
+    font-family: monospace;
+    font-weight: 700;
+}
+
+.portal-item-title {
+    font-weight: 700;
+    font-size: var(--font-base);
+    margin-top: var(--space-1);
+    line-height: 1.35;
+    color: var(--text-primary);
+}
+
+/* Detay Paneli Sarmalayıcısı */
+.portal-detail-panel {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-subtle);
+    padding: var(--space-4);
+    min-height: calc(100vh - 230px);
+    overflow-y: auto;
+}
+
+/* İki Yana Yaslı Özet Kutusu */
+.portal-abstract-box {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    line-height: 1.65;
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+    text-align: justify;
+    max-height: 230px;
+    overflow-y: auto;
+}
+
+/* Rozet ve Etiketler (Tags) */
+.portal-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--pastel-sky-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 4px var(--space-2);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.portal-tag-success {
+    background-color: var(--pastel-sage-bg);
+    color: var(--pastel-sage-text);
+    border-color: var(--pastel-sage-border);
+}
+
+.portal-tag-warning {
+    background-color: var(--pastel-amber-bg);
+    color: var(--pastel-amber-text);
+    border-color: var(--pastel-amber-border);
+}
+
+.portal-tag-danger {
+    background-color: var(--pastel-rose-bg);
+    color: var(--pastel-rose-text);
+    border-color: var(--pastel-rose-border);
+}
+
+.portal-tag-muted {
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    border-color: var(--border-subtle);
+}
+
+/* Durum / Callout Kutuları */
+.portal-callout {
+    height: 100%;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--tubitak-dark);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3);
+}
+
+.portal-callout-success {
+    border-left-color: var(--pastel-sage-text);
+}
+
+.portal-callout-danger {
+    border-left-color: var(--pastel-rose-text);
+}
+
+.portal-callout-warning {
+    border-left-color: var(--pastel-amber-text);
+}
+
+.portal-callout small {
+    display: block;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: var(--font-xs);
+}
+
+.portal-callout strong {
+    display: block;
+    font-size: var(--font-lg);
+    margin-top: var(--space-1);
+}
+
+/* İlerleme Çubuğu (Progress Bar) */
+.portal-progress {
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+}
+
+.portal-progress span {
+    display: block;
+    height: 100%;
+    background-color: var(--tubitak-red);
+    border-radius: var(--radius-pill);
+}
+
+.portal-progress.light {
+    background-color: var(--dark-border);
+}
+
+.portal-progress.light span {
+    background-color: var(--border-color);
+}
+
+/* Boş Durum (Empty State) */
+.portal-empty {
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-secondary);
+    padding: var(--space-5);
+}
+
+.portal-empty-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-2xl);
+    background-color: var(--pastel-sky-bg);
+    color: var(--text-secondary);
+    font-size: var(--font-xl);
+    margin-bottom: var(--space-3);
+}
+
+.portal-empty h5 {
+    font-size: var(--font-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.portal-empty p {
+    font-size: var(--font-sm);
+    margin-bottom: 0;
+    max-width: 320px;
+}
+
+/* Arama ve Filtre Kontrolleri */
+.portal-search-group {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.portal-filter-label {
+    display: block;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-1);
+    letter-spacing: 0.02rem;
+}
+
 .card-custom {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -313,4 +616,4 @@ body {
     border: 1px solid var(--border-color, #e2e8f0);
     border-radius: var(--radius-lg, 10px);
     padding: 10px;
-}
+}
