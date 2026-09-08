@@ -1,21 +1,13 @@
 qdrant.ulakbim.gov.tr {
-    handle /dashboard* {
-        reverse_proxy qdrant:6333
+    @qdrant {
+        path /dashboard* /collections* /cluster* /telemetry* /aliases*
     }
 
-    handle /collections* {
-        reverse_proxy qdrant:6333
-    }
+    handle @qdrant {
+        basic_auth {
+            qdrant_admin $2a$14$kRPkiw.qq2lNtp8L7umVku/JJHxGxVY2w372p8Xj/uLF/mMza1s9K
+        }
 
-    handle /cluster* {
-        reverse_proxy qdrant:6333
-    }
-
-    handle /telemetry* {
-        reverse_proxy qdrant:6333
-    }
-
-    handle /aliases* {
         reverse_proxy qdrant:6333
     }
 
