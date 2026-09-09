@@ -1,0 +1,6 @@
+Variant,Candidates,TP-1,TP-2,TP-all,FP,Precision,FP Reduction,TP-1 Retention,TP-2 Retention,TP-all Retention,Status
+D Baseline,388.0,43.0,186.0,229.0,159.0,59.02,0.0,100.0,100.0,100.0,Evaluated
+D-Oracle-1,281.0,38.0,156.0,194.0,87.0,69.04,45.28,88.37,83.87,84.72,Evaluated
+D-Oracle-2,281.0,38.0,156.0,194.0,87.0,69.04,45.28,88.37,83.87,84.72,Evaluated (Numerically identical to D-Oracle-1)
+D-Oracle-3,,,,,,,,,,,Uygulanamadı (Alternatif mekanizma alanı veri setinde mevcut değil)
+D-Oracle-Exploratory-HighConfidence,341.0,43.0,186.0,229.0,112.0,67.16,29.56,100.0,100.0,100.0,Exploratory (Sadece sınır vakası olmayan net non-focus filtreleme)
