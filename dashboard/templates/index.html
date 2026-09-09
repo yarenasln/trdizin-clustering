@@ -182,20 +182,20 @@
                         </div>
                         <div class="col-md-3 col-6">
                             <div class="metric-box text-center">
+                                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">SEMANTİK FARK</small>
+                                <span id="hdbscanDetailSimFark" class="fw-bold text-primary fs-5">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="metric-box text-center">
+                                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN IMPURITY</small>
+                                <span id="hdbscanDetailKnnImpurity" class="fw-bold text-warning fs-5">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="metric-box text-center">
                                 <small id="hdbscanDetailScoreLabel" class="text-muted d-block font-monospace" style="font-size: 0.72rem;">GLOSH SKORU</small>
                                 <span id="hdbscanDetailGlosh" class="fw-bold text-info fs-5">-</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="metric-box text-center">
-                                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN BASKINLIK</small>
-                                <span id="hdbscanDetailKnnBaskinlik" class="fw-bold text-warning fs-5">-</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="metric-box text-center">
-                                <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">KÜME ID</small>
-                                <span id="hdbscanDetailKume" class="fw-bold text-secondary fs-5">-</span>
                             </div>
                         </div>
                     </div>
@@ -218,11 +218,51 @@
                                     <td id="hdbscanDetailKnnOneri" class="text-warning fw-semibold"></td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-light text-secondary">Karar / Aksiyon:</th>
+                                    <th class="bg-light text-secondary">Küme Bilgisi:</th>
+                                    <td id="hdbscanDetailKume" class="text-secondary fw-semibold"></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-secondary">Adaylık / Öncelik:</th>
                                     <td id="hdbscanDetailKararTipi"></td>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Neden Şüpheli? (Açıklanabilirlik ve Karar Analizi) -->
+                    <div id="hdbscanWhyFlaggedSection" class="mb-3">
+                        <h6 class="fw-bold text-dark text-uppercase small mb-2">🔍 Neden Şüpheli? (Aday Karar Analizi)</h6>
+
+                        <!-- Bileşik Risk Katkı Çubuğu -->
+                        <div class="p-3 bg-light border rounded mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold small text-dark">Bileşik Risk / İnceleme Önceliği</span>
+                                <span id="hdbscanDetailRiskTotalBadge" class="badge bg-danger">Skor: -</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 10px; background-color: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                                <div id="riskBarKnn" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" title="kNN Impurity Katkısı (%40)"></div>
+                                <div id="riskBarSemantic" class="progress-bar bg-primary" role="progressbar" style="width: 0%;" title="Semantik Fark Katkısı (%35)"></div>
+                                <div id="riskBarGlosh" class="progress-bar bg-info" role="progressbar" style="width: 0%;" title="GLOSH Katkısı (%25)"></div>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between text-muted" style="font-size: 0.74rem;">
+                                <span><span class="d-inline-block rounded-circle bg-warning me-1" style="width: 8px; height: 8px;"></span>kNN Komşuluk (%40): <strong id="riskValKnn" class="text-dark">-</strong></span>
+                                <span><span class="d-inline-block rounded-circle bg-primary me-1" style="width: 8px; height: 8px;"></span>Semantik Fark (%35): <strong id="riskValSemantic" class="text-dark">-</strong></span>
+                                <span><span class="d-inline-block rounded-circle bg-info me-1" style="width: 8px; height: 8px;"></span>GLOSH (%25): <strong id="riskValGlosh" class="text-dark">-</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Karar Koşulları ve Eşik Listesi -->
+                        <div id="hdbscanRulesList" class="d-flex flex-column gap-2 mb-3">
+                            <!-- JS tarafından dinamik olarak doldurulur -->
+                        </div>
+
+                        <!-- Metodolojik Bilgilendirme Notu -->
+                        <div class="p-2 px-3 border rounded bg-white text-secondary d-flex align-items-center gap-2" style="border-left: 4px solid #0284c7 !important;">
+                            <span style="font-size: 1.15rem;">ℹ️</span>
+                            <span style="font-size: 0.78rem; line-height: 1.45; color: #334155;">
+                                Bu çıktı otomatik bir yanlış etiket kararı değildir. Sistem, makaleyi semantik ve yerel komşuluk sinyallerine göre manuel inceleme için aday olarak işaretler.
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Özet Metni -->
@@ -248,7 +288,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
             </div>
             <div class="modal-body px-4 py-3">
-                <div class="row g-2 mb-4">
+                <div class="row g-2 mb-3">
                     <div class="col-md-3 col-6">
                         <div class="metric-box text-center">
                             <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">BİLEŞİK RİSK</small>
@@ -257,26 +297,26 @@
                     </div>
                     <div class="col-md-3 col-6">
                         <div class="metric-box text-center">
+                            <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">SEMANTİK FARK</small>
+                            <span id="modalSimFark" class="fw-bold text-primary fs-5">-</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="metric-box text-center">
+                            <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN IMPURITY</small>
+                            <span id="modalKnnImpurity" class="fw-bold text-warning fs-5">-</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="metric-box text-center">
                             <small id="modalScoreLabel" class="text-muted d-block font-monospace" style="font-size: 0.72rem;">GLOSH SKORU</small>
                             <span id="modalGlosh" class="fw-bold text-info fs-5">-</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="metric-box text-center">
-                            <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">k-NN BASKINLIK</small>
-                            <span id="modalKnnBaskinlik" class="fw-bold text-warning fs-5">-</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="metric-box text-center">
-                            <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">KÜME ID</small>
-                            <span id="modalKume" class="fw-bold text-secondary fs-5">-</span>
                         </div>
                     </div>
                 </div>
 
                 <h6 class="fw-bold text-dark text-uppercase small mb-2">🏷️ Sınıflandırma ve Öneri Analizi</h6>
-                <div class="table-responsive mb-4">
+                <div class="table-responsive mb-3">
                     <table class="table table-bordered table-sm align-middle mb-0">
                         <tbody>
                             <tr>
@@ -292,11 +332,46 @@
                                 <td id="modalKnnOneri" class="text-warning fw-semibold"></td>
                             </tr>
                             <tr>
-                                <th class="bg-light text-secondary">Karar / Aksiyon:</th>
+                                <th class="bg-light text-secondary">Küme Bilgisi:</th>
+                                <td id="modalKume" class="text-secondary fw-semibold"></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light text-secondary">Adaylık / Öncelik:</th>
                                 <td id="modalKararTipi"></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Neden Şüpheli? (Modal İçi) -->
+                <div id="modalWhyFlaggedSection" class="mb-3">
+                    <h6 class="fw-bold text-dark text-uppercase small mb-2">🔍 Neden Şüpheli? (Aday Karar Analizi)</h6>
+
+                    <div class="p-3 bg-light border rounded mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold small text-dark">Bileşik Risk / İnceleme Önceliği</span>
+                            <span id="modalRiskTotalBadge" class="badge bg-danger">Skor: -</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 10px; background-color: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div id="modalRiskBarKnn" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" title="kNN Impurity Katkısı (%40)"></div>
+                            <div id="modalRiskBarSemantic" class="progress-bar bg-primary" role="progressbar" style="width: 0%;" title="Semantik Fark Katkısı (%35)"></div>
+                            <div id="modalRiskBarGlosh" class="progress-bar bg-info" role="progressbar" style="width: 0%;" title="GLOSH Katkısı (%25)"></div>
+                        </div>
+                        <div class="d-flex flex-wrap justify-content-between text-muted" style="font-size: 0.74rem;">
+                            <span><span class="d-inline-block rounded-circle bg-warning me-1" style="width: 8px; height: 8px;"></span>kNN Komşuluk (%40): <strong id="modalRiskValKnn" class="text-dark">-</strong></span>
+                            <span><span class="d-inline-block rounded-circle bg-primary me-1" style="width: 8px; height: 8px;"></span>Semantik Fark (%35): <strong id="modalRiskValSemantic" class="text-dark">-</strong></span>
+                            <span><span class="d-inline-block rounded-circle bg-info me-1" style="width: 8px; height: 8px;"></span>GLOSH (%25): <strong id="modalRiskValGlosh" class="text-dark">-</strong></span>
+                        </div>
+                    </div>
+
+                    <div id="modalRulesList" class="d-flex flex-column gap-2 mb-3"></div>
+
+                    <div class="p-2 px-3 border rounded bg-white text-secondary d-flex align-items-center gap-2" style="border-left: 4px solid #0284c7 !important;">
+                        <span style="font-size: 1.15rem;">ℹ️</span>
+                        <span style="font-size: 0.78rem; line-height: 1.45; color: #334155;">
+                            Bu çıktı otomatik bir yanlış etiket kararı değildir. Sistem, makaleyi semantik ve yerel komşuluk sinyallerine göre manuel inceleme için aday olarak işaretler.
+                        </span>
+                    </div>
                 </div>
 
                 <h6 class="fw-bold text-dark text-uppercase small mb-2">📄 Özet Metni</h6>
