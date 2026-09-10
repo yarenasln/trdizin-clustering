@@ -36,8 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const evalModalEl = document.getElementById('evalModal');
     if (evalModalEl) {
         evalModalInstance = new bootstrap.Modal(evalModalEl);
-        document.getElementById('btnMetrics').addEventListener('click', loadEvaluationMetrics);
+        const btnMetrics = document.getElementById('btnMetrics');
+        if (btnMetrics) {
+            btnMetrics.addEventListener('click', loadEvaluationMetrics);
+        }
     }
+
 
     document.getElementById("algoSelect").addEventListener("change", (e) => {
         currentAlgo = e.target.value;

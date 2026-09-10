@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR Dizin Akademik Disiplin Uyuşmazlığı Tespit Sistemi — TÜBİTAK ULAKBİM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+        }
+        .doc-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 48px 40px 60px 40px;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+        .doc-header {
+            border-bottom: 2px solid #dc2626;
+            padding-bottom: 20px;
+            margin-bottom: 36px;
+        }
+        .doc-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .doc-subtitle {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 0;
+        }
+        .doc-meta-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .doc-section {
+            margin-bottom: 36px;
+        }
+        h2.section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+        p {
+            font-size: 0.92rem;
+            color: #334155;
+            margin-bottom: 14px;
+            text-align: justify;
+        }
+        .pipeline-flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .pipeline-step {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 18px 16px;
+        }
+        .step-num {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #dc2626;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .step-title {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .step-desc {
+            font-size: 0.84rem;
+            color: #64748b;
+            line-height: 1.55;
+            margin-bottom: 0;
+            text-align: left;
+        }
+        .nav-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .nav-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 22px 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .nav-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+            transform: translateY(-1px);
+        }
+        .nav-card-kicker {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #dc2626;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+        .nav-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .nav-card-desc {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .nav-card-action {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #0f172a;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .notice-box {
+            background-color: #f8fafc;
+            border-left: 4px solid #475569;
+            padding: 14px 18px;
+            margin: 18px 0;
+            font-size: 0.88rem;
+            color: #334155;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="doc-wrapper">
+
+    <!-- ÜST DOKÜMAN BAŞLIĞI -->
+    <header class="doc-header">
+        <h1 class="doc-title">TR Dizin Akademik Disiplin Uyuşmazlığı Tespit Sistemi</h1>
+        <p class="doc-subtitle">Yapay Zeka ve Kümeleme Tabanlı Sınıflandırma Denetim ve Önceliklendirme Mimarisi</p>
+        <div class="doc-meta-bar">
+            <span><strong>Kurum:</strong> TÜBİTAK ULAKBİM</span>
+            <span><strong>Kapsam:</strong> TR Dizin Akademik Veri Tabanı</span>
+            <span><strong>Amaç:</strong> Editöryal Karar Destek ve Önceliklendirilmiş Denetim</span>
+        </div>
+    </header>
+
+    <!-- 1. PROBLEM TANIMI VE ARKA PLAN -->
+    <section class="doc-section">
+        <h2 class="section-title">Problem Tanımı ve Arka Plan</h2>
+        <p>
+            TR Dizin veri tabanında dizinlenen ve araştırmacıların erişimine sunulan akademik yayınların doğru bilimsel konu ve uzmanlık alanlarına atanması; dizinleme kalitesi, literatür taranabilirliği ve hakem atama süreçlerinin güvenilirliği açısından kritik önem taşımaktadır.
+        </p>
+        <p>
+            Bununla birlikte, yayınların sisteme kaydı aşamasında yazar beyanlarındaki öznel tercihler, disiplinlerarası (interdisciplinary) araştırmaların doğası gereği birden fazla alana temas etmesi ve manuel sınıflandırma süreçlerindeki değişkenlikler nedeniyle makalelerin gerçek bilimsel içeriği ile atanan konu başlıkları arasında uyuşmazlıklar ortaya çıkabilmektedir.
+        </p>
+    </section>
+
+    <!-- 2. NEDEN YAPAY ZEKA VE KÜMELEME TABANLI YAKLAŞIM? -->
+    <section class="doc-section">
+        <h2 class="section-title">Neden Yapay Zeka ve Kümeleme Tabanlı Yaklaşım?</h2>
+        <p>
+            Yüz binlerce makaleden oluşan geniş akademik veri evreninin manuel denetimle tek tek taranması operasyonel açıdan sürdürülebilir değildir. Ayrıca basit anahtar kelime eşleştirmeleri veya yüzeysel sözlük kuralları, bilimsel metinlerin kavramsal derinliğini ve yerel terminolojik bağlamını yakalamakta yetersiz kalmaktadır.
+        </p>
+        <p>
+            Geliştirilen sistem; çok dilli derin semantik modeller (MPNet) ve yoğunluk/yerel komşuluk tabanlı kümeleme algoritmalarını bir arada kullanarak makale metinlerini 768 boyutlu yoğun anlamsal uzaya aktarır. Makalenin semantik temsili, TR Dizin hiyerarşik taksonomisi ve literatürdeki en yakın komşu makalelerin disiplin dağılımı birlikte değerlendirilerek atanan alan ile gerçek içerik arasındaki sapmalar nicel olarak tespit edilir.
+        </p>
+    </section>
+
+    <!-- 3. SİSTEMİN GENEL AMACI -->
+    <section class="doc-section">
+        <h2 class="section-title">Sistemin Genel Amacı</h2>
+        <p>
+            Sistem, akademik yayınları otomatik olarak yeniden etiketleyen veya kesin bir hata hükmü veren bir otomatik sınıflandırıcı değildir. Temel işlevi, mevcut atamasıyla belirgin sapma gösteren yayınları işaretleyerek <strong>alan uzmanlarının (domain experts) ve editörlerin incelemesi için önceliklendirilmiş bir denetim havuzu</strong> oluşturmaktır.
+        </p>
+        <div class="notice-box">
+            <strong>Temel Hedefler:</strong>
+            <ul class="mb-0 mt-2">
+                <li>Editöryal ve dizinleme denetim süreçlerini hızlandırmak ve operasyonel iş yükünü azaltmak,</li>
+                <li>Mevcut disiplin etiketi ile semantik içeriği uyuşmayan yayınları erkenden tespit etmek,</li>
+                <li>Hakem ve alan komitesi görevlendirmelerinde ortaya çıkabilecek uyumsuzlukları önlemek,</li>
+                <li>Bileşik risk skoru ile en kritik uyuşmazlıkları denetim sırasının en üstüne taşımaktır.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 4. SİSTEM YAPISININ ÖZET AKIŞI -->
+    <section class="doc-section">
+        <h2 class="section-title">Sistem Yapısının Özet Akışı</h2>
+        <p>
+            Akademik disiplin uyuşmazlığı tespit mimarisi üç temel aşamadan oluşur:
+        </p>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="step-num">Aşama 1</span>
+                <div class="step-title">Veri Hazırlama & MPNet Temsili</div>
+                <div class="step-desc">
+                    Makalenin başlığı, özeti ve anahtar kelimeleri birleştirilerek çok dilli MPNet modeliyle 768 boyutlu yoğun (dense) birim vektörlere dönüştürülür.
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <span class="step-num">Aşama 2</span>
+                <div class="step-title">Kümeleme & Anomali Tespiti</div>
+                <div class="step-desc">
+                    15D UMAP manifold indirgeme, HDBSCAN kümeleme, GLOSH aykırılık analizi, taksonomi semantik farkı ve Qdrant exact kNN yerel komşuluk analizi birlikte işletilir.
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <span class="step-num">Aşama 3</span>
+                <div class="step-title">İnceleme & Doğrulama</div>
+                <div class="step-desc">
+                    Bileşik risk skoru ile önceliklendirilen aday havuzu etkileşimli analiz arayüzünde sunulur; alan uzmanlarının manuel doğrulamasıyla nihai karar verilir.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. YÖNLENDİRMELER -->
+    <div class="nav-card-grid">
+        <a href="{{ url_for('analysis') }}" class="nav-card">
+            <div>
+                <div class="nav-card-kicker">Etkileşimli Panel</div>
+                <div class="nav-card-title">Analiz ve İnceleme</div>
+                <div class="nav-card-desc">
+                    2D UMAP projeksiyonunu, küme dağılımlarını, önceliklendirilmiş anomali listesini ve makale detay analizlerini etkileşimli olarak inceleyin.
+                </div>
+            </div>
+            <div class="nav-card-action">
+                Analiz Paneline Git &rarr;
+            </div>
+        </a>
+
+        <a href="{{ url_for('methodology') }}" class="nav-card">
+            <div>
+                <div class="nav-card-kicker">Teknik Dokümantasyon</div>
+                <div class="nav-card-title">Metodoloji</div>
+                <div class="nav-card-desc">
+                    Ortak veri hazırlama adımlarını, HDBSCAN ve K-Means kümeleme mimarilerini, deneysel doğrulama sonuçlarını ve ablation analizlerini inceleyin.
+                </div>
+            </div>
+            <div class="nav-card-action">
+                Metodoloji Raporuna Git &rarr;
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
