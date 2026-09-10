@@ -21,7 +21,7 @@ VECTOR_NAME = "mpnet_v1"
 
 # Ingestion Ayarları
 BATCH_SIZE = 512
-EXPECTED_TOTAL_ARTICLES = 20902
+EXPECTED_TOTAL_ARTICLES = None  # None ise CSV/indeks satır sayısından dinamik türetilir
 TOLERANCE_ATOL = 1e-5
 
 # Dosya Yolları
@@ -107,8 +107,9 @@ def main():
 
     total_articles = len(all_articles)
     print(f"     Toplam {total_articles:,} makale bulundu.")
-    if total_articles != EXPECTED_TOTAL_ARTICLES:
-        print(f"     [UYARI] Beklenen makale sayısı: {EXPECTED_TOTAL_ARTICLES}, okunan: {total_articles}")
+    expected_count = EXPECTED_TOTAL_ARTICLES if EXPECTED_TOTAL_ARTICLES is not None else len(index_map)
+    if total_articles != expected_count:
+        print(f"     [UYARI] Beklenen makale sayısı ({expected_count:,}) ile okunan makale sayısı ({total_articles:,}) uyuşmuyor!")
 
     # D) .npy dosyasını bellek dostu mmap olarak açma (RAM'i gereksiz şişirmez)
     print("  -> mpnet_multilingual_embeddings.npy mmap modunda açılıyor...")
@@ -225,7 +226,7 @@ def main():
         print(f"     [HATA] Point sayısı uyuşmuyor! Beklenen: {total_articles}, Qdrant: {actual_count}")
         all_verification_passed = False
     else:
-        print("     [OK] Collection point sayısı tam olarak 20.902 ile eşleşti.")
+        print(f"     [OK] Collection point sayısı tam olarak {total_articles:,} ile eşleşti.")
 
     # B) Kaynak ve Qdrant ID Seti Karşılaştırması (Scroll üzerinden)
     print("  -> Qdrant'taki tüm Point ID'leri scroll ile taranıyor...")
@@ -345,7 +346,7 @@ def main():
     print("\n" + "=" * 90)
     if all_verification_passed:
         print(">>> TÜM VERİ YÜKLEME BAŞARILI <<<")
-        print(f"20.902 makalenin tamamı başarıyla yüklendi ve doğrulandı. (Toplam Süre: {total_elapsed / 60:.2f} dakika)")
+        print(f"{total_articles:,} makalenin tamamı başarıyla yüklendi ve doğrulandı. (Toplam Süre: {total_elapsed / 60:.2f} dakika)")
     else:
         print(">>> TÜM VERİ YÜKLEME BAŞARISIZ <<<")
         print("Doğrulama kontrollerinde tutarsızlık tespit edildi. Yukarıdaki hata çıktılarını inceleyiniz.")

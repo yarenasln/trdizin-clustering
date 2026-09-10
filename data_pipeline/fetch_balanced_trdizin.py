@@ -14,7 +14,7 @@ API_URL = (
     "api/defaultSearch/publication/"
 )
 
-TARGET_PER_SUBJECT = 150
+TARGET_PER_SUBJECT = 750
 
 PAGE_SIZE = 50
 

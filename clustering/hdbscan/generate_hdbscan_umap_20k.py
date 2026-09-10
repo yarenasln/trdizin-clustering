@@ -66,7 +66,7 @@ out_df = pd.DataFrame({
     "umap_y": coords[:, 1],
 })
 
-OUTPUT_FILE.parent.mkdir(
+Path(OUTPUT_FILE).parent.mkdir(
     parents=True,
     exist_ok=True
 )
