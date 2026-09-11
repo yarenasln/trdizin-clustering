@@ -761,4 +761,4 @@ Role-Aware hipotezi teorik olarak kanıtlanmış olmakla birlikte, otomatik çı
 Kullanıcı arayüzü ve dashboard, karar mantığına müdahale etmeden tüm bu matematiksel kanıtları denetçiye şeffafça sunan **açıklanabilir bir karar destek sistemidir**.
 
 ---
-*Doküman Sonu — TR Dizin Anomaly Detection Engineering Team*
+*Doküman Sonu — TR Dizin Anomaly Detection*
