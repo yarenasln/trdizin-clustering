@@ -638,36 +638,106 @@
         .footer {
             background: var(--navy);
             color: #cbd5e1;
+            border-top: 3px solid var(--red);
         }
 
-        .footer-inner {
+        .footer-main {
             max-width: var(--page-width);
             margin: 0 auto;
-            padding: 52px 24px;
+            padding: 22px 24px 16px;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        .footer-col {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 40px;
+            flex-direction: column;
         }
 
-        .footer-title {
-            margin: 0 0 8px;
-            color: #fff;
-            font-size: 17px;
-            font-weight: 700;
+        .footer-logo {
+            height: 38px;
+            width: auto;
+            max-width: 240px;
+            object-fit: contain;
+            display: block;
+            margin-bottom: 6px;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
         }
 
-        .footer-text {
+        .footer-brand-text {
             margin: 0;
-            max-width: 560px;
             color: #94a3b8;
             font-size: 13px;
+            line-height: 1.5;
+            max-width: 320px;
+        }
+
+        .footer-col-title {
+            margin: 0 0 6px;
+            color: #ffffff;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .footer-address {
+            font-style: normal;
+            margin: 0;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .footer-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-contact-item {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .footer-contact-label {
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .footer-contact-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-contact-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-bottom-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+            padding: 8px 24px;
         }
 
         .footer-copy {
+            margin: 0;
             color: #64748b;
             font-size: 12px;
-            white-space: nowrap;
         }
 
         /* -------------------------------------------------
@@ -757,16 +827,21 @@
                 margin-bottom: 18px;
             }
 
-            .footer-inner {
-                align-items: flex-start;
-                flex-direction: column;
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                padding: 22px 20px 16px;
+            }
+
+            .footer-bottom-inner {
+                padding: 8px 20px;
             }
         }
     </style>
 </head>
 
 <body>
-
+        <!-- ~~Nisa Ataizi~~-->
     <!-- =======================
          NAVBAR
     ======================== -->
@@ -1113,25 +1188,7 @@
     <!-- =======================
          FOOTER
     ======================== -->
-    <footer class="footer">
-        <div class="footer-inner">
-
-            <div>
-                <p class="footer-title">
-                    TÜBİTAK ULAKBİM
-                </p>
-
-                <p class="footer-text">
-                    TR Dizin Akademik Disiplin Uyuşmazlığı Tespit Sistemi
-                </p>
-            </div>
-
-            <div class="footer-copy">
-                © 2026 TÜBİTAK ULAKBİM
-            </div>
-
-        </div>
-    </footer>
+    {% include 'partials/footer.html' %}
 
 </body>
 </html>

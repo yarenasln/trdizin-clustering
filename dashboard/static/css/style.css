@@ -1272,4 +1272,130 @@ h3.doc-subsection-title {
     }
 }
 
+/* ===================================================
+   TÜBİTAK ULAKBİM ORTAK FOOTER BİLEŞENİ
+=================================================== */
+
+.footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    border-top: 3px solid #d71920;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 22px 24px 16px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 36px;
+    align-items: start;
+    box-sizing: border-box;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-logo {
+    height: 38px;
+    width: auto;
+    max-width: 240px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 6px;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+
+.footer-brand-text {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 320px;
+}
+
+.footer-col-title {
+    margin: 0 0 6px;
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.footer-address {
+    font-style: normal;
+    margin: 0;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.footer-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-contact-item {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.footer-contact-label {
+    color: #cbd5e1;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.footer-contact-link {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.footer-contact-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-bottom-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 8px 24px;
+    box-sizing: border-box;
+}
+
+.footer-copy {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+@media (max-width: 960px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 22px 20px 16px;
+    }
+
+    .footer-bottom-inner {
+        padding: 8px 20px;
+    }
+}
+
+
 
