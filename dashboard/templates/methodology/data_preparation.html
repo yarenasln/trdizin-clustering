@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veri Hazırlama — Metodoloji — TR Dizin Disiplin Uyuşmazlığı Tespit Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="doc-page-bg">
+    <div class="doc-container">
+
+        <!-- Breadcrumb -->
+        <nav class="doc-breadcrumb" aria-label="breadcrumb">
+            <a href="{{ url_for('home') }}">Ana Sayfa</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <a href="{{ url_for('methodology') }}">Metodoloji</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <span class="doc-breadcrumb-current">Veri Hazırlama</span>
+        </nav>
+
+        <!-- Ana Dokümantasyon Kartı -->
+        <article class="doc-card">
+            <header class="doc-header">
+                <div class="doc-kicker">METODOLOJİ BÖLÜM 01</div>
+                <h1 class="doc-title">Veri Hazırlama</h1>
+                <p class="doc-subtitle">
+                    TR Dizin yayın verilerinin örneklenmesi, temizlenmesi ve analiz için standart bir veri yapısına dönüştürülmesi.
+                </p>
+            </header>
+
+            <!-- 1. GENEL VERİ HAZIRLAMA ÇERÇEVESİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">1. Veri Hazırlama Süreci</h2>
+                <p class="doc-p">
+                    Veri hazırlama aşamasında, TR Dizin sisteminden elde edilen akademik yayın verileri analiz sürecine uygun hale getirilmiştir. Belirli konu alanlarının veri setinde aşırı temsil edilmesini azaltmak ve farklı disiplinlerin analiz sürecinde yeterli düzeyde temsil edilmesini sağlamak amacıyla konu bazlı dengeli örnekleme yaklaşımı uygulanmıştır. Ardından yayınların metinsel içerikleri ve konu/taksonomi bilgileri düzenlenmiş, eksik veya kullanılamayacak kayıtlar filtrelenerek sonraki semantik temsil ve analiz aşamalarında kullanılacak standart veri yapısı oluşturulmuştur.
+                </p>
+            </section>
+
+            <!-- 2. VERİ KAYNAĞI VE ÖRNEKLEME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">2. Veri Kaynağı ve Örnekleme</h2>
+                <p class="doc-p">
+                    Üretim pipeline'ı toplam <strong>20.902 makale</strong> üzerinde yapılandırılmıştır. Veri seti iki temel veri tablosu üzerinden yönetilmektedir:
+                </p>
+                <ul class="doc-list">
+                    <li>
+                        <strong><code>data/balanced_articles.csv</code>:</strong>
+                        Makale üstverilerini, dil seçimlerini, başlık, özet ve birleştirilmiş metin temsillerini tutan ana veri tablosu.
+                    </li>
+                    <li>
+                        <strong><code>data/article_subjects.csv</code>:</strong>
+                        Makalelerin TR Dizin taksonomisindeki konu atamalarını içeren ilişki tablosu.
+                    </li>
+                </ul>
+
+                <p class="doc-p">
+                    Veri toplama sürecinde TR Dizin REST API kotalarını aşmamak ve sunucuyu aşırı yüklemeden dengeli bir konu temsili elde etmek amacıyla konu başına hedef makale sayısı, sayfa büyüklüğü ve istekler arası bekleme süreleri belirlenmiştir. Bu ayarlar metodolojik parametreler olmayıp, operasyonel veri toplama kurallarıdır.
+                </p>
+            </section>
+
+            <!-- 3. METİN ALANLARININ HAZIRLANMASI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">3. Metin Alanlarının Hazırlanması</h2>
+                <p class="doc-p">
+                    Her yayının semantik içeriğini temsil etmek amacıyla başlık, özet ve anahtar kelimeler birleştirilerek tek bir metin gövdesi (<code>embedding_text</code>) oluşturulmuştur. Bu birleştirme işlemi aşağıdaki standart kurala göre derlenmektedir:
+                </p>
+
+                <div class="code-block">
+embedding_text = Başlık + ". " + Özet + ". Keywords: " + Anahtar Kelimeler
+                </div>
+
+                <p class="doc-p">
+                    Metin alanlarının hazırlanmasında uygulanan temel veri temizleme ve seçim kriterleri şunlardır:
+                </p>
+                <ul class="doc-list">
+                    <li>
+                        <strong>Dil Tercihi:</strong>
+                        Makalede hem Türkçe hem İngilizce üstveri bulunması durumunda öncelikle Türkçe (<code>TUR</code>) kayıt seçilir; Türkçe metin yoksa İngilizce (<code>ENG</code>), o da bulunmuyorsa ilk kullanılabilir kayıt tercih edilir.
+                    </li>
+                    <li>
+                        <strong>Filtreleme ve Temizlik:</strong>
+                        Başlıksız kayıtlar, başlık ve özeti aynı anda boş olan makaleler ve birleştirilmiş embedding metni oluşturulamayan kayıtlar analize dahil edilmez.
+                    </li>
+                    <li>
+                        <strong>Tekilleştirme (Deduplication):</strong>
+                        <code>external_id</code> alanı üzerinden tekilleştirme yapılarak her makalenin veri setinde yalnızca bir adet benzersiz kayıtla temsil edilmesi sağlanır.
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 4. TAKSONOMİ BİLGİLERİNİN HAZIRLANMASI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">4. Taksonomi Bilgilerinin Hazırlanması</h2>
+                <p class="doc-p">
+                    TR Dizin taksonomisinde bir makale birden fazla disipline veya alt alana atanabilmektedir (çoklu etiketlilik / multi-label). Bu hiyerarşik yapı <code>data/article_subjects.csv</code> tablosunda normalize biçimde saklanmaktadır:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Alan Adı</th>
+                            <th>Açıklama</th>
+                            <th>Örnek Değer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>external_id</code></td>
+                            <td>Makalenin tekil sistem tanıtıcısı</td>
+                            <td><code>"123456"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>subject_id</code></td>
+                            <td>Konunun sayısal kimlik kodu</td>
+                            <td><code>10203</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>subject_name</code></td>
+                            <td>En uç alt alan veya disiplin adı</td>
+                            <td><code>"Yapay Zeka"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>subject_fullname</code></td>
+                            <td>Kökten uca hiyerarşik taksonomi yolu</td>
+                            <td><code>"Mühendislik > Bilgisayar Mühendisliği > Yapay Zeka"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>root_name</code></td>
+                            <td>Ana disiplin kökü</td>
+                            <td><code>"Mühendislik"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="doc-p">
+                    Pipeline çalıştırılırken her makalenin atanmış olduğu tüm taksonomi yolları <code>external_id</code> bazında gruplanarak boru (<code>|</code>) karakteri ile birleştirilmektedir. Böylece bir makalenin birden fazla alana ait geçerli atamaları sonraki semantik uyum ve komşuluk analizlerinde eksiksiz olarak dikkate alınmaktadır.
+                </p>
+
+                <div class="notice-box">
+                    <strong>Altyapı Notu:</strong>
+                    Veri hazırlama aşamasında oluşturulan standart veri yapısı ve temizlenmiş metin gövdeleri; semantik temsil, vektör veritabanına aktarım ve kümeleme süreçleri için ortak girdi tabanını oluşturmaktadır.
+                </div>
+            </section>
+
+            <!-- Alt Navigasyon -->
+            <footer class="doc-footer-nav">
+                <a href="{{ url_for('methodology') }}" class="doc-nav-btn outline">
+                    <span>←</span> Metodoloji Ana Sayfası
+                </a>
+                <a href="{{ url_for('methodology_embedding') }}" class="doc-nav-btn primary">
+                    Sonraki: Semantik Temsil <span>→</span>
+                </a>
+            </footer>
+        </article>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

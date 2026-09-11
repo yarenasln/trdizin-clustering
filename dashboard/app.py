@@ -30,7 +30,32 @@ def analysis():
 
 @app.route('/methodology')
 def methodology():
-  return render_template('methodology.html')
+  return render_template('methodology/index.html')
+
+
+@app.route('/methodology/data-preparation')
+def methodology_data_preparation():
+  return render_template('methodology/data_preparation.html')
+
+
+@app.route('/methodology/embedding')
+def methodology_embedding():
+  return render_template('methodology/embedding.html')
+
+
+@app.route('/methodology/vector-database')
+def methodology_vector_database():
+  return render_template('methodology/vector_database.html')
+
+
+@app.route('/methodology/hdbscan')
+def methodology_hdbscan():
+  return render_template('methodology/hdbscan.html')
+
+
+@app.route('/methodology/evaluation')
+def methodology_evaluation():
+  return render_template('methodology/evaluation.html')
 
 
 

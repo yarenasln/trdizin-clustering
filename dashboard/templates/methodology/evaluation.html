@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deneysel Sonuçlar ve Değerlendirme — Metodoloji — TR Dizin Disiplin Uyuşmazlığı Tespit Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="doc-page-bg">
+    <div class="doc-container">
+
+        <!-- Breadcrumb -->
+        <nav class="doc-breadcrumb" aria-label="breadcrumb">
+            <a href="{{ url_for('home') }}">Ana Sayfa</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <a href="{{ url_for('methodology') }}">Metodoloji</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <span class="doc-breadcrumb-current">Deneysel Sonuçlar ve Değerlendirme</span>
+        </nav>
+
+        <!-- Ana Dokümantasyon Kartı -->
+        <article class="doc-card">
+            <header class="doc-header">
+                <div class="doc-kicker">METODOLOJİ BÖLÜM 05</div>
+                <h1 class="doc-title">Deneysel Sonuçlar ve Değerlendirme</h1>
+                <p class="doc-subtitle">
+                    Pipeline funnel, manuel değerlendirme, ablation ve false positive analizleri üzerinden sistem davranışının incelenmesi.
+                </p>
+            </header>
+
+            <p class="doc-p">
+                Bu dokümantasyonda, HDBSCAN tabanlı uyuşmazlık tespit yaklaşımının 20.902 makalelik veri seti üzerinde uygulanması sonucunda elde edilen çıktılar değerlendirilmektedir. Pipeline boyunca aday havuzunun daralması, nihai adayların manuel değerlendirme sonuçları, sistem bileşenlerinin katkısını inceleyen ablation analizi ve yanlış pozitif kayıtların hata yapısı ayrı başlıklar altında sunulmaktadır.
+            </p>
+
+            <!-- 1. PIPELINE FUNNEL SONUÇLARI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">1. Pipeline Funnel Sonuçları</h2>
+                <p class="doc-p">
+                    HDBSCAN tabanlı yaklaşımın uygulanması sırasında başlangıç veri setinden nihai manuel inceleme havuzuna kadar gerçekleşen aday daralması aşağıdaki tabloda gösterilmektedir:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Aşama</th>
+                            <th>İşlem / Koşul</th>
+                            <th>Kalan Kayıt</th>
+                            <th>Başlangıca Oranı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Başlangıç Veri Seti</strong></td>
+                            <td>Analize dahil edilen TR Dizin makaleleri</td>
+                            <td>20.902</td>
+                            <td>%100.00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. HDBSCAN Küme Dağılımı</strong></td>
+                            <td>
+                                11.584 kümelenmiş (%55.42) / 9.318 gürültü (%44.58)
+                            </td>
+                            <td>20.902</td>
+                            <td>%100.00</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Ön Aday Belirleme</strong></td>
+                            <td><code>supheli_mi == 1</code></td>
+                            <td>705</td>
+                            <td>%3.37</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Semantik Sıkılaştırma</strong></td>
+                            <td><code>label_sim_fark &gt;= 0.09</code></td>
+                            <td>642</td>
+                            <td>%3.07</td>
+                        </tr>
+                        <tr style="background-color: #f1f5f9; font-weight: 600;">
+                            <td><strong>5. Nihai İnceleme Havuzu</strong></td>
+                            <td>Ana disiplin / alt alan koşulları ve nihai filtreler</td>
+                            <td>388</td>
+                            <td>%1.86</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="doc-p">
+                    Pipeline sonucunda başlangıçtaki 20.902 makalenin 388'i manuel değerlendirme için nihai aday havuzuna dahil edilmiştir. Bu kayıtlar başlangıç veri setinin yaklaşık %1.86'sına karşılık gelmektedir.
+                </p>
+            </section>
+
+            <!-- 2. MANUEL DEĞERLENDİRME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">2. Manuel Değerlendirme</h2>
+                <p class="doc-p">
+                    Nihai inceleme havuzunda yer alan 388 aday kayıt manuel olarak değerlendirilmiş ve mevcut konu atamasındaki uyuşmazlığın niteliğine göre <code>TP-1</code>, <code>TP-2</code> veya <code>FP</code> sınıflarından biri atanmıştır:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Değerlendirme</th>
+                            <th>Kayıt Sayısı</th>
+                            <th>Oran</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>TP-1</strong></td>
+                            <td>43</td>
+                            <td>%11.08</td>
+                            <td>
+                                Mevcut konu atamasında gerçek bir yanlışlık veya değiştirilmesi gereken bir uyumsuzluk bulunmaktadır.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>TP-2</strong></td>
+                            <td>186</td>
+                            <td>%47.94</td>
+                            <td>
+                                Mevcut konu ataması büyük ölçüde geçerlidir; ancak yayın disiplinlerarası yapı veya eksik ikincil alan nedeniyle konu zenginleştirmesi gerektirmektedir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>FP</strong></td>
+                            <td>159</td>
+                            <td>%40.98</td>
+                            <td>
+                                Sistem tarafından uyuşmazlık adayı olarak belirlenmiş olmasına rağmen mevcut konu ataması manuel değerlendirmede uygun bulunmuştur.
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Toplam</strong></td>
+                            <td><strong>388</strong></td>
+                            <td><strong>%100.00</strong></td>
+                            <td>
+                                Audited Precision: (TP-1 + TP-2) / 388 = <strong>%59.02</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="notice-box">
+                    <strong>Değerlendirme Ayrımı:</strong>
+                    Bir yayında mevcut konu atamasına ilişkin gerçek bir sorun bulunmasının tespit edilmesi ile sistemin önerdiği alternatif kategorinin doğru olması aynı değerlendirme problemi değildir. Özellikle TP-2 kayıtlarında sistem uyuşmazlığı doğru biçimde belirlemiş olsa bile önerilen kategori tek veya nihai doğru alternatif olmayabilir.
+                </div>
+            </section>
+
+            <!-- 3. ABLATION ANALİZİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">3. Ablation Analizi</h2>
+                <p class="doc-p">
+                    Taksonomi, kNN ve GLOSH bileşenlerinin aday belirleme sürecindeki katkısını incelemek amacıyla dondurulmuş parametrelerle dört farklı sistem varyantı karşılaştırılmıştır:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Varyant</th>
+                            <th>Yapı</th>
+                            <th>Aday</th>
+                            <th>Denetlenmemiş</th>
+                            <th>TP-1</th>
+                            <th>TP-2</th>
+                            <th>FP</th>
+                            <th>Audited Precision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>A</strong></td>
+                            <td>Taksonomi Baseline</td>
+                            <td>1.600</td>
+                            <td>1.212</td>
+                            <td>43</td>
+                            <td>186</td>
+                            <td>159</td>
+                            <td>%59.02</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B</strong></td>
+                            <td>Taksonomi + GLOSH</td>
+                            <td>560</td>
+                            <td>409</td>
+                            <td>18</td>
+                            <td>65</td>
+                            <td>68</td>
+                            <td>%54.97</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C</strong></td>
+                            <td>Taksonomi + kNN</td>
+                            <td>384</td>
+                            <td>0</td>
+                            <td>42</td>
+                            <td>186</td>
+                            <td>156</td>
+                            <td>%59.38</td>
+                        </tr>
+                        <tr style="background-color: #f1f5f9; font-weight: 600;">
+                            <td><strong>D</strong></td>
+                            <td>Taksonomi + kNN + GLOSH</td>
+                            <td>388</td>
+                            <td>0</td>
+                            <td>43</td>
+                            <td>186</td>
+                            <td>159</td>
+                            <td>%59.02</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="doc-p"><strong>Temel Bulgular:</strong></p>
+                <ul class="doc-list">
+                    <li>
+                        <strong>kNN'nin aday havuzuna etkisi:</strong>
+                        kNN, aday havuzunu güçlü biçimde daraltan temel yerel doğrulama bileşenidir. Taksonomi + kNN varyantı 384 aday üretirken, manuel olarak doğrulanmış TP-1 kayıtlarının 42/43'ünü ve TP-2 kayıtlarının 186/186'sını korumuştur.
+                    </li>
+                    <li>
+                        <strong>GLOSH'un tamamlayıcı katkısı:</strong>
+                        Tam sistem, Taksonomi + kNN varyantına göre dört ek kayıt yakalamıştır. Bu dört kaydın biri TP-1, üçü FP olarak değerlendirilmiştir. Bu sonuç GLOSH'un sistemde sınırlı, tamamlayıcı bir aykırılık sinyali sağladığını göstermektedir.
+                    </li>
+                    <li>
+                        <strong>Denetlenmemiş kayıtların yorumu:</strong>
+                        Varyant A'daki 1.212 ve Varyant B'deki 409 kayıt manuel olarak değerlendirilmemiştir. Bu nedenle söz konusu kayıtlar FP olarak kabul edilemez ve bu varyantların performansı yalnızca denetlenmiş kayıtlar üzerinden yorumlanmalıdır.
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 4. FALSE POSITIVE HATA ANALİZİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">4. False Positive Hata Analizi</h2>
+                <p class="doc-p">
+                    Manuel değerlendirmede <code>FP</code> olarak sınıflandırılan 159 kayıt, sistemin hangi semantik yapılarda yanlış pozitif üretmeye eğilimli olduğunu incelemek amacıyla hata mekanizmalarına göre analiz edilmiştir:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Hata Mekanizması</th>
+                            <th>Kayıt</th>
+                            <th>Oran</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Neighboring discipline drift</strong></td>
+                            <td>36</td>
+                            <td>%22.64</td>
+                            <td>Birbirine yakın disiplinlerin semantik olarak ayrıştırılamaması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Object / material → discipline</strong></td>
+                            <td>26</td>
+                            <td>%16.35</td>
+                            <td>İncelenen nesne veya materyalin ait olduğu alanın araştırmanın disiplini gibi algılanması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Context / domain transfer</strong></td>
+                            <td>18</td>
+                            <td>%11.32</td>
+                            <td>Çalışmanın uygulama bağlamının araştırmanın temel disiplini gibi değerlendirilmesi.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Method → discipline</strong></td>
+                            <td>17</td>
+                            <td>%10.69</td>
+                            <td>Kullanılan yöntem veya aracın ait olduğu disiplinin araştırmanın temel alanı gibi algılanması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semantic hub / unrelated drift</strong></td>
+                            <td>17</td>
+                            <td>%10.69</td>
+                            <td>Genel veya yaygın semantik ifadeler nedeniyle temsilin farklı bir alana yönelmesi.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keyword / surface-form trap</strong></td>
+                            <td>16</td>
+                            <td>%10.06</td>
+                            <td>Başlık, özet veya anahtar kelimelerdeki belirgin yüzey terimlerinin semantik temsili yanıltması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Research topic → discipline</strong></td>
+                            <td>15</td>
+                            <td>%9.43</td>
+                            <td>Araştırılan konunun, araştırmanın yürütüldüğü bilimsel disiplin yerine baskın hale gelmesi.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cross-domain transfer</strong></td>
+                            <td>11</td>
+                            <td>%6.92</td>
+                            <td>Birden fazla alanla ilişkili içerikte semantik temsilin farklı disiplin yönüne kayması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polysemy / sense</strong></td>
+                            <td>3</td>
+                            <td>%1.89</td>
+                            <td>Aynı veya benzer terimlerin farklı disiplinlerde farklı anlamlarda kullanılmasından kaynaklanan semantik karışma.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="notice-box warning">
+                    <strong>Temel Metodolojik Çıkarım:</strong>
+                    False positive analizi, semantik benzerliğin tek başına bilimsel disiplin eşdeğerliği olarak yorumlanamayacağını göstermektedir. Araştırmanın yöntemi, nesnesi, materyali, konusu veya uygulama bağlamı embedding uzayında güçlü bir semantik sinyal oluşturabilir; ancak bu sinyal her zaman çalışmanın temel bilimsel disiplinini temsil etmez.
+                </div>
+            </section>
+
+            <!-- 5. PRODUCTION DIŞI ARAŞTIRMALAR -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">5. Production Dışı Araştırmalar</h2>
+
+                <div class="notice-box warning" style="border-left-width: 6px; padding: 18px 22px; margin-bottom: 24px;">
+                    <h3 class="h6 fw-bold mb-1 text-danger">ÖNEMLİ METODOLOJİK BİLGİLENDİRME:</h3>
+                    <p class="mb-0" style="font-size: 0.9rem;">
+                        Bu bölümde açıklanan <strong>Role-Aware Verification</strong>, <strong>Oracle Deneyi</strong> ve <strong>Otomatik Rol Sınıflandırma</strong> çalışmaları yalnızca deneysel araştırma ve hata analizi amacıyla gerçekleştirilmiştir. Bu yöntemler <strong>mevcut production pipeline'ına dahil edilmemiştir</strong> ve sistem kararlarında kullanılmamaktadır.
+                    </p>
+                </div>
+
+                <p class="doc-p">
+                    Production pipeline'ının geliştirilmesi sırasında, özellikle yanlış pozitiflerin nedenlerini anlamak ve azaltma potansiyeli taşıyan ek yaklaşımları değerlendirmek amacıyla bazı çevrimdışı deneyler gerçekleştirilmiştir.
+                </p>
+
+                <!-- 5.1 Role-Aware Verification -->
+                <h3 class="doc-subsection-title">5.1 Role-Aware Verification Deneyi</h3>
+                <p class="doc-p">
+                    False positive analizinde, bazı yayınların alternatif disiplinlere yönelmesinin makalenin temel araştırma odağından değil; kullanılan yöntem, incelenen materyal, uygulama bağlamı veya örneklem gibi ikincil unsurlardan kaynaklanabildiği gözlenmiştir. Bu gözlem doğrultusunda, semantik sinyalin makalenin <em>Research Focus</em> unsurundan mı yoksa ikincil rollerden mi kaynaklandığını ayırt etmeye yönelik deneysel bir doğrulama yaklaşımı incelenmiştir.
+                </p>
+                <p class="doc-p">
+                    Manuel olarak doğrulanmış rol bilgileri kullanıldığında, bu tür ikincil rol kaynaklı sinyaller FP grubunda <strong>%45.28 (72/159)</strong>, TP grubunda ise <strong>%15.28 (35/229)</strong> oranında gözlenmiştir. Bu fark, rol bilgisinin yanlış pozitiflerin önemli bir bölümünü açıklayabildiğini göstermiştir (<code>Odds Ratio = 4.59</code>, <code>p = 1.11 × 10^-10</code>).
+                </p>
+
+                <!-- 5.2 Oracle Deneyi -->
+                <h3 class="doc-subsection-title">5.2 Oracle Deneyi</h3>
+                <p class="doc-p">
+                    Manuel olarak doğrulanmış rol bilgisi kusursuz biçimde biliniyormuş gibi kullanıldığında FP sayısı %45.28 oranında azalmış ve audited precision %69.04'e yükselmiştir. Bununla birlikte, 5 TP-1 ve 30 TP-2 olmak üzere toplam 35 gerçek pozitif kayıt da elenmiştir. Bu sonuç, rol bilgisinin FP azaltma potansiyeli taşımasına rağmen doğrudan filtre olarak kullanılmasının gerçek uyuşmazlıkların kaybedilmesine yol açabileceğini göstermiştir.
+                </p>
+
+                <!-- 5.3 Otomatik Rol Sınıflandırma Deneyi -->
+                <h3 class="doc-subsection-title">5.3 Otomatik Rol Sınıflandırma Deneyi</h3>
+                <p class="doc-p">
+                    Rol ayrımını otomatikleştirmek amacıyla <code>MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7</code> modeli kullanılarak çok dilli zero-shot NLI tabanlı bir sınıflandırma deneyi gerçekleştirilmiştir:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Metrik</th>
+                            <th>Sonuç</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Balanced Accuracy</td>
+                            <td>%49.81</td>
+                        </tr>
+                        <tr>
+                            <td>MCC</td>
+                            <td>-0.004</td>
+                        </tr>
+                        <tr>
+                            <td>Çok Sınıflı Macro-F1</td>
+                            <td>%12.05</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="doc-p">
+                    Model özellikle <em>Method</em>, <em>Material</em> ve <em>Context</em> rollerini güvenilir biçimde ayıramamış; otomatik rol çıkarımı production kullanımına uygun bir ayrım gücü gösterememiştir.
+                </p>
+
+                <div class="notice-box warning">
+                    <strong>Production Kararı:</strong>
+                    Role-Aware Verification yaklaşımı deneysel araştırma olarak değerlendirilmiş, otomatik sınıflandırıcının yetersiz performansı ve gerçek pozitif kayıtları kaybetme riski nedeniyle production pipeline'ına dahil edilmemiştir.
+                </div>
+            </section>
+
+            <!-- 6. LİTERATÜR TEMELLİ TASARIM KARARLARI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">6. Literatür Temelli Tasarım Kararları</h2>
+                <p class="doc-p">
+                    Sistem mimarisinin geliştirilmesi sırasında akademik literatürdeki doküman kümeleme, etiket uyuşmazlığı tespiti ve yerel komşuluk tabanlı doğrulama çalışmaları incelenmiştir. Bu çalışmalar production pipeline'ına birebir aktarılmamış; proje problemine uygun görülen yöntem ve tasarım ilkeleri TR Dizin veri yapısına uyarlanmıştır:
+                </p>
+
+                <h3 class="doc-subsection-title">6.1 Kümeleme ve Görselleştirme Uzaylarının Ayrılması</h3>
+                <p class="doc-p">
+                    <em>An Empirical Configuration Study of a Common Document Clustering Pipeline</em> çalışmasında yüksek boyutlu doküman embeddinglerinin doğrudan düşük boyutlu görselleştirme uzayında kümelenmesinin bilgi kaybına yol açabileceği; kümeleme için ara boyutlu bir temsil kullanılmasının daha uygun olduğu gösterilmektedir. Bu bulgudan hareketle production pipeline'ında 768 boyutlu MPNet embeddingleri HDBSCAN öncesinde UMAP ile 15 boyuta indirgenmekte; 2D UMAP ise yalnızca görselleştirme amacıyla ayrı olarak üretilmektedir.
+                </p>
+
+                <h3 class="doc-subsection-title">6.2 Yüksek Boyutlu Metin Temsillerinde Kümeleme</h3>
+                <p class="doc-p">
+                    <em>Is Neural Topic Modelling Better than Clustering?</em> ve <em>WEClustering: Word Embeddings Based Text Clustering Technique for Large Datasets</em> çalışmaları, kaliteli bağlamsal embeddinglerin boyut indirgeme ve kümeleme yöntemleriyle birlikte kullanılmasının metin kümelerinin oluşturulmasında etkili bir yaklaşım olduğunu göstermektedir.
+                </p>
+
+                <h3 class="doc-subsection-title">6.3 Semantik İçerik ve Kategori Temsilinin Karşılaştırılması</h3>
+                <p class="doc-p">
+                    <em>Sanitizing Manufacturing Dataset Labels Using Vision-Language Models</em> çalışmasında örneklerin semantik temsilleri ile mevcut ve alternatif etiket temsilleri arasındaki benzerliklerin karşılaştırılmasına dayanan yaklaşım, TR Dizin bağlamında metin tabanlı olarak <strong>makale metni ↔ TR Dizin taksonomi yolu</strong> karşılaştırmasına uyarlanmıştır.
+                </p>
+
+                <h3 class="doc-subsection-title">6.4 Yerel Komşuluk Tabanlı Doğrulama</h3>
+                <p class="doc-p">
+                    Desmond et al. tarafından sunulan <em>Label Noise in Context</em> çalışmasında potansiyel etiket hatalarının yalnızca tek bir model skoru yerine yerel komşuluk bağlamıyla değerlendirilmesi ele alınmıştır. Bu ilke sistemde kNN tabanlı yerel doğrulama katmanı olarak kullanılmıştır.
+                </p>
+
+                <h3 class="doc-subsection-title">6.5 Manuel İnceleme ve Aday Önceliklendirme</h3>
+                <p class="doc-p">
+                    Müller ve Markert'in <em>Identifying Mislabeled Instances in Classification Datasets</em> çalışması, tüm veri setini denetlemek yerine şüpheli kayıtları önceliklendirerek insan incelemesine sunma yaklaşımını ele almaktadır. Sistemimiz de otomatik relabeling yerine uzman incelemesine aday havuzu sunmaktadır.
+                </p>
+
+                <h3 class="doc-subsection-title">6.6 İncelenen Alternatif Yaklaşımlar</h3>
+                <p class="doc-p">
+                    Literatür araştırması sırasında Contractive Autoencoder gibi alternatif temsil öğrenimi yaklaşımları incelenmiş ancak UMAP'in koruyucu manifold yapısı ve kümeleme başarısı nedeniyle tercih edilmemiştir.
+                </p>
+            </section>
+
+            <!-- 7. PARAMETRELERİN KANIT DURUMU -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">7. Parametrelerin Kanıt Durumu</h2>
+                <p class="doc-p">
+                    Production pipeline'ında kullanılan model, parametre ve karar eşiklerinin tamamı aynı düzeyde deneysel doğrulamaya sahip değildir. Aşağıdaki tablo, mevcut seçimlerin dayandığı kanıt durumunu göstermektedir:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Bileşen / Parametre</th>
+                            <th>Seçilen Değer</th>
+                            <th>Kanıt Durumu</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Embedding Modeli</strong></td>
+                            <td><code>paraphrase-multilingual-mpnet-base-v2</code></td>
+                            <td><strong>Experimentally supported</strong></td>
+                            <td>
+                                Alternatif embedding modelleriyle karşılaştırılmış; incelenen kümeleme metriklerinde en uygun sonucu verdiği için seçilmiştir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>UMAP Boyutu</strong></td>
+                            <td><code>n_components = 15</code></td>
+                            <td>Heuristic baseline</td>
+                            <td>
+                                Ara temsil boyutu olarak kullanılmıştır; farklı boyutlar üzerinde sistematik optimizasyon yapılmamıştır.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>UMAP Komşuluk</strong></td>
+                            <td><code>n_neighbors = 15</code></td>
+                            <td>Heuristic baseline</td>
+                            <td>
+                                Başlangıç parametresi olarak kullanılmıştır.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>HDBSCAN min_cluster_size</strong></td>
+                            <td><code>10</code></td>
+                            <td>Heuristic baseline</td>
+                            <td>
+                                Production pipeline'ında kullanılan başlangıç değeridir; grid search uygulanmamıştır.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>HDBSCAN min_samples</strong></td>
+                            <td><code>5</code></td>
+                            <td>Heuristic baseline</td>
+                            <td>
+                                Production pipeline'ında kullanılan başlangıç değeridir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>kNN Komşu Sayısı</strong></td>
+                            <td><code>k = 10</code></td>
+                            <td>Heuristic baseline</td>
+                            <td>
+                                Yerel komşuluk analizi için sabit komşu sayısı olarak kullanılmıştır.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>kNN Arama Modu</strong></td>
+                            <td><code>exact=True</code></td>
+                            <td>Operational decision</td>
+                            <td>
+                                Yaklaşık aramadan kaynaklanabilecek sapmaları önlemek amacıyla kesin vektör sorgusu tercih edilmiştir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ön Semantik Eşik</strong></td>
+                            <td><code>sim_fark &gt; 0.08</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Ön aday belirleme aşamasında kullanılan sezgisel karar eşiğidir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nihai Semantik Eşik</strong></td>
+                            <td><code>label_sim_fark &gt;= 0.09</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Nihai aday havuzunda semantik koşulu sıkılaştırmak için kullanılan sezgisel eşiktir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>kNN Impurity</strong></td>
+                            <td><code>&gt;= 0.50</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Yerel komşuluğun en az yarısında mevcut kategoriyle uyuşmazlık aranmasını sağlayan karar eşiğidir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ana Disiplin Baskınlığı</strong></td>
+                            <td><code>&gt;= 0.30</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Ana disiplin adaylarında yerel komşuluk desteği için kullanılan eşiktir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alt Alan Baskınlığı</strong></td>
+                            <td><code>&gt;= 0.40</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Alt alan düzeyindeki nihai aday filtresinde kullanılan daha sıkı komşuluk koşuludur.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>GLOSH Eşiği</strong></td>
+                            <td><code>&gt; 0.70</code></td>
+                            <td>Heuristic / manual baseline</td>
+                            <td>
+                                Ön aday kuralında güçlü yoğunluk aykırılığı sinyali olarak kullanılan sezgisel eşiktir.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risk Ağırlıkları</strong></td>
+                            <td><code>0.40 / 0.35 / 0.25</code></td>
+                            <td>Heuristic composite baseline</td>
+                            <td>
+                                kNN impurity, semantik fark ve GLOSH katkılarını birleştiren sezgisel ağırlıklardır.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 8. METODOLOJİK SINIRLILIKLAR -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">8. Metodolojik Sınırlılıklar</h2>
+                <p class="doc-p">
+                    Elde edilen sonuçlar değerlendirilirken aşağıdaki metodolojik sınırlılıkların dikkate alınması gerekmektedir:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>Doğrulama havuzunun aday temelli olması:</strong>
+                        Manuel değerlendirme, sistem tarafından nihai aday olarak belirlenen 388 kayıt üzerinde gerçekleştirilmiştir. Sistem tarafından aday olarak seçilmeyen yayınların tamamı manuel olarak incelenmediği için kaçırılan gerçek uyuşmazlıkların sayısı bilinmemektedir. Bu nedenle sistemin genel recall değeri mevcut değerlendirme üzerinden hesaplanamaz.
+                    </li>
+                    <li>
+                        <strong>Semantik benzerlik disiplin kimliği değildir:</strong>
+                        Makale içeriğinde geçen yöntem, materyal, araştırma konusu veya uygulama bağlamı gibi unsurlar embedding uzayında güçlü semantik ilişkiler oluşturabilir. Bu nedenle yüksek semantik benzerlik doğrudan bilimsel disiplin eşdeğerliği olarak yorumlanamaz.
+                    </li>
+                    <li>
+                        <strong>Anomali tespiti ile kategori önerisi farklı problemlerdir:</strong>
+                        Mevcut konu atamasında bir uyuşmazlık bulunduğunun doğru biçimde işaretlenmesi, sistem tarafından önerilen alternatif kategorinin mutlaka doğru olduğu anlamına gelmez. Bu ayrım özellikle disiplinlerarası TP-2 kayıtlarında önem taşımaktadır.
+                    </li>
+                    <li>
+                        <strong>Parametre seçimlerinin sınırlı deneysel doğrulaması:</strong>
+                        Embedding modeli karşılaştırmalı deneylerle seçilmiş olmakla birlikte, UMAP, HDBSCAN, kNN ve karar eşiklerinin büyük bölümü sistematik hiperparametre optimizasyonu yapılmadan kullanılan sezgisel başlangıç değerleridir.
+                    </li>
+                    <li>
+                        <strong>Manuel değerlendirme gereksinimi:</strong>
+                        Sistem farklı uyuşmazlık göstergelerini bir araya getirerek inceleme havuzunu daraltmakta, ancak nihai kategori kararını otomatik olarak vermemektedir. Özellikle disiplinlerarası ve semantik olarak yakın alanlarda uzman değerlendirmesi gerekliliğini korumaktadır.
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Alt Navigasyon -->
+            <footer class="doc-footer-nav">
+                <a href="{{ url_for('methodology_hdbscan') }}" class="doc-nav-btn outline">
+                    <span>←</span> Önceki: HDBSCAN Uyuşmazlık Analizi
+                </a>
+                <a href="{{ url_for('methodology') }}" class="doc-nav-btn primary">
+                    Tüm Metodolojiye Dön <span>↑</span>
+                </a>
+            </footer>
+        </article>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
