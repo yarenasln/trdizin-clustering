@@ -1,0 +1,5 @@
+﻿Variant,Description,N_flagged,N_intersect,N_un-audited,TP_detected,TP1_detected,TP2_detected,FP_detected,Precision_Audit,TP1_coverage,TP2_coverage,Jaccard_with_D,Lost_from_D,New_vs_D
+A,"Taxonomy Baseline (No k-NN, No GLOSH)",1600,389,1211,230,44,186,159,0.5913,1.0,1.0,0.2425,0,1212
+B,Taxonomy + GLOSH (No k-NN),560,151,409,83,18,65,68,0.5497,0.4091,0.3495,0.1895,237,409
+C,Taxonomy + k-NN (No GLOSH),384,384,0,228,42,186,156,0.5938,0.9545,1.0,0.9897,4,0
+D,Full System (Taxonomy + GLOSH + k-NN),388,388,0,229,43,186,159,0.5902,0.9773,1.0,1.0,0,0

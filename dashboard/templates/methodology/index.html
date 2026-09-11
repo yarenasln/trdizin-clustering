@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodoloji — TR Dizin Disiplin Uyuşmazlığı Tespit Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<header class="methodology-portal-header">
+    <div class="doc-container">
+        <div class="methodology-portal-kicker">
+            METODOLOJİ
+        </div>
+        <h1 class="methodology-portal-title">
+            Sistem Metodolojisi
+        </h1>
+        <p class="methodology-portal-desc">
+            TR Dizin akademik yayınlarının hazırlanmasından uyuşmazlık adaylarının
+            belirlenmesi ve deneysel değerlendirilmesine kadar kullanılan yöntem ve
+            analiz aşamalarını inceleyin.
+        </p>
+    </div>
+</header>
+
+<main class="methodology-portal-body">
+    <div class="doc-container">
+        <div class="methodology-grid">
+
+            <!-- KART 1: Veri Hazırlama -->
+            <a href="{{ url_for('methodology_data_preparation') }}" class="methodology-card">
+                <div>
+                    <div class="methodology-card-num">01</div>
+                    <h2 class="methodology-card-title">Veri Hazırlama</h2>
+                    <p class="methodology-card-text">
+                        TR Dizin yayın verilerinin örneklenmesi, temizlenmesi ve analiz için
+                        standart bir veri yapısına dönüştürülmesi.
+                    </p>
+                </div>
+                <div class="methodology-card-link">
+                    Detay <span>→</span>
+                </div>
+            </a>
+
+            <!-- KART 2: Semantik Temsil -->
+            <a href="{{ url_for('methodology_embedding') }}" class="methodology-card">
+                <div>
+                    <div class="methodology-card-num">02</div>
+                    <h2 class="methodology-card-title">Semantik Temsil</h2>
+                    <p class="methodology-card-text">
+                        Makale metinlerinin multilingual MPNet modeli ile yüksek boyutlu
+                        semantik vektörlere dönüştürülmesi.
+                    </p>
+                </div>
+                <div class="methodology-card-link">
+                    Detay <span>→</span>
+                </div>
+            </a>
+
+            <!-- KART 3: Vektör Veritabanı -->
+            <a href="{{ url_for('methodology_vector_database') }}" class="methodology-card">
+                <div>
+                    <div class="methodology-card-num">03</div>
+                    <h2 class="methodology-card-title">Vektör Veritabanı</h2>
+                    <p class="methodology-card-text">
+                        Üretilen makale embeddinglerinin Qdrant üzerinde saklanması ve
+                        vektör tabanlı sorgulama altyapısının oluşturulması.
+                    </p>
+                </div>
+                <div class="methodology-card-link">
+                    Detay <span>→</span>
+                </div>
+            </a>
+
+            <!-- KART 4: HDBSCAN Uyuşmazlık Analizi -->
+            <a href="{{ url_for('methodology_hdbscan') }}" class="methodology-card">
+                <div>
+                    <div class="methodology-card-num">04</div>
+                    <h2 class="methodology-card-title">HDBSCAN Uyuşmazlık Analizi</h2>
+                    <p class="methodology-card-text">
+                        Yoğunluk, taksonomi ve yerel komşuluk göstergelerinin birlikte
+                        değerlendirilerek inceleme adaylarının belirlenmesi.
+                    </p>
+                </div>
+                <div class="methodology-card-link">
+                    Detay <span>→</span>
+                </div>
+            </a>
+
+            <!-- KART 5: Deneysel Sonuçlar ve Değerlendirme -->
+            <a href="{{ url_for('methodology_evaluation') }}" class="methodology-card">
+                <div>
+                    <div class="methodology-card-num">05</div>
+                    <h2 class="methodology-card-title">Deneysel Sonuçlar ve Değerlendirme</h2>
+                    <p class="methodology-card-text">
+                        Pipeline funnel, manuel değerlendirme, ablation ve false positive
+                        analizleri üzerinden sistem davranışının incelenmesi.
+                    </p>
+                </div>
+                <div class="methodology-card-link">
+                    Detay <span>→</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

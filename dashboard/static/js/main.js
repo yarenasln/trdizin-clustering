@@ -36,8 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const evalModalEl = document.getElementById('evalModal');
     if (evalModalEl) {
         evalModalInstance = new bootstrap.Modal(evalModalEl);
-        document.getElementById('btnMetrics').addEventListener('click', loadEvaluationMetrics);
+        const btnMetrics = document.getElementById('btnMetrics');
+        if (btnMetrics) {
+            btnMetrics.addEventListener('click', loadEvaluationMetrics);
+        }
     }
+
 
     document.getElementById("algoSelect").addEventListener("change", (e) => {
         currentAlgo = e.target.value;
@@ -594,10 +598,145 @@ async function loadAnomalies(page = 1) {
     }
 }
 
+// Adaylık Tipi Belirleme Yardımcısı (Metodolojik Adaylık Sınıflandırması)
+function getCandidateType(item) {
+    if (!item) return 'Normal';
+    if (item.karar_tipi && !item.karar_tipi.includes('TP-')) {
+        return item.karar_tipi;
+    }
+    const d = item.ortak_agac_derinligi;
+    if (d === 0 || d === '0') return 'Ana Disiplin Uyuşmazlığı Adayı';
+    if (d === 1 || d === '1') return 'Alt Alan / İkincil Disiplin Adayı';
+    if (d !== undefined && d !== null && d !== -1 && d !== '-1') return 'İnceleme Adayı';
+    return 'Normal';
+}
+
+// Öncelik Metni Standardizasyonu (Karakter bozulmalarını düzeltir)
+function getCleanPriority(item) {
+    if (!item) return 'NORMAL';
+    const raw = String(item.oncelik || '').toUpperCase();
+    if (raw.includes('KR')) return 'KRİTİK';
+    if (raw.includes('Y') || raw.includes('Ü')) return 'YÜKSEK';
+    if (raw.includes('ORTA')) return 'ORTA';
+    if (raw.includes('D')) return 'DÜŞÜK';
+    return raw && raw !== 'NAN' && raw !== 'NONE' ? raw : 'NORMAL';
+}
+
+// "Neden Şüpheli?" Açıklanabilirlik Paneli ve Bileşik Risk Katkı Çubuğunu Render Eden Fonksiyon
+function renderWhyFlagged(whyFlagged, fallbackItem, prefix = 'hdbscan') {
+    const isModal = prefix === 'modal';
+    const totalBadge = document.getElementById(isModal ? 'modalRiskTotalBadge' : 'hdbscanDetailRiskTotalBadge');
+    const barKnn = document.getElementById(isModal ? 'modalRiskBarKnn' : 'riskBarKnn');
+    const barSemantic = document.getElementById(isModal ? 'modalRiskBarSemantic' : 'riskBarSemantic');
+    const barGlosh = document.getElementById(isModal ? 'modalRiskBarGlosh' : 'riskBarGlosh');
+    const valKnn = document.getElementById(isModal ? 'modalRiskValKnn' : 'riskValKnn');
+    const valSemantic = document.getElementById(isModal ? 'modalRiskValSemantic' : 'riskValSemantic');
+    const valGlosh = document.getElementById(isModal ? 'modalRiskValGlosh' : 'riskValGlosh');
+    const rulesList = document.getElementById(isModal ? 'modalRulesList' : 'hdbscanRulesList');
+
+    if (!rulesList) return;
+
+    const simFark = Number(whyFlagged?.semantic_gap ?? fallbackItem?.label_sim_fark ?? 0);
+    const knnImp = Number(whyFlagged?.knn_impurity ?? fallbackItem?.knn_impurity ?? 0);
+    const knnBask = Number(whyFlagged?.knn_dominance ?? fallbackItem?.knn_baskinlik ?? 0);
+    const glosh = Number(whyFlagged?.glosh ?? fallbackItem?.glosh_skoru ?? 0);
+    const candidateType = whyFlagged?.candidate_type || getCandidateType(fallbackItem);
+
+    // Bileşik Risk Katkıları (%40 kNN, %35 Semantik Fark, %25 GLOSH)
+    let knnComp = whyFlagged?.risk_components?.knn;
+    let semComp = whyFlagged?.risk_components?.semantic;
+    let gloshComp = whyFlagged?.risk_components?.glosh;
+    let totalRisk = whyFlagged?.risk_components?.total;
+
+    if (knnComp === undefined) {
+        knnComp = Number((knnImp * 0.40).toFixed(3));
+        semComp = Number((Math.min(Math.max(simFark, 0), 1) * 0.35).toFixed(3));
+        gloshComp = Number((glosh * 0.25).toFixed(3));
+        totalRisk = Number((knnComp + semComp + gloshComp).toFixed(3));
+    }
+
+    if (totalBadge) totalBadge.innerText = `Skor: ${Number(totalRisk).toFixed(3)}`;
+    if (barKnn) barKnn.style.width = `${Math.min(Math.max(knnComp * 100, 0), 100)}%`;
+    if (barSemantic) barSemantic.style.width = `${Math.min(Math.max(semComp * 100, 0), 100)}%`;
+    if (barGlosh) barGlosh.style.width = `${Math.min(Math.max(gloshComp * 100, 0), 100)}%`;
+
+    if (valKnn) valKnn.innerText = `+${Number(knnComp).toFixed(3)}`;
+    if (valSemantic) valSemantic.innerText = `+${Number(semComp).toFixed(3)}`;
+    if (valGlosh) valGlosh.innerText = `+${Number(gloshComp).toFixed(3)}`;
+
+    // Karar Koşulları (Rules) Listesi
+    let rules = whyFlagged?.rules;
+    if (!rules || !Array.isArray(rules) || rules.length === 0) {
+        const d = fallbackItem?.ortak_agac_derinligi;
+        const oneriKat = String(fallbackItem?.oneri_kategori || '').trim();
+        const knnOneri = String(fallbackItem?.knn_oneri || '').trim();
+        const knnOnay = fallbackItem?.knn_onayliyor_mu ?? (fallbackItem?.supheli_mi === 1 ? 1 : 0);
+
+        rules = [
+            {
+                label: "Semantik Kategori Farkı",
+                val_text: `Değer: ${simFark.toFixed(3)}`,
+                threshold_text: "Final eşik: ≥ 0.09 (Ön aday: > 0.08)",
+                passed: simFark >= 0.09
+            },
+            {
+                label: "Lokal Komşuluk Uyuşmazlığı",
+                val_text: `kNN impurity: %${(knnImp * 100).toFixed(0)}`,
+                threshold_text: "Eşik: ≥ %50",
+                passed: knnImp >= 0.50
+            },
+            {
+                label: "kNN Yerel Destek Uzlaşısı",
+                val_text: knnOnay === 1 ? "Alternatif alan yerel komşular tarafından destekleniyor" : "Yerel komşular önerilen alanı desteklemiyor",
+                threshold_text: "Eşik: Desteklemeli (== 1)",
+                passed: knnOnay === 1
+            },
+            {
+                label: d === 0 ? "kNN Baskınlık (Ana Disiplin Kuralı)" : "kNN Baskınlık / Öneri Uzlaşısı (Alt Alan Kuralı)",
+                val_text: d === 0 ? `Baskınlık: %${(knnBask * 100).toFixed(0)}` : `Baskınlık: %${(knnBask * 100).toFixed(0)} | Öneri: '${knnOneri}'`,
+                threshold_text: d === 0 ? "Ana disiplin eşiği: ≥ %30" : "Eşik: Öneri eşleşmesi VEYA Baskınlık ≥ %40",
+                passed: d === 0 ? (knnBask >= 0.30) : ((oneriKat && oneriKat.toLowerCase() === knnOneri.toLowerCase()) || knnBask >= 0.40)
+            },
+            {
+                label: "Yoğunluk Tabanlı Aykırılık (GLOSH)",
+                val_text: `GLOSH: ${glosh.toFixed(3)}`,
+                threshold_text: "Güçlü aykırılık eşiği: > 0.70",
+                passed: glosh > 0.70
+            },
+            {
+                label: "Taksonomi Hiyerarşik Derinliği",
+                val_text: `Derinlik: ${d ?? '-1'} (${candidateType})`,
+                threshold_text: "Adaylık eşiği: ≤ 1",
+                passed: (d === 0 || d === 1)
+            }
+        ];
+    }
+
+    rulesList.innerHTML = rules.map(r => `
+        <div class="p-2 px-3 border rounded bg-white shadow-sm d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fs-6 ${r.passed ? 'text-success' : 'text-muted'} fw-bold" style="min-width: 22px;">${r.passed ? '✓' : '✗'}</span>
+                <div>
+                    <div class="fw-semibold text-dark" style="font-size: 0.82rem;">${r.label}</div>
+                    <div class="text-secondary" style="font-size: 0.74rem;">
+                        <span class="fw-medium text-dark">${r.val_text}</span> &bull; <span class="text-muted">${r.threshold_text}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="badge ${r.passed ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-light text-muted border'} text-nowrap" style="font-size: 0.68rem;">
+                ${r.passed ? 'Koşul Sağlandı' : 'Eşik Altı'}
+            </span>
+        </div>
+    `).join('');
+}
+
 // Tekil anomali kartını DOM'a oluşturan fonksiyon
 function renderAnomalyCard(item, container, algo) {
-    const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
-    const badgeClass = isCritical ? "badge-critical" : "badge-high";
+    const candidateType = getCandidateType(item);
+    const cleanPriority = getCleanPriority(item);
+    const isCritical = candidateType.includes("Ana Disiplin") || cleanPriority === "KRİTİK";
+    const badgeClass = isCritical ? "badge-critical" : (candidateType.includes("Alt Alan") || cleanPriority === "YÜKSEK" ? "badge-high" : "bg-secondary text-white");
+    const badgeLabel = `${cleanPriority} · ${candidateType}`;
 
     const card = document.createElement("div");
     card.className = "card card-custom p-3 anomaly-card-item";
@@ -618,7 +757,7 @@ function renderAnomalyCard(item, container, algo) {
 
     card.innerHTML = `
         <div class="d-flex justify-content-between align-items-start mb-2">
-            <span class="badge ${badgeClass} badge-risk">${item.oncelik || 'BELİRTİLMEDİ'}</span>
+            <span class="badge ${badgeClass} badge-risk">${badgeLabel}</span>
             <div class="d-flex gap-2">
                 <span class="score-pill score-pill-danger">Bileşik Risk: <strong>${riskVal}</strong></span>
                 <span class="score-pill score-pill-info">${scoreLabel}: <strong>${scoreVal}</strong></span>
@@ -655,11 +794,14 @@ function showHdbscanCardDetail(item) {
     if (emptyEl) emptyEl.style.display = 'none';
     if (contentEl) contentEl.style.display = 'block';
 
-    const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
+    const candidateType = getCandidateType(item);
+    const cleanPriority = getCleanPriority(item);
+    const isCritical = candidateType.includes("Ana Disiplin") || cleanPriority === "KRİTİK";
+
     const pBadge = document.getElementById("hdbscanDetailPriority");
     if (pBadge) {
-        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : "badge-high"} mb-1`;
-        pBadge.innerText = item.oncelik || 'BELİRTİLMEDİ';
+        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : (candidateType.includes("Alt Alan") || cleanPriority === "YÜKSEK" ? "badge-high" : "bg-secondary text-white")} mb-1`;
+        pBadge.innerText = `${cleanPriority} · ${candidateType}`;
     }
 
     const idElem = document.getElementById("hdbscanDetailId");
@@ -672,10 +814,24 @@ function showHdbscanCardDetail(item) {
         titleElem.innerText = item.baslik || item.title || (item.external_id ? `Makale ID: ${item.external_id}` : 'Başlık Belirtilmemiş');
     }
 
+    // 1. Metrik Kutusu: Bileşik Risk
     const riskVal = item.risk_skoru !== undefined ? Number(item.risk_skoru).toFixed(3) : '-';
     const riskElem = document.getElementById("hdbscanDetailRisk");
     if (riskElem) riskElem.innerText = riskVal;
 
+    // 2. Metrik Kutusu: Semantik Fark
+    const simFarkVal = item.label_sim_fark !== undefined ? Number(item.label_sim_fark).toFixed(3) : '-';
+    const simFarkElem = document.getElementById("hdbscanDetailSimFark");
+    if (simFarkElem) simFarkElem.innerText = simFarkVal;
+
+    // 3. Metrik Kutusu: k-NN Impurity
+    const knnImpurityVal = item.knn_impurity !== undefined 
+        ? `%${(Number(item.knn_impurity) * 100).toFixed(0)}`
+        : '-';
+    const knnImpurityElem = document.getElementById("hdbscanDetailKnnImpurity");
+    if (knnImpurityElem) knnImpurityElem.innerText = knnImpurityVal;
+
+    // 4. Metrik Kutusu: GLOSH Skoru
     const scoreLabel = currentAlgo === "hdbscan" ? "GLOSH SKORU" : "AYKIRILIK SKORU";
     const lblElem = document.getElementById("hdbscanDetailScoreLabel");
     if (lblElem) lblElem.innerText = scoreLabel;
@@ -686,18 +842,7 @@ function showHdbscanCardDetail(item) {
     const gloshElem = document.getElementById("hdbscanDetailGlosh");
     if (gloshElem) gloshElem.innerText = scoreVal;
 
-    const knnBaskinlikVal = item.knn_baskinlik !== undefined 
-        ? `%${(Number(item.knn_baskinlik) * 100).toFixed(1)}`
-        : '-';
-    const knnBaskinlikElem = document.getElementById("hdbscanDetailKnnBaskinlik");
-    if (knnBaskinlikElem) knnBaskinlikElem.innerText = knnBaskinlikVal;
-
-    const kumeVal = item.kume !== undefined && item.kume !== -1 
-        ? `#${item.kume}` 
-        : (item.hdbscan_kume !== undefined && item.hdbscan_kume !== -1 ? `#${item.hdbscan_kume}` : 'Aykırı / -1');
-    const kumeElem = document.getElementById("hdbscanDetailKume");
-    if (kumeElem) kumeElem.innerText = kumeVal;
-
+    // Sınıflandırma ve Öneri Analizi Tablosu
     const mevcutKatElem = document.getElementById("hdbscanDetailMevcutKat");
     if (mevcutKatElem) mevcutKatElem.innerText = item.mevcut_kategori || item.gercek_kategori || item.kategori || '-';
 
@@ -707,14 +852,18 @@ function showHdbscanCardDetail(item) {
     const knoneriElem = document.getElementById("hdbscanDetailKnnOneri");
     if (knoneriElem) knoneriElem.innerText = item.knn_oneri || '-';
 
+    // Küme Bilgisi (İkincil metadata olarak tabloya taşındı)
+    const kumeVal = item.kume !== undefined && item.kume !== -1 
+        ? `Küme #${item.kume}` 
+        : (item.hdbscan_kume !== undefined && item.hdbscan_kume !== -1 ? `Küme #${item.hdbscan_kume}` : 'Aykırı / -1');
+    const kumeElem = document.getElementById("hdbscanDetailKume");
+    if (kumeElem) kumeElem.innerText = kumeVal;
+
     const kararElem = document.getElementById("hdbscanDetailKararTipi");
     if (kararElem) {
-        if (item.karar_tipi) {
-            const badgeClass = item.karar_tipi === 'TP-1' ? 'bg-danger' : (item.karar_tipi === 'TP-2' ? 'bg-warning text-dark' : 'bg-secondary');
-            kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${item.karar_tipi}</span> <small class="text-secondary">${item.filtre_aciklamasi || ''}</small>`;
-        } else {
-            kararElem.innerText = '-';
-        }
+        const badgeClass = candidateType.includes('Ana Disiplin') ? 'bg-danger' : (candidateType.includes('Alt Alan') ? 'bg-warning text-dark' : 'bg-secondary');
+        const descText = item.filtre_aciklamasi || (candidateType.includes('Ana Disiplin') ? 'Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)' : 'Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme');
+        kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${candidateType}</span> <small class="text-secondary">${descText}</small>`;
     }
 
     const ozetElem = document.getElementById("hdbscanDetailOzet");
@@ -722,7 +871,10 @@ function showHdbscanCardDetail(item) {
         ozetElem.innerText = item.ozet || item.abstract || 'Özet metni veri kümesinde bulunamadı.';
     }
 
-    // Lazy tam detay getirme (tam özet ve karar bilgisi için)
+    // Neden Şüpheli bölümünü render et
+    renderWhyFlagged(item.why_flagged, item, 'hdbscan');
+
+    // Lazy tam detay getirme (tam özet, why_flagged ve güncel alanlar için)
     if (item.external_id) {
         fetch(`/api/article/${encodeURIComponent(item.external_id)}`)
             .then(res => res.ok ? res.json() : null)
@@ -730,12 +882,21 @@ function showHdbscanCardDetail(item) {
                 if (!data) return;
                 if (document.getElementById("hdbscanDetailId")?.innerText.includes(item.external_id)) {
                     if (data.ozet && ozetElem) ozetElem.innerText = data.ozet;
-                    if (data.karar_tipi && kararElem) {
-                        const badgeClass = data.karar_tipi === 'TP-1' ? 'bg-danger' : (data.karar_tipi === 'TP-2' ? 'bg-warning text-dark' : 'bg-secondary');
-                        kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${data.karar_tipi}</span> <small class="text-secondary">${data.filtre_aciklamasi || ''}</small>`;
+                    
+                    const updatedCandType = getCandidateType(data);
+                    if (kararElem) {
+                        const badgeClass = updatedCandType.includes('Ana Disiplin') ? 'bg-danger' : (updatedCandType.includes('Alt Alan') ? 'bg-warning text-dark' : 'bg-secondary');
+                        const descText = data.filtre_aciklamasi || (updatedCandType.includes('Ana Disiplin') ? 'Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)' : 'Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme');
+                        kararElem.innerHTML = `<span class="badge ${badgeClass} me-2">${updatedCandType}</span> <small class="text-secondary">${descText}</small>`;
                     }
-                    if (data.knn_baskinlik !== undefined && knnBaskinlikElem) {
-                        knnBaskinlikElem.innerText = `%${(Number(data.knn_baskinlik) * 100).toFixed(1)}`;
+                    if (data.label_sim_fark !== undefined && simFarkElem) {
+                        simFarkElem.innerText = Number(data.label_sim_fark).toFixed(3);
+                    }
+                    if (data.knn_impurity !== undefined && knnImpurityElem) {
+                        knnImpurityElem.innerText = `%${(Number(data.knn_impurity) * 100).toFixed(0)}`;
+                    }
+                    if (data.why_flagged) {
+                        renderWhyFlagged(data.why_flagged, data, 'hdbscan');
                     }
                 }
             })
@@ -975,22 +1136,48 @@ function closeDetailPanel() {
 function openDetailModal(item) {
     if (!item || !detailModalInstance) return;
 
-    const isCritical = item.oncelik && item.oncelik.includes("KRİTİK");
+    const candidateType = getCandidateType(item);
+    const cleanPriority = getCleanPriority(item);
+    const isCritical = candidateType.includes("Ana Disiplin") || cleanPriority === "KRİTİK";
+
     const pBadge = document.getElementById("modalPriority");
     if (pBadge) {
-        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : "badge-high"} mb-1`;
-        pBadge.innerText = item.oncelik || 'BELİRTİLMEDİ';
+        pBadge.className = `badge badge-risk ${isCritical ? "badge-critical" : (candidateType.includes("Alt Alan") || cleanPriority === "YÜKSEK" ? "badge-high" : "bg-secondary text-white")} mb-1`;
+        pBadge.innerText = `${cleanPriority} · ${candidateType}`;
     }
 
     if (document.getElementById("modalTitle")) document.getElementById("modalTitle").innerText = item.baslik || 'Başlık Yok';
     if (document.getElementById("modalRisk")) document.getElementById("modalRisk").innerText = Number(item.risk_skoru || 0).toFixed(3);
     
+    if (document.getElementById("modalSimFark")) {
+        document.getElementById("modalSimFark").innerText = item.label_sim_fark !== undefined ? Number(item.label_sim_fark).toFixed(3) : '-';
+    }
+    if (document.getElementById("modalKnnImpurity")) {
+        document.getElementById("modalKnnImpurity").innerText = item.knn_impurity !== undefined ? `%${(Number(item.knn_impurity) * 100).toFixed(0)}` : '-';
+    }
+
     const scoreVal = Number(item.glosh_skoru || item.aykirilik_skoru || 0).toFixed(3);
     if (document.getElementById("modalGlosh")) document.getElementById("modalGlosh").innerText = scoreVal;
 
     if (document.getElementById("modalMevcutKat")) document.getElementById("modalMevcutKat").innerText = item.mevcut_kategori || '-';
     if (document.getElementById("modalOneriKat")) document.getElementById("modalOneriKat").innerText = item.oneri_kategori || '-';
+    if (document.getElementById("modalKnnOneri")) document.getElementById("modalKnnOneri").innerText = item.knn_oneri || '-';
+
+    const kumeVal = item.kume !== undefined && item.kume !== -1 
+        ? `Küme #${item.kume}` 
+        : (item.hdbscan_kume !== undefined && item.hdbscan_kume !== -1 ? `Küme #${item.hdbscan_kume}` : 'Aykırı / -1');
+    if (document.getElementById("modalKume")) document.getElementById("modalKume").innerText = kumeVal;
+
+    const modalKarar = document.getElementById("modalKararTipi");
+    if (modalKarar) {
+        const badgeClass = candidateType.includes('Ana Disiplin') ? 'bg-danger' : (candidateType.includes('Alt Alan') ? 'bg-warning text-dark' : 'bg-secondary');
+        const descText = item.filtre_aciklamasi || (candidateType.includes('Ana Disiplin') ? 'Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)' : 'Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme');
+        modalKarar.innerHTML = `<span class="badge ${badgeClass} me-2">${candidateType}</span> <small class="text-secondary">${descText}</small>`;
+    }
+
     if (document.getElementById("modalOzet")) document.getElementById("modalOzet").innerText = item.ozet || 'Özet metni veri kümesinde bulunamadı.';
+
+    renderWhyFlagged(item.why_flagged, item, 'modal');
 
     detailModalInstance.show();
 }

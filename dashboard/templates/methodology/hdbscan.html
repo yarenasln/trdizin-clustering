@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDBSCAN Tabanlı Uyuşmazlık Analizi — Metodoloji — TR Dizin Disiplin Uyuşmazlığı Tespit Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="doc-page-bg">
+    <div class="doc-container">
+
+        <!-- Breadcrumb -->
+        <nav class="doc-breadcrumb" aria-label="breadcrumb">
+            <a href="{{ url_for('home') }}">Ana Sayfa</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <a href="{{ url_for('methodology') }}">Metodoloji</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <span class="doc-breadcrumb-current">HDBSCAN Uyuşmazlık Analizi</span>
+        </nav>
+
+        <!-- Ana Dokümantasyon Kartı -->
+        <article class="doc-card">
+            <header class="doc-header">
+                <div class="doc-kicker">METODOLOJİ BÖLÜM 04</div>
+                <h1 class="doc-title">HDBSCAN Tabanlı Uyuşmazlık Analizi</h1>
+                <p class="doc-subtitle">
+                    Yoğunluk, taksonomi ve yerel komşuluk göstergelerinin birlikte değerlendirilerek manuel inceleme adaylarının belirlenmesi ve önceliklendirilmesi.
+                </p>
+            </header>
+
+            <!-- 1. UMAP İLE BOYUT İNDİRGEME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">1. UMAP ile Boyut İndirgeme</h2>
+                <p class="doc-p">
+                    MPNet modeli ile oluşturulan 768 boyutlu makale embeddingleri, yoğunluk tabanlı kümeleme öncesinde UMAP (Uniform Manifold Approximation and Projection) yöntemi kullanılarak 15 boyutlu bir temsil uzayına indirgenmiştir. Bu aşamada <code>n_components=15</code>, <code>n_neighbors=15</code>, <code>metric='cosine'</code>, <code>min_dist=0.0</code> ve <code>random_state=42</code> parametreleri kullanılmıştır. Elde edilen 15 boyutlu temsil, sonraki HDBSCAN kümeleme ve GLOSH aykırılık analizi aşamalarının girdisini oluşturmaktadır.
+                </p>
+                <div class="notice-box">
+                    <strong>15D ve 2D UMAP Ayrımı:</strong>
+                    Pipeline içerisinde oluşturulan 15 boyutlu UMAP temsili kümeleme ve aykırılık analizi amacıyla kullanılmaktadır. Dashboard'da kullanılan 2 boyutlu UMAP koordinatları ise ayrı olarak üretilmekte ve yalnızca görselleştirme amacı taşımaktadır; aday belirleme kararına doğrudan dahil edilmemektedir.
+                </div>
+            </section>
+
+            <!-- 2. HDBSCAN İLE YOĞUNLUK TABANLI KÜMELEME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">2. HDBSCAN ile Yoğunluk Tabanlı Kümeleme</h2>
+                <p class="doc-p">
+                    UMAP ile elde edilen 15 boyutlu temsiller üzerinde, veri içerisindeki yoğunluk yapılarını belirlemek amacıyla HDBSCAN (Hierarchical Density-Based Spatial Clustering of Applications with Noise) algoritması uygulanmıştır. Kümeleme aşamasında <code>min_cluster_size=10</code>, <code>min_samples=5</code> ve <code>prediction_data=True</code> parametreleri kullanılmıştır. HDBSCAN, tüm makaleleri zorunlu olarak bir kümeye atamak yerine yeterli yoğunluk yapısına dahil olmayan noktaları <code>-1</code> etiketiyle gürültü (noise) olarak ayırabilmektedir.
+                </p>
+            </section>
+
+            <!-- 3. GLOSH AYKIRILIK ANALİZİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">3. GLOSH Aykırılık Analizi</h2>
+                <p class="doc-p">
+                    HDBSCAN kümeleme modeli oluşturulduktan sonra, her makalenin bulunduğu yoğunluk yapısı içerisindeki aykırılık derecesini değerlendirmek amacıyla GLOSH (Global-Local Outlier Score from Hierarchies) skorları kullanılmıştır. Bu değerler HDBSCAN modelinin <code>clusterer.outlier_scores_</code> çıktısından elde edilmektedir. Yüksek GLOSH değerleri, bir noktanın yoğunluk yapısı içerisinde daha aykırı bir konumda bulunduğuna ilişkin ek bir sinyal sağlamaktadır.
+                </p>
+                <p class="doc-p">
+                    GLOSH skoru bir olasılık (probability) değeri değildir ve sistemde ayrıca min-max normalizasyonuna tabi tutulmamaktadır. Bu değer, diğer semantik ve yerel komşuluk göstergeleriyle birlikte aday belirleme ve risk önceliklendirme süreçlerinde kullanılan yoğunluk tabanlı bir kanıttır.
+                </p>
+            </section>
+
+            <!-- 4. TAKSONOMİ TABANLI SEMANTİK UYUM ANALİZİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">4. Taksonomi Tabanlı Semantik Uyum Analizi</h2>
+                <p class="doc-p">
+                    Makalenin semantik içeriği ile mevcut TR Dizin konu ataması arasındaki uyumu değerlendirmek amacıyla taksonomi yolları da makalelerde kullanılan aynı MPNet modeli ile vektörleştirilmiştir. Her makale embeddingi ile taksonomi temsilleri arasında kosinüs benzerliği hesaplanarak makalenin mevcut kategorisine olan semantik yakınlığı ile en yüksek benzerlik gösterdiği alternatif kategori karşılaştırılmıştır.
+                </p>
+                <p class="doc-p">
+                    Bu karşılaştırma sonucunda iki temel gösterge elde edilmektedir:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>Semantik Fark (<code>label_sim_fark</code>):</strong>
+                        Makalenin en yüksek benzerlik gösterdiği alternatif kategori (<code>best_sim</code>) ile mevcut kategorileri arasındaki en yüksek benzerlik (<code>mevcut_sim</code>) arasındaki farkı ifade eder.
+                        <div class="code-block">
+label_sim_fark = best_sim - mevcut_sim
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Ortak Ağaç Derinliği (<code>ortak_agac_derinligi</code>):</strong>
+                        Makalenin mevcut taksonomi yolu ile önerilen alternatif taksonomi yolunun hiyerarşide kaç seviyeye kadar ortak olduğunu gösterir:
+                        <ul class="doc-list mt-2">
+                            <li>
+                                <code>ortak_agac_derinligi = 0</code>:
+                                <strong>Ana disiplin düzeyinde ayrışma.</strong>
+                                Mevcut kategori ile önerilen kategori farklı ana disiplinlerde yer alır (Örn: Mevcut kategori <em>Mühendislik</em> altında bulunurken önerilen kategori <em>Sağlık Bilimleri</em> altındadır).
+                            </li>
+                            <li>
+                                <code>ortak_agac_derinligi = 1</code>:
+                                <strong>Alt alan / ikincil disiplin düzeyinde ayrışma.</strong>
+                                Mevcut ve önerilen kategoriler aynı ana disiplin altında bulunur, ancak sonraki taksonomik seviyede birbirinden ayrılır (Örn: Biri <em>Bilgisayar Mühendisliği</em>, diğeri <em>Endüstri Mühendisliği</em>).
+                            </li>
+                            <li>
+                                <code>ortak_agac_derinligi &ge; 2</code>:
+                                <strong>Daha yakın taksonomik ilişki.</strong>
+                                Mevcut ve önerilen kategoriler taksonomi ağacında en az iki seviyeyi ortak paylaşır. Bu durum daha ince uzmanlık alanları arasındaki ayrımı temsil eder ve mevcut aday belirleme kuralında şüpheli uyuşmazlık kapsamına alınmaz.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 5. kNN İLE YEREL KOMŞULUK ANALİZİ -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">5. kNN ile Yerel Komşuluk Analizi</h2>
+                <p class="doc-p">
+                    Makalenin yalnızca taksonomi etiketleriyle olan semantik ilişkisini değil, embedding uzayındaki yakın yayınlarla oluşturduğu yerel çevreyi de değerlendirmek amacıyla <strong>k-Nearest Neighbors (kNN)</strong> tabanlı bir komşuluk analizi uygulanmaktadır.
+                </p>
+                <p class="doc-p">
+                    Bu aşamada, daha önce Qdrant vektör veritabanına aktarılan <code>mpnet_v1</code> embeddingleri kullanılmaktadır. Her makale için kosinüs benzerliğine göre en yakın komşular sorgulanmakta ve yerel komşuluk yapısının makalenin mevcut konu atamasıyla ne ölçüde uyumlu olduğu incelenmektedir.
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>Komşuluk büyüklüğü:</strong>
+                        Her makale için <code>k = 10</code> en yakın komşu değerlendirmeye alınmaktadır.
+                    </li>
+                    <li>
+                        <strong>Self-neighbor çıkarımı:</strong>
+                        Sorgulanan makalenin kendisi de Qdrant koleksiyonunda bulunduğu için sorguda <code>11</code> sonuç talep edilmekte (<code>limit = self.knn_k + 1</code>), makalenin kendi kimliği sonuçlardan çıkarıldıktan sonra kalan 10 komşu kullanılmaktadır.
+                    </li>
+                    <li>
+                        <strong>Exact arama:</strong>
+                        Komşuluk sorguları <code>exact=True</code> parametresiyle gerçekleştirilmektedir. Böylece bu doğrulama aşamasında yaklaşık en yakın komşuluk yerine kesin vektör benzerliği sonuçları kullanılmaktadır.
+                    </li>
+                </ul>
+
+                <p class="doc-p">
+                    Yerel komşuluk analizi sonucunda aşağıdaki temel göstergeler hesaplanmaktadır:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong><code>knn_impurity</code>:</strong>
+                        En yakın 10 komşunun ne kadarının makalenin mevcut kategori kümesiyle ortak bir kategori paylaşmadığını gösterir. Değer yükseldikçe, makalenin yerel komşuluğu ile mevcut konu ataması arasındaki uyuşmazlık artmaktadır.
+                    </li>
+                    <li>
+                        <strong><code>knn_baskinlik</code>:</strong>
+                        En yakın 10 komşu içerisinde en sık görülen ana kategorinin toplam komşular içerisindeki payını ifade eder. Bu değer, yerel komşulukta belirli bir disiplin yönünde ne ölçüde konsensüs oluştuğunu göstermektedir.
+                    </li>
+                    <li>
+                        <strong><code>knn_oneri</code>:</strong>
+                        Yerel komşuluk içerisinde baskın olarak ortaya çıkan kategori bilgisinden türetilen kategori önerisidir.
+                    </li>
+                    <li>
+                        <strong><code>knn_onayliyor_mu</code>:</strong>
+                        Taksonomi tabanlı alternatif kategori önerisinin gerekli durumlarda yerel komşuluk yapısı tarafından desteklenip desteklenmediğini gösteren ikili bir göstergedir.
+                    </li>
+                </ul>
+
+                <div class="notice-box">
+                    <strong>Yöntemdeki Rolü:</strong>
+                    kNN analizi tek başına nihai karar üretmez. Yerel komşuluk yapısından elde edilen göstergeler, taksonomi tabanlı semantik karşılaştırma ve GLOSH aykırılık sinyaliyle birlikte değerlendirilerek ön aday belirleme ve nihai filtreleme aşamalarında kullanılır.
+                </div>
+            </section>
+
+            <!-- 6. ÖN ADAY BELİRLEME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">6. Ön Aday Belirleme</h2>
+                <p class="doc-p">
+                    Önceki aşamalarda elde edilen taksonomik, semantik, yerel komşuluk ve yoğunluk tabanlı göstergeler birlikte değerlendirilerek ilk aday havuzu oluşturulmaktadır. Bu amaçla <code>clustering/hdbscan/outlier_detector.py</code> içerisinde aşağıdaki sezgisel (heuristic) ön eleme kuralı uygulanmaktadır:
+                </p>
+
+                <div class="code-block">
+supheli_mi = 1 if (
+    ortak_derinlik &lt;= 1
+    and knn_impurity &gt;= 0.50
+    and sim_fark &gt; 0.08
+    and knn_onayliyor_mu == 1
+    and (knn_baskinlik &gt;= 0.30 or glosh_scores[i] &gt; 0.70)
+) else 0
+                </div>
+
+                <p class="doc-p">
+                    Bir yayının ön aday olarak belirlenebilmesi için aşağıdaki koşulların birlikte sağlanması gerekmektedir:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <code>ortak_derinlik &lt;= 1</code>:
+                        Mevcut ve önerilen taksonomi yolları arasında ana disiplin veya alt alan düzeyinde ayrışma bulunmalıdır.
+                    </li>
+                    <li>
+                        <code>knn_impurity &gt;= 0.50</code>:
+                        En yakın 10 komşunun en az yarısı makalenin mevcut kategori kümesiyle ortak bir kategori paylaşmamalıdır.
+                    </li>
+                    <li>
+                        <code>sim_fark &gt; 0.08</code>:
+                        Semantik olarak en yüksek benzerlik gösteren alternatif kategori, mevcut kategoriye göre belirli bir farkla öne çıkmalıdır.
+                    </li>
+                    <li>
+                        <code>knn_onayliyor_mu == 1</code>:
+                        Gerekli durumlarda önerilen disiplin değişimi yerel komşuluk yapısı tarafından desteklenmelidir.
+                    </li>
+                    <li>
+                        <code>knn_baskinlik &gt;= 0.30</code> veya <code>GLOSH &gt; 0.70</code>:
+                        Adaylık, komşuluk içerisinde yeterli düzeyde kategori baskınlığı veya güçlü bir yoğunluk tabanlı aykırılık sinyali ile desteklenmelidir.
+                    </li>
+                </ul>
+
+                <div class="notice-box">
+                    <strong>Parametrelerin Yorumlanması:</strong>
+                    Bu eşikler sistematik bir hiperparametre optimizasyonu sonucunda belirlenmiş değerler değildir. Pipeline içerisinde farklı uyuşmazlık göstergelerini birlikte değerlendirmek ve manuel incelemeye aktarılacak aday havuzunu sınırlandırmak amacıyla kullanılan sezgisel karar eşikleridir.
+                </div>
+            </section>
+
+            <!-- 7. BİLEŞİK RİSK VE İNCELEME ÖNCELİĞİ (id="risk") -->
+            <section class="doc-section" id="risk">
+                <h2 class="doc-section-title">7. Bileşik Risk ve İnceleme Önceliği</h2>
+                <p class="doc-p">
+                    Ön aday olarak belirlenen yayınların manuel inceleme açısından göreli önceliğini belirlemek amacıyla her makale için bileşik bir <strong>risk skoru</strong> hesaplanmaktadır. Bu skor; yerel komşuluk uyuşmazlığı, semantik taksonomi farkı ve yoğunluk tabanlı aykırılık sinyalini ağırlıklı olarak bir araya getirmektedir:
+                </p>
+
+                <div class="code-block">
+risk_skoru = (
+    knn_impurity * 0.40
+    + min(max(label_sim_fark, 0), 1) * 0.35
+    + glosh_val * 0.25
+)
+                </div>
+
+                <p class="doc-p">
+                    Bileşik skor üç göstergenin katkısından oluşmaktadır:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>kNN Impurity (%40):</strong>
+                        Makalenin yerel komşuluğunun mevcut konu atamasıyla ne ölçüde uyuşmadığını temsil eder.
+                    </li>
+                    <li>
+                        <strong>Semantik Fark (%35):</strong>
+                        Makalenin en yüksek benzerlik gösterdiği alternatif kategori ile mevcut kategorisi arasındaki semantik benzerlik farkını temsil eder. Formülde bu değer <code>0–1</code> aralığıyla sınırlandırılarak kullanılmaktadır.
+                    </li>
+                    <li>
+                        <strong>GLOSH (%25):</strong>
+                        Makalenin HDBSCAN tarafından oluşturulan yoğunluk yapısı içerisindeki aykırılık derecesini temsil eder.
+                    </li>
+                </ul>
+
+                <div class="notice-box">
+                    <strong>Risk Skorunun Kullanımı:</strong>
+                    Risk skoru, aday yayınların manuel inceleme sırasının önceliklendirilmesi amacıyla kullanılan bileşik ve sezgisel bir göstergedir. <code>knn_baskinlik</code> bu formüle dahil edilmez; yalnızca aday belirleme ve nihai filtreleme kurallarında kullanılır. Risk skoru kalibre edilmiş bir hata olasılığı olmayıp, sıralama önceliğidir.
+                </div>
+            </section>
+
+            <!-- 8. NİHAİ ADAY FİLTRELEME -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">8. Nihai Aday Filtreleme</h2>
+                <p class="doc-p">
+                    Ön aday belirleme aşamasından geçen yayınlar, nihai inceleme havuzunun oluşturulması amacıyla daha sıkı bir semantik kabul eşiği ve taksonomi düzeyine göre farklılaşan yerel komşuluk koşulları kullanılarak yeniden filtrelenmektedir.
+                </p>
+                <p class="doc-p">
+                    İlk olarak semantik fark için <code>label_sim_fark &gt;= 0.09</code> koşulu uygulanmaktadır. Ardından mevcut ve önerilen taksonomi yollarının ayrışma düzeyine göre ana disiplin ve alt alan adayları için farklı kabul kuralları değerlendirilmektedir:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>Ana disiplin düzeyindeki adaylar (<code>ortak_agac_derinligi == 0</code>):</strong>
+                        Yerel komşuluk içerisinde önerilen ana kategorinin en az <code>0.30</code> baskınlık göstermesi gerekmektedir.
+                    </li>
+                    <li>
+                        <strong>Alt alan düzeyindeki adaylar (<code>ortak_agac_derinligi == 1</code>):</strong>
+                        Taksonomi tabanlı kategori önerisi ile kNN önerisinin aynı olması veya komşuluk baskınlığının en az <code>0.40</code> olması gerekmektedir.
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# Nihai aday filtreleme
+
+mask_ana_disiplin = (
+    (df["ortak_agac_derinligi"] == 0)
+    & (df["knn_baskinlik"] &gt;= 0.30)
+)
+
+mask_alt_alan = (
+    (df["ortak_agac_derinligi"] == 1)
+    & (
+        (df["oneri_kategori"] == df["knn_oneri"])
+        | (df["knn_baskinlik"] &gt;= 0.40)
+    )
+)
+
+final_df = df[
+    (df["supheli_mi"] == 1)
+    & (df["label_sim_fark"] &gt;= 0.09)
+    & (mask_ana_disiplin | mask_alt_alan)
+    & valid_title
+]
+                </div>
+
+                <p class="doc-p">
+                    Böylece ön aday havuzu; semantik uyuşmazlığın daha belirgin olduğu, taksonomik ayrışmanın ilgili disiplin düzeyine ait komşuluk koşullarıyla desteklendiği ve değerlendirme için gerekli başlık bilgisine sahip (<code>valid_title</code>) yayınlarla sınırlandırılmaktadır.
+                </p>
+
+                <div class="notice-box">
+                    <strong>Aday Türlerinin Yorumlanması:</strong>
+                    Nihai adaylar taksonomik ayrışma düzeyine göre arayüzde iki grupta ifade edilmektedir:
+                    <ul class="doc-list mt-2 mb-0">
+                        <li>
+                            <code>ortak_agac_derinligi == 0</code> &rarr; <strong>Ana Disiplin Uyuşmazlığı Adayı</strong>
+                        </li>
+                        <li>
+                            <code>ortak_agac_derinligi == 1</code> &rarr; <strong>Alt Alan / İkincil Disiplin Adayı</strong>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 9. METODOLOJİK ÇERÇEVE VE YORUMLAMA SINIRLARI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">9. Metodolojik Çerçeve ve Yorumlama Sınırları</h2>
+                <p class="doc-p">
+                    HDBSCAN tabanlı yaklaşım; yoğunluk yapısı, taksonomi tabanlı semantik karşılaştırma ve yerel komşuluk bilgisi gibi farklı göstergeleri birlikte değerlendirerek mevcut konu atamasıyla belirgin uyuşmazlık göstergeleri taşıyan yayınları belirlemektedir. Bu göstergeler tek başlarına kesin bir yanlışlık kararı olarak değerlendirilmemekte, birbirini tamamlayan inceleme sinyalleri olarak kullanılmaktadır.
+                </p>
+                <p class="doc-p">
+                    Bu nedenle sistem çıktılarının aşağıdaki metodolojik sınırlar çerçevesinde yorumlanması gerekmektedir:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong>Adaylık kesin yanlışlık anlamına gelmez:</strong>
+                        Bir yayının nihai aday havuzuna dahil edilmesi, mevcut konu atamasının kesin olarak hatalı olduğunu göstermez. Bu durum, yayın içeriği ile mevcut konu ataması arasında manuel incelemeyi gerektirebilecek düzeyde uyuşmazlık göstergeleri bulunduğunu ifade eder.
+                    </li>
+                    <li>
+                        <strong>Sistem otomatik yeniden etiketleme yapmaz:</strong>
+                        Üretilen alternatif kategori ve komşuluk önerileri karar destek amacı taşımaktadır. Mevcut konu atamasının değiştirilmesi veya yeni bir konu atanması sistem tarafından otomatik olarak gerçekleştirilmemektedir; sistem <strong>"manuel inceleme adayı"</strong> üretir.
+                    </li>
+                    <li>
+                        <strong>Risk skoru bir olasılık değeri değildir:</strong>
+                        Hesaplanan risk skoru kalibre edilmiş bir hata olasılığını temsil etmez. Skor, farklı uyuşmazlık göstergelerinin birleştirilmesiyle oluşturulan göreli bir manuel inceleme önceliği göstergesidir.
+                    </li>
+                    <li>
+                        <strong>Semantik benzerlik disiplin eşdeğerliği anlamına gelmez:</strong>
+                        Bir makalenin belirli bir taksonomi yolu veya yayın grubuyla semantik olarak yüksek benzerlik göstermesi, doğrudan o disipline ait olduğu anlamına gelmez. Araştırmada kullanılan yöntem, incelenen nesne veya materyal ve uygulama bağlamı gibi unsurlar semantik temsili etkileyebilir.
+                    </li>
+                    <li>
+                        <strong>Nihai değerlendirme uzman incelemesine dayanır:</strong>
+                        Sistem, geniş yayın havuzu içerisinden öncelikli inceleme adaylarını belirleyen bir karar destek mekanizmasıdır. Adayların mevcut konu atamalarının gerçekten hatalı, eksik veya uygun olup olmadığı manuel değerlendirme sonucunda belirlenmektedir.
+                    </li>
+                </ul>
+
+                <div class="notice-box warning">
+                    <strong>Doğru Yorumlama:</strong>
+                    Sistem tarafından aday olarak işaretlenen bir yayın için doğru metodolojik ifade, mevcut konu ataması ile yayın içeriği ve analiz göstergeleri arasında belirgin bir uyuşmazlık bulunduğu ve kaydın manuel inceleme açısından önceliklendirildiğidir. Sistem çıktısı tek başına mevcut konu atamasının yanlış olduğuna ilişkin kesin bir karar olarak yorumlanmamalıdır.
+                </div>
+            </section>
+
+            <!-- Alt Navigasyon -->
+            <footer class="doc-footer-nav">
+                <a href="{{ url_for('methodology_vector_database') }}" class="doc-nav-btn outline">
+                    <span>←</span> Önceki: Vektör Veritabanı
+                </a>
+                <a href="{{ url_for('methodology_evaluation') }}" class="doc-nav-btn primary">
+                    Sonraki: Deneysel Sonuçlar ve Değerlendirme <span>→</span>
+                </a>
+            </footer>
+        </article>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

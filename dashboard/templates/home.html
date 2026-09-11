@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TR Dizin Akademik Disiplin Uyuşmazlığı Tespit Sistemi</title>
+
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-soft: #1e293b;
+            --text: #334155;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --surface-soft: #f8fafc;
+            --red: #d71920;
+            --red-dark: #b31319;
+            --page-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+            color: var(--text);
+            background: var(--surface);
+            line-height: 1.65;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* -------------------------------------------------
+           NAVBAR
+        -------------------------------------------------- */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+            min-height: 72px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand img {
+            height: 46px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 25px 0 22px;
+        }
+
+        .nav-link:hover {
+            color: var(--navy);
+        }
+
+        .nav-link.active {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 14px;
+            height: 2px;
+            background: var(--red);
+        }
+
+        /* -------------------------------------------------
+                HERO
+        -------------------------------------------------- */
+
+        .hero {
+            background: linear-gradient(
+                135deg,
+                #002a5e 0%,
+                #003f87 60%,
+                #1a5fa8 100%
+            );
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ai.ulakbim.gov.tr tarzındaki hafif geometrik desen */
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: var(--page-width);
+            margin: 0 auto;
+            padding: 80px 24px 88px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .hero-eyebrow::before {
+            content: "";
+            width: 26px;
+            height: 2px;
+            background: #e63329;
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin: 0;
+
+            color: #fff;
+            font-size: clamp(40px, 5vw, 64px);
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+            font-weight: 750;
+        }
+
+        .hero-description {
+            max-width: 760px;
+            margin: 26px 0 0;
+
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        /* Hero içindeki ana buton */
+        .hero .btn-primary {
+            background: #e63329;
+            color: #fff;
+            border: 1px solid #e63329;
+        }
+
+        .hero .btn-primary:hover {
+            background: #c92b23;
+            border-color: #c92b23;
+        }
+
+        /* Hero içindeki ikinci buton */
+        .hero .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+        }
+
+        .hero .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: #fff;
+        }
+        .btn {
+            min-height: 46px;
+            padding: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 650;
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            border: 1px solid var(--red);
+        }
+
+        .btn-primary:hover {
+            background: var(--red-dark);
+            border-color: var(--red-dark);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: var(--navy);
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+
+        /* -------------------------------------------------
+           COMMON SECTION
+        -------------------------------------------------- */
+
+        .section {
+            padding: 86px 24px;
+        }
+
+        .section-soft {
+            background: var(--surface-soft);
+        }
+
+        .section-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 40px;
+            margin-bottom: 38px;
+        }
+
+        .section-heading-wrap {
+            max-width: 720px;
+        }
+
+        .section-kicker {
+            margin-bottom: 8px;
+            color: var(--red);
+            font-size: 12px;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .section-title {
+            margin: 0;
+            color: var(--navy);
+            font-size: 31px;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        .section-description {
+            max-width: 700px;
+            margin: 14px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* -------------------------------------------------
+            SYSTEM COMPONENT CARDS
+        -------------------------------------------------- */
+
+        .section-services {
+            background: #f4f6f9;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            position: relative;
+            min-height: 220px;
+            padding: 24px;
+
+            background: #ffffff;
+            border: 1px solid #d7dee8;
+            border-radius: 10px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .service-card:hover {
+            border-color: #1768c4;
+            box-shadow: 0 6px 24px rgba(0, 63, 135, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 20px;
+
+            border-radius: 10px;
+        }
+
+        .service-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+        }
+
+        /* Kartlara özel pastel renkler */
+
+        .service-icon.green {
+            background: #e5f4e9;
+            color: #1e8b45;
+        }
+
+        .service-icon.red {
+            background: #fde8e7;
+            color: #e63329;
+        }
+
+        .service-icon.blue {
+            background: #e7f0fc;
+            color: #1768c4;
+        }
+
+        /* Başlık */
+
+        .service-card h3 {
+            margin: 0 0 10px;
+
+            color: #0d1e3a;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* Açıklama */
+
+        .service-card p {
+            margin: 0;
+            max-width: 92%;
+
+            color: #5a6a85;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        /* Sağ üst ok */
+
+        .service-arrow {
+            position: absolute;
+            top: 28px;
+            right: 24px;
+
+            color: #cbd5e1;
+            font-size: 18px;
+
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .service-card:hover .service-arrow {
+            color: #1768c4;
+            transform: translateX(3px);
+        }
+
+        /* Tablet */
+
+        @media (max-width: 960px) {
+            .service-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Mobil */
+
+        @media (max-width: 640px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* -------------------------------------------------
+            WORKFLOW / ÇALIŞMA KATMANLARI
+        -------------------------------------------------- */
+
+        .workflow-section {
+            background: #0d2344;
+            color: #ffffff;
+            padding: 86px 24px 96px;
+        }
+
+        .workflow-section .section-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+        }
+
+        .workflow-section .section-header {
+            margin-bottom: 38px;
+        }
+
+        .workflow-section .section-kicker {
+            color: #ff4f46;
+        }
+
+        .workflow-section .section-title {
+            color: #ffffff;
+        }
+
+        .workflow-section .section-description {
+            color: #b7c4d8;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            border: 0;
+        }
+
+        .workflow-card {
+            position: relative;
+            min-height: 230px;
+            padding: 26px 24px;
+
+            background: #1a3153;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .workflow-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(78, 165, 255, 0.65);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            background: #20395f;
+        }
+
+        .workflow-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .workflow-number {
+            color: #7890b3;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+        }
+
+        .workflow-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 4px 10px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .workflow-status.active {
+            background: rgba(0, 180, 100, 0.16);
+            border: 1px solid rgba(0, 220, 130, 0.35);
+            color: #4fe39a;
+        }
+
+        .workflow-status.process {
+            background: rgba(30, 130, 255, 0.14);
+            border: 1px solid rgba(70, 150, 255, 0.35);
+            color: #6eb4ff;
+        }
+
+        .workflow-card h3 {
+            margin: 0 0 12px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .workflow-card p {
+            margin: 0;
+            color: #c3cede;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .workflow-detail {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            margin-top: 18px;
+
+            color: #4aa3ff;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.18s ease;
+        }
+
+        .workflow-detail:hover {
+            color: #82c0ff;
+            text-decoration: underline;
+        }
+
+        /* Tablet */
+        @media (max-width: 960px) {
+            .workflow-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-card {
+                min-height: auto;
+            }
+        }
+
+        /* -------------------------------------------------
+           POSITIONING / PRINCIPLE STRIP
+        -------------------------------------------------- */
+
+        .principle {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .principle-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+            padding: 48px 24px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 70px;
+            align-items: start;
+        }
+
+        .principle-label {
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .principle-text {
+            margin: 0;
+            max-width: 790px;
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .principle-text strong {
+            color: var(--navy);
+        }
+
+        /* -------------------------------------------------
+           FOOTER
+        -------------------------------------------------- */
+
+        .footer {
+            background: var(--navy);
+            color: #cbd5e1;
+        }
+
+        .footer-inner {
+            max-width: var(--page-width);
+            margin: 0 auto;
+            padding: 52px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 40px;
+        }
+
+        .footer-title {
+            margin: 0 0 8px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .footer-text {
+            margin: 0;
+            max-width: 560px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .footer-copy {
+            color: #64748b;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* -------------------------------------------------
+           RESPONSIVE
+        -------------------------------------------------- */
+
+        @media (max-width: 960px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0 28px;
+            }
+
+            .workflow-item:not(:last-child) {
+                margin-right: 0;
+            }
+
+            .workflow-item::after {
+                display: none;
+            }
+
+            .principle-inner {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .navbar-inner {
+                min-height: auto;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                gap: 22px;
+                overflow-x: auto;
+            }
+
+            .nav-link {
+                padding: 8px 0 12px;
+                white-space: nowrap;
+            }
+
+            .nav-link.active::after {
+                bottom: 4px;
+            }
+
+            .hero-inner {
+                padding-top: 68px;
+                padding-bottom: 68px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .section {
+                padding-top: 64px;
+                padding-bottom: 64px;
+            }
+
+            .section-header {
+                display: block;
+            }
+
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-item {
+                min-height: auto;
+                padding: 24px 0;
+            }
+
+            .workflow-number {
+                margin-bottom: 18px;
+            }
+
+            .footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =======================
+         NAVBAR
+    ======================== -->
+    <header class="navbar">
+        <div class="navbar-inner">
+
+            <a href="/" class="brand">
+                <!-- Kendi mevcut logo path'in neyse onu kullan -->
+                <img
+                    src="{{ url_for('static', filename='images/ULAKBIM-Yatay.png') }}"
+                    alt="TÜBİTAK ULAKBİM"
+                >
+            </a>
+
+            <nav class="nav-links">
+                <a href="/" class="nav-link active">Ana Sayfa</a>
+                <a href="/methodology" class="nav-link">Metodoloji</a>
+                <a href="/analysis" class="nav-link">Analiz ve İnceleme</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- =======================
+         HERO
+    ======================== -->
+    <main>
+
+        <section class="hero">
+            <div class="hero-inner">
+
+                <div class="hero-eyebrow">
+                    TR Dizin Akademik Yayın Analizi
+                </div>
+
+                <h1>
+                    Akademik konu atamalarındaki
+                    uyuşmazlıkları görünür hale getirmek
+                </h1>
+
+                <p class="hero-description">
+                    TR Dizin'de yer alan akademik yayınların mevcut konu
+                    atamalarını semantik içerik, taksonomi ve yerel komşuluk
+                    göstergeleri üzerinden inceleyerek manuel değerlendirme
+                    gerektirebilecek yayınları belirleyen ve önceliklendiren
+                    analiz sistemi.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/analysis" class="btn btn-primary">
+                        Analiz ve İnceleme
+                        <span>→</span>
+                    </a>
+
+                    <a href="/methodology" class="btn btn-secondary">
+                        Metodolojiyi İncele
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =======================
+             SYSTEM COMPONENTS
+        ======================== -->
+        <section class="section section-services">
+        <div class="section-inner">
+
+            <div class="section-header">
+                <div class="section-heading-wrap">
+
+            
+                    <h2 class="section-title">
+                        Sistem Bileşenleri
+                    </h2>
+
+                    <p class="section-description">
+                        Analiz sonuçlarına, kullanılan yönteme ve manuel inceleme
+                        sürecine ilişkin temel erişim noktaları.
+                    </p>
+
+                </div>
+            </div>
+
+
+            <div class="service-grid">
+
+                <!-- ANALİZ VE İNCELEME -->
+                <a href="/analysis" class="service-card">
+
+                    <div class="service-icon green">
+
+                        <!-- Bar chart icon -->
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M6 20V10"></path>
+                            <path d="M12 20V4"></path>
+                            <path d="M18 20v-7"></path>
+                        </svg>
+
+                    </div>
+
+                    <span class="service-arrow">→</span>
+
+                    <h3>
+                        Analiz ve İnceleme
+                    </h3>
+
+                    <p>
+                        Uyuşmazlık adayı yayınları, risk göstergelerini,
+                        kategori önerilerini ve görsel dağılımları
+                        etkileşimli olarak inceleyin.
+                    </p>
+
+                </a>
+
+
+                <!-- METODOLOJİ -->
+                <a href="/methodology" class="service-card">
+
+                    <div class="service-icon red">
+
+                        <!-- Document icon -->
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="8" y1="13" x2="16" y2="13"></line>
+                            <line x1="8" y1="17" x2="16" y2="17"></line>
+                        </svg>
+
+                    </div>
+
+                    <span class="service-arrow">→</span>
+
+                    <h3>
+                        Metodoloji
+                    </h3>
+
+                    <p>
+                        Veri hazırlama, embedding, HDBSCAN, GLOSH,
+                        taksonomi karşılaştırması ve kNN doğrulama
+                        adımlarını ayrıntılı olarak inceleyin.
+                    </p>
+
+                </a>
+
+
+                <!-- İNCELEME HAVUZU -->
+                <a href="/analysis" class="service-card">
+
+                    <div class="service-icon blue">
+
+                        <!-- Search / review icon -->
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+                        </svg>
+
+                    </div>
+
+                    <span class="service-arrow">→</span>
+
+                    <h3>
+                        İnceleme Havuzu
+                    </h3>
+
+                    <p>
+                        Sistem tarafından manuel değerlendirme için
+                        önceliklendirilmiş aday yayınlara ve bunların
+                        destekleyici göstergelerine erişin.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </div>
+        </section>
+
+    
+
+        <!-- =======================
+             WORKFLOW
+        ======================== -->
+        <section class="workflow-section">
+        <div class="section-inner">
+
+            <div class="section-header">
+                <div class="section-heading-wrap">
+
+                    <h2 class="section-title">
+                        Yayından inceleme adayına
+                    </h2>
+
+                    <p class="section-description">
+                        Sistem, akademik yayın verisini ortak bir semantik temsil
+                        üzerinden değerlendirerek uyuşmazlık göstergelerini
+                        bir araya getirir.
+                    </p>
+
+                </div>
+            </div>
+
+
+            <div class="workflow-grid">
+
+                <!-- 01 -->
+                <div class="workflow-card">
+
+                    <div class="workflow-top">
+                        <span class="workflow-number">01</span>
+                        <span class="workflow-status active">Aktif</span>
+                    </div>
+
+                    <h3>Veri Hazırlama</h3>
+
+                    <p>
+                        Makale metinleri ve TR Dizin konu bilgileri analiz için
+                        standart bir yapıya dönüştürülür.
+                    </p>
+
+                    <a href="/methodology/data-preparation" class="workflow-detail">
+                        Detay →
+                    </a>
+
+                </div>
+
+
+                <!-- 02 -->
+                <div class="workflow-card">
+
+                    <div class="workflow-top">
+                        <span class="workflow-number">02</span>
+                        <span class="workflow-status active">Aktif</span>
+                    </div>
+
+                    <h3>Semantik Temsil</h3>
+
+                    <p>
+                        Başlık, özet ve anahtar kelimeler çok dilli embedding
+                        vektörlerine dönüştürülür.
+                    </p>
+
+                    <a href="/methodology/embedding" class="workflow-detail">
+                        Detay →
+                    </a>
+
+                </div>
+
+
+                <!-- 03 -->
+                <div class="workflow-card">
+
+                    <div class="workflow-top">
+                        <span class="workflow-number">03</span>
+                        <span class="workflow-status active">Aktif</span>
+                    </div>
+
+                    <h3>Uyuşmazlık Analizi</h3>
+
+                    <p>
+                        Yoğunluk, taksonomi benzerliği ve yerel komşuluk
+                        göstergeleri birlikte değerlendirilir.
+                    </p>
+
+                    <a href="/methodology/hdbscan" class="workflow-detail">
+                        Detay →
+                    </a>
+
+                </div>
+
+
+                <!-- 04 -->
+                <div class="workflow-card">
+
+                    <div class="workflow-top">
+                        <span class="workflow-number">04</span>
+                        <span class="workflow-status process">Analiz</span>
+                    </div>
+
+                    <h3>Önceliklendirme</h3>
+
+                    <p>
+                        Farklı uyuşmazlık sinyalleri bir araya getirilerek
+                        manuel inceleme önceliği oluşturulur.
+                    </p>
+
+                    <a href="/methodology/hdbscan#risk" class="workflow-detail">
+                        Detay →
+                    </a>
+
+                </div>
+
+
+                <!-- 05 -->
+                <div class="workflow-card">
+
+                    <div class="workflow-top">
+                        <span class="workflow-number">05</span>
+                        <span class="workflow-status process">İnceleme</span>
+                    </div>
+
+                    <h3>Uzman İncelemesi</h3>
+
+                    <p>
+                        Nihai adaylar otomatik karar yerine manuel değerlendirme
+                        amacıyla uzmanların incelemesine sunulur.
+                    </p>
+
+                    <a href="/methodology/evaluation" class="workflow-detail">
+                        Detay →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        </section>
+
+    </main>
+
+
+    <!-- =======================
+         FOOTER
+    ======================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+
+            <div>
+                <p class="footer-title">
+                    TÜBİTAK ULAKBİM
+                </p>
+
+                <p class="footer-text">
+                    TR Dizin Akademik Disiplin Uyuşmazlığı Tespit Sistemi
+                </p>
+            </div>
+
+            <div class="footer-copy">
+                © 2026 TÜBİTAK ULAKBİM
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

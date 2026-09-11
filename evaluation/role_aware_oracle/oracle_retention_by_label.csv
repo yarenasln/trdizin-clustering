@@ -1,0 +1,21 @@
+Variant,Label,Initial_Count,Retained_Count,Removed_Count,Retention_Rate_Pct,Removal_Rate_Pct
+D Baseline,TP-1,43,43,0,100.0,0.0
+D Baseline,TP-2,186,186,0,100.0,0.0
+D Baseline,TP-all,229,229,0,100.0,0.0
+D Baseline,FP,159,159,0,100.0,0.0
+D Baseline,Total Candidates,388,388,0,100.0,0.0
+D-Oracle-1,TP-1,43,38,5,88.37,11.63
+D-Oracle-1,TP-2,186,156,30,83.87,16.13
+D-Oracle-1,TP-all,229,194,35,84.72,15.28
+D-Oracle-1,FP,159,87,72,54.72,45.28
+D-Oracle-1,Total Candidates,388,281,107,72.42,27.58
+D-Oracle-2,TP-1,43,38,5,88.37,11.63
+D-Oracle-2,TP-2,186,156,30,83.87,16.13
+D-Oracle-2,TP-all,229,194,35,84.72,15.28
+D-Oracle-2,FP,159,87,72,54.72,45.28
+D-Oracle-2,Total Candidates,388,281,107,72.42,27.58
+D-Oracle-Exploratory-HighConfidence,TP-1,43,43,0,100.0,0.0
+D-Oracle-Exploratory-HighConfidence,TP-2,186,186,0,100.0,0.0
+D-Oracle-Exploratory-HighConfidence,TP-all,229,229,0,100.0,0.0
+D-Oracle-Exploratory-HighConfidence,FP,159,112,47,70.44,29.56
+D-Oracle-Exploratory-HighConfidence,Total Candidates,388,341,47,87.89,12.11

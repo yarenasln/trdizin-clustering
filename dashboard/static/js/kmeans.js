@@ -309,7 +309,7 @@ function setupUmapInteraction() {
 
 document.addEventListener('DOMContentLoaded', () => {
     km('kmeansAlgoSelect').addEventListener('change', (event) => {
-        if (event.target.value === 'hdbscan') window.location.href = '/';
+        if (event.target.value === 'hdbscan') window.location.href = '/analysis';
     });
     km('kmSearchBtn').addEventListener('click', loadKmeansArticles);
     km('kmSearch').addEventListener('keydown', (event) => {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vektör Veritabanı — Metodoloji — TR Dizin Disiplin Uyuşmazlığı Tespit Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="doc-page-bg">
+    <div class="doc-container">
+
+        <!-- Breadcrumb -->
+        <nav class="doc-breadcrumb" aria-label="breadcrumb">
+            <a href="{{ url_for('home') }}">Ana Sayfa</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <a href="{{ url_for('methodology') }}">Metodoloji</a>
+            <span class="doc-breadcrumb-divider">/</span>
+            <span class="doc-breadcrumb-current">Vektör Veritabanı</span>
+        </nav>
+
+        <!-- Ana Dokümantasyon Kartı -->
+        <article class="doc-card">
+            <header class="doc-header">
+                <div class="doc-kicker">METODOLOJİ BÖLÜM 03</div>
+                <h1 class="doc-title">Vektör Veritabanı</h1>
+                <p class="doc-subtitle">
+                    Üretilen makale embeddinglerinin Qdrant üzerinde saklanması ve vektör tabanlı sorgulama altyapısının oluşturulması.
+                </p>
+            </header>
+
+            <!-- 1. QDRANT KULLANIM AMACI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">1. Vektör Veritabanı Altyapısı</h2>
+                <p class="doc-p">
+                    Embedding aşamasında oluşturulan makale vektörlerinin düzenli ve ölçeklenebilir biçimde saklanması ve gerektiğinde vektör tabanlı sorgulamalarda kullanılabilmesi amacıyla Qdrant vektör veritabanı kullanılmıştır. Her makalenin 768 boyutlu embedding vektörü Qdrant koleksiyonuna aktarılmış; makaleye ait kimlik, başlık, konu/taksonomi bilgileri ve analiz sürecinde gerekli diğer metadata alanları ise ilgili vektörle birlikte payload içerisinde tutulmuştur. Böylece semantik temsiller ile makalelere ait tanımlayıcı bilgiler aynı yapı içerisinde ilişkilendirilmiş ve sonraki analiz aşamalarında sorgulanabilir hale getirilmiştir.
+                </p>
+            </section>
+
+            <!-- 2. KOLEKSİYON VE VEKTÖR YAPILANDIRMASI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">2. Koleksiyon ve Vektör Yapılandırması</h2>
+                <p class="doc-p">
+                    Qdrant üzerindeki vektör indeksi aşağıdaki teknik parametrelerle tanımlanmıştır:
+                </p>
+
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Parametre</th>
+                            <th>Değer</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Collection Adı</strong></td>
+                            <td><code>trdizin_articles</code></td>
+                            <td>Tüm akademik makale vektörlerini barındıran ana koleksiyon</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Named Vector</strong></td>
+                            <td><code>mpnet_v1</code></td>
+                            <td>Çoklu vektör desteği için adlandırılmış vektör alanı</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vektör Boyutu</strong></td>
+                            <td><code>768</code></td>
+                            <td>MPNet modelinin çıktı boyutuyla birebir uyumlu yoğun vektör uzayı</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mesafe Fonksiyonu</strong></td>
+                            <td><code>Cosine (Kosinüs)</code></td>
+                            <td>Açısal anlamsal mesafeyi ve normalize benzerliği ölçen uzaklık metriği</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 3. METADATA VE PAYLOAD YAPISI -->
+            <section class="doc-section">
+                <h2 class="doc-section-title">3. Metadata ve Payload Yapısı</h2>
+                <p class="doc-p">
+                    Vektörlerin yanında saklanan payload yapısı, makalenin içeriksel ve taksonomik bağlamını tekilleştirilmiş bir biçimde barındırır. Bu alanlar şunlardır:
+                </p>
+
+                <ul class="doc-list">
+                    <li>
+                        <strong><code>external_id</code>:</strong> Makalenin TR Dizin veritabanındaki tekil sistem kimliği.
+                    </li>
+                    <li>
+                        <strong><code>title</code>:</strong> Makalenin seçilen dildeki başlığı.
+                    </li>
+                    <li>
+                        <strong><code>abstract</code>:</strong> Makalenin özet metni.
+                    </li>
+                    <li>
+                        <strong><code>keywords</code>:</strong> Yazar ve dizin anahtar kelimeleri.
+                    </li>
+                    <li>
+                        <strong><code>subjects</code> / <code>subject_fullnames</code>:</strong> Makaleye atanmış tüm resmi TR Dizin konu ve taksonomi yolları.
+                    </li>
+                    <li>
+                        <strong><code>publication_year</code> & <code>doi</code>:</strong> Yayının yılı ve dijital nesne tanımlayıcısı.
+                    </li>
+                </ul>
+
+                <div class="notice-box">
+                    <strong>Altyapı Rolü:</strong>
+                    Bu sayfa yalnızca vektör saklama ve sorgulama altyapısının mimarisini açıklamaktadır. Vektör veritabanı üzerinde koşturulan yerel komşuluk sorguları ve kNN tabanlı uyuşmazlık doğrulama adımları sonraki <em>HDBSCAN Tabanlı Uyuşmazlık Analizi</em> bölümünde ele alınmaktadır.
+                </div>
+            </section>
+
+            <!-- Alt Navigasyon -->
+            <footer class="doc-footer-nav">
+                <a href="{{ url_for('methodology_embedding') }}" class="doc-nav-btn outline">
+                    <span>←</span> Önceki: Semantik Temsil
+                </a>
+                <a href="{{ url_for('methodology_hdbscan') }}" class="doc-nav-btn primary">
+                    Sonraki: HDBSCAN Uyuşmazlık Analizi <span>→</span>
+                </a>
+            </footer>
+        </article>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

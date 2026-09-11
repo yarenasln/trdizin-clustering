@@ -145,27 +145,48 @@ def load_algorithm_data(algorithm="hdbscan", reload=False):
     df["kume"] = -1
 
   # 6. Karar Tipi ve Açıklama Standartlaştırması
+  def normalize_priority(val):
+    s = str(val).strip()
+    if not s or s.lower() in ["nan", "none", ""]:
+      return "NORMAL"
+    u = s.upper()
+    if "KR" in u:
+      return "KRİTİK"
+    elif "Y" in u and any(c in u for c in ["KSEK", "Ü", "U"]):
+      return "YÜKSEK"
+    elif "ORTA" in u:
+      return "ORTA"
+    elif "D" in u and any(c in u for c in ["K", "Ş", "S"]):
+      return "DÜŞÜK"
+    return s
+
+  if "oncelik" in df.columns:
+    df["oncelik"] = df["oncelik"].apply(normalize_priority)
+  else:
+    df["oncelik"] = "NORMAL"
+
   if "ortak_agac_derinligi" in df.columns:
-    if "karar_tipi" not in df.columns:
-      df["karar_tipi"] = np.where(
-          df["ortak_agac_derinligi"] == 0,
-          "TP-1",
-          np.where(df["ortak_agac_derinligi"] == 1, "TP-2", "İnceleme Gerekli")
-      )
+    df["karar_tipi"] = np.where(
+        df["ortak_agac_derinligi"] == 0,
+        "Ana Disiplin Uyuşmazlığı Adayı",
+        np.where(df["ortak_agac_derinligi"] == 1, "Alt Alan / İkincil Disiplin Adayı", "İnceleme Adayı")
+    )
   else:
     if "karar_tipi" not in df.columns:
       df["karar_tipi"] = "Normal"
 
+  df["oncelik_etiketi"] = df["oncelik"] + " · " + df["karar_tipi"]
+
   if "duzeltme_onerisi_tp1" not in df.columns:
     df["duzeltme_onerisi_tp1"] = np.where(
-        df.get("karar_tipi") == "TP-1",
+        df.get("ortak_agac_derinligi") == 0,
         df.get("oneri_kategori", ""),
         ""
     )
 
   if "ikincil_etiket_tp2" not in df.columns:
     df["ikincil_etiket_tp2"] = np.where(
-        df.get("karar_tipi") == "TP-2",
+        df.get("ortak_agac_derinligi") == 1,
         df.get("oneri_kategori", ""),
         ""
     )
@@ -208,6 +229,209 @@ def load_algorithm_data(algorithm="hdbscan", reload=False):
   return df.copy()
 
 
+_TAXONOMY_PATHS = None
+
+
+def get_taxonomy_paths():
+  """Taksonomi yollarını tekil liste olarak yükler ve önbelleğe alır."""
+  global _TAXONOMY_PATHS
+  if _TAXONOMY_PATHS is not None:
+    return _TAXONOMY_PATHS
+
+  subjects_path = os.path.join(DATA_DIR, "article_subjects.csv")
+  if os.path.exists(subjects_path):
+    try:
+      df_sub = pd.read_csv(subjects_path, usecols=["subject_fullname"])
+      _TAXONOMY_PATHS = df_sub["subject_fullname"].dropna().unique().tolist()
+    except Exception as e:
+      print(f"Taksonomi yolları okuma hatası: {e}")
+      _TAXONOMY_PATHS = []
+  else:
+    _TAXONOMY_PATHS = []
+
+  return _TAXONOMY_PATHS
+
+
+def calculate_knn_onay(row, taxonomy_paths=None):
+  """
+  Makalenin kNN komşuluk baskın disiplini ile önerilen model disiplini
+  arasındaki yerel destek uzlaşısını hesaplar (knn_onayliyor_mu == 1).
+  """
+  # Eğer kayıt zaten kesin anomali olarak işaretlenmişse kural gereği onaylıdır
+  if int(row.get("supheli_mi", 0) or 0) == 1:
+    return 1
+
+  if taxonomy_paths is None:
+    taxonomy_paths = get_taxonomy_paths()
+
+  makale_yollari = str(row.get("tam_kategori_yollari", ""))
+  makale_kok = makale_yollari.split(">")[0].strip() if ">" in makale_yollari else "Bilinmeyen"
+
+  oneri_yol = str(row.get("oneri_yol", ""))
+  label_kok = oneri_yol.split(">")[0].strip() if ">" in oneri_yol else "Bilinmeyen"
+
+  baskin_komsu_kat = str(row.get("knn_oneri", "")).strip()
+  baskin_lower = baskin_komsu_kat.lower()
+  en_yakin_kat = str(row.get("oneri_kategori", "")).strip()
+
+  knn_kok = "Bilinmeyen"
+  for t_yol in taxonomy_paths:
+    if baskin_lower in t_yol.lower():
+      knn_kok = t_yol.split(">")[0].strip()
+      break
+
+  if makale_kok != label_kok:
+    if knn_kok == label_kok or baskin_lower == en_yakin_kat.lower():
+      return 1
+    return 0
+  return 1
+
+
+def build_why_flagged(row, knn_onay_val=None):
+  """
+  Metodolojik anomali kararı için açıklanabilirlik objesini oluşturur.
+  Tüm eşikleri, mevcut değerleri ve kural geçme durumlarını döner.
+  """
+  if knn_onay_val is None:
+    knn_onay_val = calculate_knn_onay(row)
+
+  sim_fark_val = float(row.get("label_sim_fark", 0.0)) if not pd.isna(row.get("label_sim_fark")) else 0.0
+  knn_imp_val = float(row.get("knn_impurity", 0.0)) if not pd.isna(row.get("knn_impurity")) else 0.0
+  knn_bask_val = float(row.get("knn_baskinlik", 0.0)) if not pd.isna(row.get("knn_baskinlik")) else 0.0
+  glosh_val = float(row.get("glosh_skoru", 0.0)) if not pd.isna(row.get("glosh_skoru")) else 0.0
+
+  ortak_d = row.get("ortak_agac_derinligi")
+  if pd.isna(ortak_d) or ortak_d is None:
+    ortak_d = -1
+  else:
+    try:
+      ortak_d = int(ortak_d)
+    except (ValueError, TypeError):
+      ortak_d = -1
+
+  if ortak_d == 0:
+    candidate_type = "Ana Disiplin Uyuşmazlığı Adayı"
+  elif ortak_d == 1:
+    candidate_type = "Alt Alan / İkincil Disiplin Adayı"
+  elif ortak_d >= 0:
+    candidate_type = "İnceleme Adayı"
+  else:
+    candidate_type = "Normal"
+
+  oneri_kat = str(row.get("oneri_kategori", "")).strip()
+  knn_oneri = str(row.get("knn_oneri", "")).strip()
+
+  # Bileşik Risk Skoru Katkıları (Bileşik Risk / İnceleme Önceliği)
+  # risk = knn_impurity * 0.40 + min(max(label_sim_fark, 0), 1) * 0.35 + glosh * 0.25
+  knn_contrib = round(knn_imp_val * 0.40, 3)
+  semantic_contrib = round(min(max(sim_fark_val, 0.0), 1.0) * 0.35, 3)
+  glosh_contrib = round(glosh_val * 0.25, 3)
+  total_risk = round(knn_contrib + semantic_contrib + glosh_contrib, 3)
+
+  # Karar Koşulları (Okunabilir Türkçe Açıklamalarla)
+  rules = [
+      {
+          "id": "semantic_gap",
+          "label": "Semantik Kategori Farkı",
+          "val_text": f"Değer: {sim_fark_val:.3f}",
+          "threshold_text": "Final eşik: ≥ 0.09 (Ön aday: > 0.08)",
+          "passed": bool(sim_fark_val >= 0.09),
+          "description": "Makalenin mevcut kategorisi ile alternatif kategori arasındaki embedding kosinüs mesafe farkı.",
+      },
+      {
+          "id": "knn_impurity",
+          "label": "Lokal Komşuluk Uyuşmazlığı",
+          "val_text": f"kNN impurity: %{knn_imp_val * 100:.0f}",
+          "threshold_text": "Eşik: ≥ %50",
+          "passed": bool(knn_imp_val >= 0.50),
+          "description": "En yakın 10 komşu makale içerisindeki farklı kategori oranı.",
+      },
+      {
+          "id": "knn_support",
+          "label": "kNN Yerel Destek Uzlaşısı",
+          "val_text": "Alternatif alan yerel komşular tarafından destekleniyor" if knn_onay_val == 1 else "Yerel komşular önerilen alanı desteklemiyor",
+          "threshold_text": "Eşik: Desteklemeli (== 1)",
+          "passed": bool(knn_onay_val == 1),
+          "description": "En yakın komşuların kök disiplini ile modelin önerdiği kategori hiyerarşisinin uyuşması.",
+      },
+  ]
+
+  # Hiyerarşik derinliğe göre kNN baskınlık maskesi kuralı
+  if ortak_d == 0:
+    rules.append({
+        "id": "knn_dominance",
+        "label": "kNN Baskınlık (Ana Disiplin Kuralı)",
+        "val_text": f"Baskınlık: %{knn_bask_val * 100:.0f}",
+        "threshold_text": "Ana disiplin eşiği: ≥ %30",
+        "passed": bool(knn_bask_val >= 0.30),
+        "description": "Farklı ana disiplin adaylığı için komşularda tek bir kategorinin en az %30 baskınlığı.",
+    })
+  elif ortak_d == 1:
+    is_match = (oneri_kat.lower() == knn_oneri.lower()) and (oneri_kat != "")
+    sub_passed = bool(is_match or (knn_bask_val >= 0.40))
+    match_str = "Eşleşti" if is_match else "Eşleşmedi"
+    rules.append({
+        "id": "knn_dominance",
+        "label": "kNN Baskınlık / Öneri Uzlaşısı (Alt Alan Kuralı)",
+        "val_text": f"Baskınlık: %{knn_bask_val * 100:.0f} | Öneri: '{knn_oneri}' ({match_str})",
+        "threshold_text": "Eşik: Öneri eşleşmesi VEYA Baskınlık ≥ %40",
+        "passed": sub_passed,
+        "description": "Alt alan adaylığı için kNN baskın önerisinin model önerisiyle birebir eşleşmesi veya en az %40 baskınlık.",
+    })
+  else:
+    rules.append({
+        "id": "knn_dominance",
+        "label": "kNN Baskınlık / Aykırılık Koşulu",
+        "val_text": f"Baskınlık: %{knn_bask_val * 100:.0f}",
+        "threshold_text": "Eşik: ≥ %30 veya GLOSH > 0.70",
+        "passed": bool(knn_bask_val >= 0.30 or glosh_val > 0.70),
+        "description": "Adaylık için kNN baskınlığı veya yüksek GLOSH aykırılığı.",
+    })
+
+  # GLOSH Yoğunluk Aykırılığı Kuralı
+  rules.append({
+      "id": "glosh",
+      "label": "Yoğunluk Tabanlı Aykırılık (GLOSH)",
+      "val_text": f"GLOSH: {glosh_val:.3f}",
+      "threshold_text": "Güçlü aykırılık eşiği: > 0.70",
+      "passed": bool(glosh_val > 0.70),
+      "description": "HDBSCAN hiyerarşik yoğunluk aykırılık skoru.",
+  })
+
+  # Taksonomi Ağaç Derinliği Kuralı
+  tree_passed = bool(ortak_d in [0, 1])
+  tree_text = (
+      "Farklı Ana Disiplin Uyuşmazlığı Adayı"
+      if ortak_d == 0
+      else ("Alt Alan / İkincil Disiplin Adayı" if ortak_d == 1 else "Normal / Uyumlu")
+  )
+  rules.append({
+      "id": "tree_depth",
+      "label": "Taksonomi Hiyerarşik Derinliği",
+      "val_text": f"Derinlik: {ortak_d} ({tree_text})",
+      "threshold_text": "Adaylık eşiği: ≤ 1",
+      "passed": tree_passed,
+      "description": "Mevcut kategori ile önerilen alternatif kategori arasındaki taksonomik ortak ağaç derinliği.",
+  })
+
+  return {
+      "candidate_type": candidate_type,
+      "semantic_gap": round(sim_fark_val, 4),
+      "knn_impurity": round(knn_imp_val, 4),
+      "knn_dominance": round(knn_bask_val, 4),
+      "knn_supports_alternative": bool(knn_onay_val == 1),
+      "glosh": round(glosh_val, 4),
+      "tree_depth": ortak_d,
+      "risk_components": {
+          "knn": knn_contrib,
+          "semantic": semantic_contrib,
+          "glosh": glosh_contrib,
+          "total": total_risk,
+      },
+      "rules": rules,
+  }
+
+
 def _build_article_cache_if_needed():
   """
   Tüm makalelerin detay sözlüğünü in-memory index olarak hazırlar.
@@ -226,6 +450,8 @@ def _build_article_cache_if_needed():
       return default
     return val
 
+  taxonomy_paths = get_taxonomy_paths()
+
   cache = {}
   records = df.to_dict(orient="records")
   for row in records:
@@ -243,11 +469,11 @@ def _build_article_cache_if_needed():
         pass
 
     if ortak_derinlik == 0:
-      karar_tipi = "TP-1"
+      karar_tipi = "Ana Disiplin Uyuşmazlığı Adayı"
     elif ortak_derinlik == 1:
-      karar_tipi = "TP-2"
+      karar_tipi = "Alt Alan / İkincil Disiplin Adayı"
     elif ortak_derinlik is not None:
-      karar_tipi = "İnceleme Gerekli"
+      karar_tipi = "İnceleme Adayı"
     else:
       karar_tipi = "Normal"
 
@@ -260,6 +486,12 @@ def _build_article_cache_if_needed():
         kume = int(kume)
       except (ValueError, TypeError):
         pass
+
+    oncelik_val = safe_val(row.get("oncelik"), "NORMAL")
+    oncelik_etiketi = safe_val(row.get("oncelik_etiketi"), f"{oncelik_val} · {karar_tipi}")
+
+    knn_onay_val = calculate_knn_onay(row, taxonomy_paths)
+    why_flagged_data = build_why_flagged(row, knn_onay_val)
 
     cache[target_id] = {
         "external_id": target_id,
@@ -276,18 +508,21 @@ def _build_article_cache_if_needed():
         "knn_baskinlik": float(row.get("knn_baskinlik", 0.0)) if not pd.isna(row.get("knn_baskinlik")) else 0.0,
         "knn_impurity": float(row.get("knn_impurity", 0.0)) if not pd.isna(row.get("knn_impurity")) else 0.0,
         "ortak_agac_derinligi": ortak_derinlik if ortak_derinlik is not None else -1,
-        "oncelik": safe_val(row.get("oncelik"), "NORMAL"),
+        "oncelik": oncelik_val,
+        "oncelik_etiketi": oncelik_etiketi,
         "supheli_mi": int(row.get("supheli_mi", 0)) if not pd.isna(row.get("supheli_mi")) else 0,
         "risk_skoru": float(row.get("risk_skoru", 0.0)) if not pd.isna(row.get("risk_skoru")) else 0.0,
         "kume": kume,
         "karar_tipi": karar_tipi,
-        "duzeltme_onerisi_tp1": oneri_kategori if karar_tipi == "TP-1" else "",
-        "ikincil_etiket_tp2": oneri_kategori if karar_tipi == "TP-2" else "",
+        "duzeltme_onerisi_tp1": oneri_kategori if ortak_derinlik == 0 else "",
+        "ikincil_etiket_tp2": oneri_kategori if ortak_derinlik == 1 else "",
         "filtre_aciklamasi": (
             "Farklı Ana Disiplin Uyuşmazlığı (Kritik Öncelik)"
             if ortak_derinlik == 0
             else "Alt Alan Uyuşmazlığı / Çoklu Disiplin Zenginleştirme"
         ),
+        "knn_onayliyor_mu": knn_onay_val,
+        "why_flagged": why_flagged_data,
     }
 
   _ARTICLE_CACHE = cache

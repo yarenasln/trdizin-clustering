@@ -1,0 +1,4 @@
+Comparison,N_Group_1,N_Group_2,Non_Focus_Group_1,Non_Focus_Group_2,Rate_Group_1 (%),Rate_Group_2 (%),Proportion_Difference (%),Odds_Ratio,CI_95_Lower,CI_95_Upper,Fisher_p_value,Chi2_p_value,Statistical_Significance,Test_Name
+FP vs TP-1,159,43,72,5,45.28,11.63,33.66,6.2897,2.3527,16.8143,3.316670777741029e-05,0.00011597834557348765,p < 0.001,Fisher's Exact Test & Chi-Square (Yates)
+FP vs TP-2,159,186,72,30,45.28,16.13,29.15,4.3034,2.6097,7.0965,4.011841248996186e-09,6.762457513277949e-09,p < 0.001,Fisher's Exact Test & Chi-Square (Yates)
+FP vs TP-all,159,229,72,35,45.28,15.28,30.0,4.5872,2.8484,7.3875,1.1129527116475214e-10,1.68897985296386e-10,p < 0.001,Fisher's Exact Test & Chi-Square (Yates)
