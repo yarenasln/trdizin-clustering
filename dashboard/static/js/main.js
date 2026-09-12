@@ -381,17 +381,35 @@ function updateClusterAnnotations(zoomLevel = 'level_1', triggerRelayout = true)
 
 function applyClusterColoring(trace) {
     if (!trace || !trace.customdata) return;
+
     const palette = [
-        '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', 
+        '#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f',
         '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#374983'
     ];
+
     const records = trace.customdata;
+
     const colorData = records.map(d => {
-        const kid = d.kume !== undefined ? d.kume : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
+        let kid;
+
+       if (
+            currentClusterView === 'forced' &&
+            d.forced_cluster !== undefined
+        ) {
+            kid = Number(d.forced_cluster);
+        } else {
+            kid = d.kume !== undefined
+                ? d.kume
+                : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
+        }
+
         if (kid === -1) return '#d3d3d3';
+
         return palette[Math.abs(kid) % palette.length];
     });
+
     if (!trace.marker) trace.marker = {};
+
     trace.marker.color = colorData;
     trace.marker.colorscale = null;
     trace.marker.showscale = false;
@@ -1241,6 +1259,7 @@ async function loadEvaluationMetrics() {
     }
 }
 let currentView = 'risk';
+let currentClusterView = 'forced';
 
 function switchMapView(viewType) {
     currentView = viewType;
@@ -1250,15 +1269,23 @@ function switchMapView(viewType) {
     // Buton aktiflik sınıflarını güncelle
     const btnRisk = document.getElementById('btnRiskView');
     const btnCluster = document.getElementById('btnClusterView');
+    const clusterModeSwitch = document.getElementById('btnClusterModeSwitch');
 
     if (viewType === 'risk') {
-        // Risk seçiliyken: Risk butonu kırmızı (aktif), Küme butonu sade gri (pasif)
         btnRisk.className = 'btn btn-danger btn-sm active';
-        btnCluster.className = 'btn btn-sm text-secondary bg-light border'; 
+        btnCluster.className = 'btn btn-sm text-secondary bg-light border';
+
+        clusterModeSwitch.classList.add('d-none');
+
     } else {
-        // Küme seçiliyken: Küme butonu koyu (aktif), Risk butonu sade gri (pasif)
         btnRisk.className = 'btn btn-sm text-secondary bg-light border';
         btnCluster.className = 'btn btn-dark btn-sm active';
+
+        clusterModeSwitch.classList.remove('d-none');
+
+        // Küme görünümüne geçildiğinde varsayılan görünüm Zorlanmış olsun
+        currentClusterView = 'forced';
+        clusterModeSwitch.textContent = "Outlier'ları Göster";
     }
 
     const records = plotElement.data[0].customdata;
@@ -1283,9 +1310,22 @@ function switchMapView(viewType) {
         ];
 
         // Her noktanın küme ID'sine göre paletten renk seçiyoruz (mod alarak döndürüyoruz)
-        colorData = records.map(d => {
-            const kid = d.kume !== undefined ? d.kume : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
-            if (kid === -1) return '#d3d3d3'; // Gürültü (noise) noktaları için hafif gri
+       colorData = records.map(d => {
+            let kid;
+
+            if (
+                currentClusterView === 'forced' &&
+                d.forced_cluster !== undefined
+            ) {
+                kid = Number(d.forced_cluster);
+            } else {
+                kid = d.kume !== undefined
+                    ? d.kume
+                    : (d.kmeans_kume !== undefined ? d.kmeans_kume : 0);
+            }
+
+            if (kid === -1) return '#d3d3d3';
+
             return palette[Math.abs(kid) % palette.length];
         });
 
@@ -1299,5 +1339,60 @@ function switchMapView(viewType) {
         'marker.colorscale': [colorScale],
         'marker.showscale': [viewType === 'risk'], // Sadece risk görünümünde renk barı açık olur
         'marker.colorbar.title': colorBarTitle
+    }, [0]);
+}
+
+function toggleClusterView() {
+    const plotElement = document.getElementById('clusterPlot');
+    const btn = document.getElementById('btnClusterModeSwitch');
+
+    if (!plotElement || !plotElement.data || !plotElement.data[0]) return;
+
+    if (currentClusterView === 'forced') {
+        // Orijinal HDBSCAN görünümü:
+        // outlier noktaları -1 olarak göster
+        currentClusterView = 'original';
+        btn.textContent = "Outlier'ları Kümelere Ata";
+    } else {
+        // Outlier noktalarını soft membership sonucuna
+        // göre en uygun kümeye dahil et
+        currentClusterView = 'forced';
+        btn.textContent = "Outlier'ları Göster";
+    }
+
+    applyClusterColoring(plotElement.data[0]);
+
+    Plotly.restyle(plotElement, {
+        'marker.color': [plotElement.data[0].marker.color],
+        'marker.colorscale': [null],
+        'marker.showscale': [false]
+    }, [0]);
+}
+
+function switchClusterView(clusterViewType) {
+    currentClusterView = clusterViewType;
+
+    const plotElement = document.getElementById('clusterPlot');
+    if (!plotElement || !plotElement.data || !plotElement.data[0]) return;
+
+    const btnOriginal = document.getElementById('btnOriginalCluster');
+    const btnForced = document.getElementById('btnForcedCluster');
+
+    // Alt butonların aktiflik durumunu güncelle
+    if (clusterViewType === 'original') {
+        btnOriginal.className = 'btn btn-dark btn-sm active';
+        btnForced.className = 'btn btn-outline-secondary btn-sm';
+    } else {
+        btnOriginal.className = 'btn btn-outline-secondary btn-sm';
+        btnForced.className = 'btn btn-dark btn-sm active';
+    }
+
+    // Mevcut trace'i seçilen küme tipine göre yeniden renklendir
+    applyClusterColoring(plotElement.data[0]);
+
+    Plotly.restyle(plotElement, {
+        'marker.color': [plotElement.data[0].marker.color],
+        'marker.colorscale': [null],
+        'marker.showscale': [false]
     }, [0]);
 }

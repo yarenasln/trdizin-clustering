@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 from collections import Counter
 from qdrant_client import QdrantClient
 from qdrant_client.models import QueryRequest, SearchParams
-
+from hdbscan.prediction import all_points_membership_vectors
 
 class OutlierDetector:
     def __init__(
@@ -181,6 +181,21 @@ class OutlierDetector:
         hdbscan_labels = clusterer.labels_
         glosh_scores = clusterer.outlier_scores_
 
+        membership_vectors = all_points_membership_vectors(clusterer)
+        noise_indices = np.where(hdbscan_labels == -1)[0]
+
+        forced_labels = hdbscan_labels.copy()
+        forced_strength = np.zeros(len(hdbscan_labels), dtype=np.float32)
+
+        for idx in noise_indices:
+            memberships = membership_vectors[idx]
+
+            if memberships.size > 0 and memberships.max() > 0:
+                forced_labels[idx] = int(np.argmax(memberships))
+                forced_strength[idx] = float(np.max(memberships))
+
+        print("[*] Membership matrix shape:", membership_vectors.shape)
+        print("[*] Zorlanmış atama sonrası kalan -1:", int(np.sum(forced_labels == -1)))
         print("[*] HDBSCAN tamamlandı.")
         print("[*] Küme sayısı:", len(set(hdbscan_labels) - {-1}))
         print("[*] Noise / aykırı nokta:", int(np.sum(hdbscan_labels == -1)))
@@ -344,6 +359,8 @@ class OutlierDetector:
                 "tam_kategori_yollari": mevcut_yollar,
                 "glosh_skoru": glosh_val,
                 "hdbscan_kume": int(hdbscan_labels[i]),
+                "forced_cluster": int(forced_labels[i]),
+                "forced_strength": float(forced_strength[i]),
                 "oneri_yol": en_yakin_yol,
                 "oneri_kategori": en_yakin_kat,
                 "label_sim_fark": sim_fark,

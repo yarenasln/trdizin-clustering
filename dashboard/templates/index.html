@@ -74,13 +74,31 @@
                     <span class="small fw-semibold text-secondary">HDBSCAN 2D Küme & Anomali Uzayı (UMAP)</span>
                     
                     <!-- Risk ve Cluster Görünüm Geçiş Butonları -->
-                    <div class="btn-group" role="group" aria-label="Harita Görünümü">
-                        <button type="button" class="btn btn-outline-danger btn-sm active" id="btnRiskView" onclick="switchMapView('risk')">
-                            Risk Görünümü
+                    <div class="d-flex flex-column align-items-end gap-1">
+
+                        <div class="btn-group" role="group" aria-label="Harita Görünümü">
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm active"
+                                    id="btnRiskView"
+                                    onclick="switchMapView('risk')">
+                                Risk Görünümü
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm"
+                                    id="btnClusterView"
+                                    onclick="switchMapView('cluster')">
+                                Küme Görünümü
+                            </button>
+                        </div>
+
+                        <button type="button"
+                                class="cluster-switch-btn d-none"
+                                id="btnClusterModeSwitch"
+                                onclick="toggleClusterView()">
+                            Outlier'ları Göster
                         </button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" id="btnClusterView" onclick="switchMapView('cluster')">
-                            Küme Görünümü
-                        </button>
+
                     </div>
 
                     <span id="systemInfoText" class="badge bg-light text-dark border small">Yükleniyor...</span>

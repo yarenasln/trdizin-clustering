@@ -1,9 +1,8 @@
 import os
 import numpy as np
 import pandas as pd
-from outlier_detector import OutlierDetector
-from cluster_labeler import generate_cluster_labels
-
+from .outlier_detector import OutlierDetector
+from .cluster_labeler import generate_cluster_labels
 from config.paths import EMBEDDING_FILE, UMAP_FILE
 
 # ==========================================
@@ -87,7 +86,7 @@ def main():
     cluster_summary_df.to_csv(summary_path, index=False, encoding="utf-8-sig")
     print(f"[*] Küme özetleri kaydedildi: {summary_path}")
 
-   # --- CLAUDE'UN DEBUG KODU (DOĞRU DEĞİŞKEN İSMİYLE) ---
+   # --- DEBUG KODU (DOĞRU DEĞİŞKEN İSMİYLE) ---
     print(f"1. Toplam benzersiz küme sayısı (noise hariç): {df_full_cluster[df_full_cluster['hdbscan_kume'] != -1]['hdbscan_kume'].nunique()}")
     print(f"2. Etiket üretilen küme sayısı: {len(cluster_summary_df)}")
     print(f"3. Saflık dağılımı:")

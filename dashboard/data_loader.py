@@ -138,11 +138,18 @@ def load_algorithm_data(algorithm="hdbscan", reload=False):
 
   # 5. Küme standardizasyonu
   if "hdbscan_kume" in df.columns and "kume" not in df.columns:
-    df["kume"] = df["hdbscan_kume"]
+      df["kume"] = df["hdbscan_kume"]
   elif "kmeans_kume" in df.columns and "kume" not in df.columns:
-    df["kume"] = df["kmeans_kume"]
+      df["kume"] = df["kmeans_kume"]
   elif "kume" not in df.columns:
-    df["kume"] = -1
+      df["kume"] = -1
+
+  # Forced HDBSCAN küme görünümü
+  if "forced_cluster" not in df.columns:
+      df["forced_cluster"] = df["kume"]
+
+  if "forced_strength" not in df.columns:
+      df["forced_strength"] = 0.0
 
   # 6. Karar Tipi ve Açıklama Standartlaştırması
   def normalize_priority(val):
@@ -542,4 +549,4 @@ def load_article_detail(external_id):
     return _ARTICLE_CACHE.get(target_id)
   except Exception as e:
     print(f"Makale detayı okuma hatası: {e}")
-    return None
+    return None

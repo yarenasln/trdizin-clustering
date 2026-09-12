@@ -515,7 +515,22 @@ body {
     margin-bottom: var(--space-1);
     letter-spacing: 0.02rem;
 }
+.cluster-switch-btn {
+    border: none;
+    background: transparent;
+    padding: 2px 6px;
 
+    font-size: 12px;
+    color: #6c757d;
+
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.cluster-switch-btn:hover {
+    color: #343a40;
+}
 .card-custom {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -1398,4 +1413,4 @@ h3.doc-subsection-title {
 }
 
 
-
+

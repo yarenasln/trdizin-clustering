@@ -535,13 +535,22 @@ def get_plot():
         'umap_y': df_sampled['umap_y'].fillna(0.0),
         'risk_skoru': df_sampled['risk_skoru'].fillna(0.5),
         'kume': df_sampled['kume'].fillna(-1).astype(int),
+        'forced_cluster': df_sampled['forced_cluster'].fillna(
+            df_sampled['kume']
+        ).astype(int),
+        'forced_strength': df_sampled['forced_strength'].fillna(0.0),
     })
 
     records = plot_df.to_dict(orient='records')
 
     # Makale detaylarını (başlık, abstract, kategori vb.) İÇERMEYEN hafif hover
     hover_texts = [
-        f"ID: {row['external_id']}<br>Risk: {float(row['risk_skoru']):.3f}<br>Küme: {row['kume']}"
+        (
+            f"ID: {row['external_id']}"
+            f"<br>Risk: {float(row['risk_skoru']):.3f}"
+            f"<br>HDBSCAN Küme: {row['kume']}"
+            f"<br>Zorlanmış Küme: {row['forced_cluster']}"
+        )
         for row in records
     ]
 
