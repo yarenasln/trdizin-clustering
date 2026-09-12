@@ -17,6 +17,45 @@ from data_loader import (
 
 app = Flask(__name__)
 
+@app.route("/api/upload-embedding", methods=["POST"])
+def upload_embedding():
+    expected_token = os.environ.get("UPLOAD_TOKEN")
+    auth_header = request.headers.get("Authorization", "")
+
+    if not expected_token or auth_header != f"Bearer {expected_token}":
+        return jsonify({"error": "unauthorized"}), 401
+
+    uploaded_file = request.files.get("file")
+
+    if uploaded_file is None:
+        return jsonify({"error": "file missing"}), 400
+
+    if not uploaded_file.filename.lower().endswith(".npy"):
+        return jsonify({"error": "only .npy files are allowed"}), 400
+
+    upload_dir = "/app/embeddings/incoming"
+    os.makedirs(upload_dir, exist_ok=True)
+
+    temp_path = os.path.join(
+        upload_dir,
+        "mpnet_multilingual_embeddings_100k.npy.part"
+    )
+
+    final_path = os.path.join(
+        upload_dir,
+        "mpnet_multilingual_embeddings_100k.npy"
+    )
+
+    uploaded_file.save(temp_path)
+    os.replace(temp_path, final_path)
+
+    file_size = os.path.getsize(final_path)
+
+    return jsonify({
+        "status": "ok",
+        "filename": "mpnet_multilingual_embeddings_100k.npy",
+        "size_bytes": file_size
+    }), 200
 
 @app.route('/')
 def home():
