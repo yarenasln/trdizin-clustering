@@ -47,7 +47,7 @@ services:
       DB_NAME: trdizin_clustering_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-
+      UPLOAD_TOKEN: ${UPLOAD_TOKEN}
       
 
     ports:
